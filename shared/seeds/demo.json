@@ -1,0 +1,515 @@
+{
+  "_nota": "Todas las personas, avisos, ofertas y acuerdos son ficticios para pruebas.",
+  "usuarios": [
+    {
+      "id": "rosa",
+      "nombres": "Rosa",
+      "apellidos": "Quispe",
+      "correo": "demo.rosa@aloe.ulima.edu.pe",
+      "carrera": "Administración",
+      "ciclo": 4,
+      "telefono": null,
+      "puntoPreferido": "Biblioteca",
+      "rol": "USUARIO",
+      "estado": "ACTIVO",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z"
+    },
+    {
+      "id": "diego",
+      "nombres": "Diego",
+      "apellidos": "Vargas",
+      "correo": "demo.diego@aloe.ulima.edu.pe",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": 4,
+      "telefono": null,
+      "puntoPreferido": "Biblioteca",
+      "rol": "USUARIO",
+      "estado": "ACTIVO",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z"
+    },
+    {
+      "id": "lucia",
+      "nombres": "Lucía",
+      "apellidos": "Ramírez",
+      "correo": "demo.lucia@aloe.ulima.edu.pe",
+      "carrera": "Derecho",
+      "ciclo": 4,
+      "telefono": null,
+      "puntoPreferido": "Biblioteca",
+      "rol": "USUARIO",
+      "estado": "ACTIVO",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z"
+    },
+    {
+      "id": "sin-actividad",
+      "nombres": "Cuenta",
+      "apellidos": "Sin actividad",
+      "correo": "demo.sin-actividad@aloe.ulima.edu.pe",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": 4,
+      "telefono": null,
+      "puntoPreferido": "Biblioteca",
+      "rol": "USUARIO",
+      "estado": "ACTIVO",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z"
+    }
+  ],
+  "categorias": [
+    {
+      "id": "libros",
+      "nombre": "Libros de texto"
+    },
+    {
+      "id": "calculadoras",
+      "nombre": "Calculadoras"
+    },
+    {
+      "id": "dibujo",
+      "nombre": "Instrumentos de dibujo"
+    },
+    {
+      "id": "apuntes",
+      "nombre": "Apuntes y guías"
+    },
+    {
+      "id": "laptops",
+      "nombre": "Laptops y accesorios"
+    },
+    {
+      "id": "uniformes",
+      "nombre": "Uniformes y mandiles"
+    },
+    {
+      "id": "laboratorio",
+      "nombre": "Material de laboratorio"
+    }
+  ],
+  "cursos": [
+    {
+      "id": "calculo",
+      "nombre": "Cálculo I"
+    },
+    {
+      "id": "fisica",
+      "nombre": "Física II"
+    },
+    {
+      "id": "dibujo-tecnico",
+      "nombre": "Dibujo Técnico"
+    },
+    {
+      "id": "contabilidad",
+      "nombre": "Contabilidad General"
+    }
+  ],
+  "avisos": [
+    {
+      "id": "stewart",
+      "vendedorId": "rosa",
+      "titulo": "Cálculo de una variable — Stewart, 8.ª ed.",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "libros",
+      "cursoId": "calculo",
+      "condicion": "MUY_BUEN_ESTADO",
+      "precioPedido": "95.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "66.50",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-20T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "casio",
+      "vendedorId": "rosa",
+      "titulo": "Calculadora ClassWiz fx-991",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "calculadoras",
+      "cursoId": "fisica",
+      "condicion": "COMO_NUEVO",
+      "precioPedido": "120.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "84.00",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-19T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "escuadras",
+      "vendedorId": "rosa",
+      "titulo": "Escuadras y escalímetro Faber",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "dibujo",
+      "cursoId": "dibujo-tecnico",
+      "condicion": "BUEN_ESTADO",
+      "precioPedido": "38.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "26.60",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-18T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "apuntes",
+      "vendedorId": "rosa",
+      "titulo": "Apuntes de Contabilidad General",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "apuntes",
+      "cursoId": "contabilidad",
+      "condicion": "CON_MARCAS",
+      "precioPedido": "25.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "17.50",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-17T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "larson",
+      "vendedorId": "rosa",
+      "titulo": "Cálculo — Larson, tomo I",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "libros",
+      "cursoId": "calculo",
+      "condicion": "BUEN_ESTADO",
+      "precioPedido": "78.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "54.60",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-16T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "fisica-libro",
+      "vendedorId": "rosa",
+      "titulo": "Física universitaria, volumen II",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "libros",
+      "cursoId": "fisica",
+      "condicion": "MUY_BUEN_ESTADO",
+      "precioPedido": "82.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "57.40",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-15T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "guia",
+      "vendedorId": "rosa",
+      "titulo": "Guía de ejercicios de Cálculo I",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "apuntes",
+      "cursoId": "calculo",
+      "condicion": "MUY_BUEN_ESTADO",
+      "precioPedido": "35.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "24.50",
+      "estado": "PUBLICADO",
+      "publicadoEn": "2026-09-14T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "vendido",
+      "vendedorId": "rosa",
+      "titulo": "Cálculo diferencial e integral — Purcell",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "libros",
+      "cursoId": "calculo",
+      "condicion": "BUEN_ESTADO",
+      "precioPedido": "62.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "43.40",
+      "estado": "VENDIDO",
+      "publicadoEn": "2026-09-13T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "borrador",
+      "vendedorId": "rosa",
+      "titulo": "Mandil de laboratorio — borrador",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "uniformes",
+      "cursoId": null,
+      "condicion": "BUEN_ESTADO",
+      "precioPedido": "30.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "21.00",
+      "estado": "BORRADOR",
+      "publicadoEn": null,
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    },
+    {
+      "id": "pausado",
+      "vendedorId": "rosa",
+      "titulo": "Calculadora científica — pausada",
+      "descripcion": "Dato de ejemplo. Usado durante un ciclo; revisar las fotografías y el estado con el vendedor antes de acordar la entrega.",
+      "categoriaId": "calculadoras",
+      "cursoId": null,
+      "condicion": "BUEN_ESTADO",
+      "precioPedido": "65.00",
+      "aceptaOfertas": true,
+      "precioMinimo": "45.50",
+      "estado": "PAUSADO",
+      "publicadoEn": "2026-09-11T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "fotografias": []
+    }
+  ],
+  "favoritos": [
+    {
+      "usuarioId": "diego",
+      "avisoId": "stewart",
+      "creadoEn": "2026-09-01T12:00:00.000Z"
+    },
+    {
+      "usuarioId": "diego",
+      "avisoId": "vendido",
+      "creadoEn": "2026-09-01T12:00:00.000Z"
+    }
+  ],
+  "ofertas": [
+    {
+      "id": "oferta-1",
+      "avisoId": "stewart",
+      "compradorId": "diego",
+      "montoActual": "84.00",
+      "mensaje": "Puedo recogerlo en la Biblioteca.",
+      "estado": "CONTRAOFERTADA",
+      "turnoUsuarioId": "diego",
+      "venceEn": "2026-11-30T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "movimientos": [
+        {
+          "id": "mov-1",
+          "ofertaId": "oferta-1",
+          "actorId": "diego",
+          "accion": "ENVIAR",
+          "monto": "75.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-01T12:00:00.000Z"
+        },
+        {
+          "id": "mov-2",
+          "ofertaId": "oferta-1",
+          "actorId": "rosa",
+          "accion": "CONTRAOFERTAR",
+          "monto": "84.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-02T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "oferta-2",
+      "avisoId": "escuadras",
+      "compradorId": "diego",
+      "montoActual": "34.00",
+      "mensaje": null,
+      "estado": "ACEPTADA",
+      "turnoUsuarioId": "rosa",
+      "venceEn": "2026-09-10T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "movimientos": [
+        {
+          "id": "mov-3",
+          "ofertaId": "oferta-2",
+          "actorId": "diego",
+          "accion": "ENVIAR",
+          "monto": "34.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-01T12:00:00.000Z"
+        },
+        {
+          "id": "mov-4",
+          "ofertaId": "oferta-2",
+          "actorId": "rosa",
+          "accion": "ACEPTAR",
+          "monto": "34.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-02T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "oferta-3",
+      "avisoId": "vendido",
+      "compradorId": "lucia",
+      "montoActual": "60.00",
+      "mensaje": null,
+      "estado": "ACEPTADA",
+      "turnoUsuarioId": "rosa",
+      "venceEn": "2026-09-10T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "movimientos": [
+        {
+          "id": "mov-5",
+          "ofertaId": "oferta-3",
+          "actorId": "lucia",
+          "accion": "ENVIAR",
+          "monto": "60.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-01T12:00:00.000Z"
+        },
+        {
+          "id": "mov-6",
+          "ofertaId": "oferta-3",
+          "actorId": "rosa",
+          "accion": "ACEPTAR",
+          "monto": "60.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-02T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "oferta-4",
+      "avisoId": "apuntes",
+      "compradorId": "diego",
+      "montoActual": "20.00",
+      "mensaje": null,
+      "estado": "VENCIDA",
+      "turnoUsuarioId": "rosa",
+      "venceEn": "2026-09-02T12:00:00.000Z",
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "movimientos": [
+        {
+          "id": "mov-7",
+          "ofertaId": "oferta-4",
+          "actorId": "diego",
+          "accion": "ENVIAR",
+          "monto": "20.00",
+          "mensaje": null,
+          "creadoEn": "2026-09-01T12:00:00.000Z"
+        },
+        {
+          "id": "mov-8",
+          "ofertaId": "oferta-4",
+          "actorId": "rosa",
+          "accion": "VENCER",
+          "monto": null,
+          "mensaje": null,
+          "creadoEn": "2026-09-02T12:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "acuerdos": [
+    {
+      "id": "acuerdo-1",
+      "ofertaId": "oferta-2",
+      "avisoId": "escuadras",
+      "compradorId": "diego",
+      "vendedorId": "rosa",
+      "montoPactado": "34.00",
+      "estado": "ACORDADO",
+      "punto": "Biblioteca",
+      "horarioInicio": "2026-09-03T15:00:00.000Z",
+      "horarioFin": "2026-09-03T16:00:00.000Z",
+      "versionPropuesta": 1,
+      "confirmadoComprador": true,
+      "confirmadoVendedor": true,
+      "entregaCompradorEn": "2026-09-03T15:15:00.000Z",
+      "entregaVendedorEn": null,
+      "codigoEntregaHash": null,
+      "motivoCancelacion": null,
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "cambios": [
+        {
+          "id": "acuerdo-1-c1",
+          "acuerdoId": "acuerdo-1",
+          "actorId": "rosa",
+          "accion": "GENERAR",
+          "datos": {
+            "monto": "34.00"
+          },
+          "creadoEn": "2026-09-01T12:00:00.000Z"
+        },
+        {
+          "id": "acuerdo-1-c2",
+          "acuerdoId": "acuerdo-1",
+          "actorId": "diego",
+          "accion": "CONFIRMAR_ENTREGA",
+          "datos": {},
+          "creadoEn": "2026-09-03T15:15:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "acuerdo-2",
+      "ofertaId": "oferta-3",
+      "avisoId": "vendido",
+      "compradorId": "lucia",
+      "vendedorId": "rosa",
+      "montoPactado": "60.00",
+      "estado": "ENTREGADO",
+      "punto": "Biblioteca",
+      "horarioInicio": "2026-09-03T15:00:00.000Z",
+      "horarioFin": "2026-09-03T16:00:00.000Z",
+      "versionPropuesta": 1,
+      "confirmadoComprador": true,
+      "confirmadoVendedor": true,
+      "entregaCompradorEn": "2026-09-03T15:15:00.000Z",
+      "entregaVendedorEn": "2026-09-03T15:20:00.000Z",
+      "codigoEntregaHash": null,
+      "motivoCancelacion": null,
+      "creadoEn": "2026-09-01T12:00:00.000Z",
+      "actualizadoEn": "2026-09-01T12:00:00.000Z",
+      "cambios": [
+        {
+          "id": "acuerdo-2-c1",
+          "acuerdoId": "acuerdo-2",
+          "actorId": "rosa",
+          "accion": "GENERAR",
+          "datos": {
+            "monto": "60.00"
+          },
+          "creadoEn": "2026-09-01T12:00:00.000Z"
+        },
+        {
+          "id": "acuerdo-2-c2",
+          "acuerdoId": "acuerdo-2",
+          "actorId": "lucia",
+          "accion": "CONFIRMAR_ENTREGA",
+          "datos": {},
+          "creadoEn": "2026-09-03T15:15:00.000Z"
+        },
+        {
+          "id": "acuerdo-2-c3",
+          "acuerdoId": "acuerdo-2",
+          "actorId": "rosa",
+          "accion": "CONFIRMAR_ENTREGA",
+          "datos": {},
+          "creadoEn": "2026-09-03T15:20:00.000Z"
+        }
+      ]
+    }
+  ]
+}

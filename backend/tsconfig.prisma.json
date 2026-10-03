@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES2023", "module": "NodeNext", "moduleResolution": "NodeNext",
+    "rootDir": ".generated/prisma", "outDir": "generated/prisma", "skipLibCheck": true,
+    "strict": true, "declaration": false, "types": ["node"]
+  },
+  "include": [".generated/prisma/**/*.ts"]
+}

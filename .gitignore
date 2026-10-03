@@ -1,0 +1,13 @@
+node_modules/
+dist/
+backend/.generated/
+backend/generated/
+.env
+.env.*
+!.env.example
+.vercel/
+coverage/
+*.log
+.DS_Store
+test-results/
+playwright-report/

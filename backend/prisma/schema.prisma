@@ -1,0 +1,212 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../.generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Rol {
+  USUARIO
+  ADMINISTRADOR
+}
+
+enum EstadoUsuario {
+  ACTIVO
+  BLOQUEADO
+}
+
+enum EstadoAviso {
+  BORRADOR
+  PUBLICADO
+  PAUSADO
+  VENDIDO
+}
+
+enum CondicionProducto {
+  COMO_NUEVO
+  MUY_BUEN_ESTADO
+  BUEN_ESTADO
+  CON_MARCAS
+}
+
+enum EstadoOferta {
+  ENVIADA
+  CONTRAOFERTADA
+  ACEPTADA
+  RECHAZADA
+  RETIRADA
+  VENCIDA
+}
+
+enum EstadoAcuerdo {
+  PENDIENTE
+  PROPUESTO
+  ACORDADO
+  ENTREGADO
+  CANCELADO
+}
+
+model Usuario {
+  id             String             @id @default(cuid())
+  nombres        String
+  apellidos      String
+  correo         String             @unique
+  contrasenaHash String
+  carrera        String
+  ciclo          Int
+  telefono       String?
+  puntoPreferido String?
+  rol            Rol                @default(USUARIO)
+  estado         EstadoUsuario      @default(ACTIVO)
+  creadoEn       DateTime           @default(now())
+  actualizadoEn  DateTime           @updatedAt
+  avisos         Aviso[]
+  favoritos      Favorito[]
+  ofertas        Oferta[]
+  movimientos    MovimientoOferta[]
+  compras        Acuerdo[]          @relation("Comprador")
+  ventas         Acuerdo[]          @relation("Vendedor")
+  cambios        CambioAcuerdo[]
+}
+
+model Categoria {
+  id     String  @id @default(cuid())
+  nombre String  @unique
+  avisos Aviso[]
+}
+
+model Curso {
+  id     String  @id @default(cuid())
+  nombre String  @unique
+  avisos Aviso[]
+}
+
+model Aviso {
+  id            String            @id @default(cuid())
+  vendedorId    String
+  vendedor      Usuario           @relation(fields: [vendedorId], references: [id])
+  titulo        String            @db.VarChar(80)
+  descripcion   String
+  categoriaId   String
+  categoria     Categoria         @relation(fields: [categoriaId], references: [id])
+  cursoId       String?
+  curso         Curso?            @relation(fields: [cursoId], references: [id])
+  condicion     CondicionProducto
+  precioPedido  Decimal           @db.Decimal(10, 2)
+  aceptaOfertas Boolean           @default(true)
+  precioMinimo  Decimal?          @db.Decimal(10, 2)
+  estado        EstadoAviso       @default(BORRADOR)
+  publicadoEn   DateTime?
+  creadoEn      DateTime          @default(now())
+  actualizadoEn DateTime          @updatedAt
+  fotografias   Fotografia[]
+  favoritos     Favorito[]
+  ofertas       Oferta[]
+  acuerdos      Acuerdo[]
+
+  @@index([estado, publicadoEn])
+  @@index([categoriaId, cursoId])
+  @@index([vendedorId, estado])
+}
+
+model Fotografia {
+  id               String @id @default(cuid())
+  avisoId          String
+  aviso            Aviso  @relation(fields: [avisoId], references: [id], onDelete: Cascade)
+  bucket           String
+  ruta             String
+  orden            Int
+  textoAlternativo String
+
+  @@unique([avisoId, orden])
+}
+
+model Favorito {
+  usuarioId String
+  avisoId   String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  aviso     Aviso    @relation(fields: [avisoId], references: [id], onDelete: Cascade)
+  creadoEn  DateTime @default(now())
+
+  @@id([usuarioId, avisoId])
+}
+
+model Oferta {
+  id             String             @id @default(cuid())
+  avisoId        String
+  aviso          Aviso              @relation(fields: [avisoId], references: [id])
+  compradorId    String
+  comprador      Usuario            @relation(fields: [compradorId], references: [id])
+  montoActual    Decimal            @db.Decimal(10, 2)
+  mensaje        String?
+  estado         EstadoOferta       @default(ENVIADA)
+  turnoUsuarioId String
+  venceEn        DateTime
+  creadoEn       DateTime           @default(now())
+  actualizadoEn  DateTime           @updatedAt
+  movimientos    MovimientoOferta[]
+  acuerdo        Acuerdo?
+
+  @@index([avisoId, compradorId, estado])
+}
+
+model MovimientoOferta {
+  id       String   @id @default(cuid())
+  ofertaId String
+  oferta   Oferta   @relation(fields: [ofertaId], references: [id])
+  actorId  String
+  actor    Usuario  @relation(fields: [actorId], references: [id])
+  accion   String
+  monto    Decimal? @db.Decimal(10, 2)
+  mensaje  String?
+  creadoEn DateTime @default(now())
+
+  @@index([ofertaId, creadoEn])
+}
+
+model Acuerdo {
+  id                  String          @id @default(cuid())
+  ofertaId            String          @unique
+  oferta              Oferta          @relation(fields: [ofertaId], references: [id])
+  avisoId             String
+  aviso               Aviso           @relation(fields: [avisoId], references: [id])
+  compradorId         String
+  comprador           Usuario         @relation("Comprador", fields: [compradorId], references: [id])
+  vendedorId          String
+  vendedor            Usuario         @relation("Vendedor", fields: [vendedorId], references: [id])
+  montoPactado        Decimal         @db.Decimal(10, 2)
+  estado              EstadoAcuerdo   @default(PENDIENTE)
+  punto               String?
+  horarioInicio       DateTime?
+  horarioFin          DateTime?
+  versionPropuesta    Int             @default(0)
+  confirmadoComprador Boolean         @default(false)
+  confirmadoVendedor  Boolean         @default(false)
+  entregaCompradorEn  DateTime?
+  entregaVendedorEn   DateTime?
+  codigoEntregaHash   String?
+  motivoCancelacion   String?
+  creadoEn            DateTime        @default(now())
+  actualizadoEn       DateTime        @updatedAt
+  cambios             CambioAcuerdo[]
+
+  @@index([compradorId, estado])
+  @@index([vendedorId, estado])
+}
+
+model CambioAcuerdo {
+  id        String   @id @default(cuid())
+  acuerdoId String
+  acuerdo   Acuerdo  @relation(fields: [acuerdoId], references: [id])
+  actorId   String
+  actor     Usuario  @relation(fields: [actorId], references: [id])
+  accion    String
+  datos     Json
+  creadoEn  DateTime @default(now())
+
+  @@index([acuerdoId, creadoEn])
+}

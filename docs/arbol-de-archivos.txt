@@ -1,0 +1,108 @@
+mercado-libros-ulima/
+├── backend/
+│   ├── prisma/
+│   │   ├── migrations/
+│   │   │   └── README.md
+│   │   ├── schema.prisma
+│   │   └── seed.js
+│   ├── scripts/
+│   │   └── check.js
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── env.js
+│   │   │   └── prisma.js
+│   │   ├── controllers/
+│   │   │   └── catalogo.controller.js
+│   │   ├── middleware/
+│   │   │   ├── errors.js
+│   │   │   └── validate.js
+│   │   ├── models/
+│   │   │   └── estados.js
+│   │   ├── repositories/
+│   │   │   └── catalogo.repository.js
+│   │   ├── routes/
+│   │   │   └── catalogo.routes.js
+│   │   ├── services/
+│   │   │   ├── auth.service.js
+│   │   │   └── catalogo.service.js
+│   │   └── app.js
+│   ├── tests/
+│   │   ├── api.test.js
+│   │   └── seeds.test.js
+│   ├── .env.example
+│   ├── package.json
+│   ├── prisma.config.js
+│   ├── server.js
+│   └── tsconfig.prisma.json
+├── docs/
+│   ├── arbol-de-archivos.txt
+│   ├── arquitectura.md
+│   ├── contrato-de-datos.md
+│   └── verificacion.md
+├── frontend/
+│   ├── public/
+│   │   └── .gitkeep
+│   ├── src/
+│   │   ├── assets/
+│   │   │   └── .gitkeep
+│   │   ├── components/
+│   │   │   └── shared/
+│   │   │       ├── AvisoCard.jsx
+│   │   │       ├── ConfirmDialog.jsx
+│   │   │       ├── Layout.jsx
+│   │   │       └── Ui.jsx
+│   │   ├── context/
+│   │   │   ├── SessionContext.jsx
+│   │   │   └── session.js
+│   │   ├── hooks/
+│   │   │   ├── useService.js
+│   │   │   └── useSession.js
+│   │   ├── pages/
+│   │   │   ├── acuerdos/
+│   │   │   │   ├── .gitkeep
+│   │   │   │   └── AcuerdosPage.jsx
+│   │   │   ├── auth/
+│   │   │   │   ├── CuentaPage.jsx
+│   │   │   │   └── LoginPage.jsx
+│   │   │   ├── catalogo/
+│   │   │   │   ├── CatalogoPage.jsx
+│   │   │   │   ├── DetallePage.jsx
+│   │   │   │   ├── FavoritosPage.jsx
+│   │   │   │   └── PerfilPage.jsx
+│   │   │   ├── ofertas/
+│   │   │   │   ├── .gitkeep
+│   │   │   │   └── OfertasPage.jsx
+│   │   │   ├── publicaciones/
+│   │   │   │   ├── .gitkeep
+│   │   │   │   └── PublicacionesPage.jsx
+│   │   │   ├── HomePage.jsx
+│   │   │   ├── PendingPage.jsx
+│   │   │   └── StatusPage.jsx
+│   │   ├── routes/
+│   │   │   └── AppRoutes.jsx
+│   │   ├── services/
+│   │   │   ├── api/
+│   │   │   │   └── index.js
+│   │   │   ├── mock/
+│   │   │   │   └── index.js
+│   │   │   └── index.js
+│   │   ├── styles/
+│   │   │   └── main.css
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env.example
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── vercel.json
+│   └── vite.config.js
+├── shared/
+│   ├── contracts/
+│   │   └── domain.js
+│   └── seeds/
+│       └── demo.json
+├── .gitignore
+├── .nvmrc
+├── README.md
+├── package-lock.json
+└── package.json
