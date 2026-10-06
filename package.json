@@ -17,5 +17,9 @@
     "check": "npm run check -w frontend && npm run check -w backend && npm test -w backend",
     "prisma:generate": "npm run prisma:generate -w backend",
     "postinstall": "npm run prisma:generate"
+  },
+  "overrides": {
+    "deepmerge-ts": "8.0.2",
+    "mysql2": "3.24.4"
   }
 }
