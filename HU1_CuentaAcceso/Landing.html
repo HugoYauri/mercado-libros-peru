@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablón ULima · Inicio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: "Nunito Sans", sans-serif; }
+        .foto-ejemplo { background: repeating-linear-gradient(45deg, #eadfd7 0 12px, #f7eee8 12px 24px); }
+    </style>
+</head>
+<body class="min-h-screen bg-[#FDFAF7] text-[#2A211C]">
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-6 px-6 py-4 lg:px-10">
+            <a href="Landing.html" class="flex items-center gap-3 text-xl font-extrabold whitespace-nowrap">
+                <span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>Tablón ULima
+            </a>
+            <nav class="flex flex-wrap items-center gap-5 text-sm font-bold lg:ml-5 lg:gap-8" aria-label="Navegación principal">
+                <a href="#avisos" class="hover:text-[#C1562E]">Catálogo</a>
+                <a href="#como-funciona" class="hover:text-[#C1562E]">Cómo funciona</a>
+                <a href="#normas" class="hover:text-[#C1562E]">Normas del tablón</a>
+                <a href="mailto:tablon@ulima.edu.pe" class="hover:text-[#C1562E]">Ayuda</a>
+            </nav>
+            <div class="ml-auto flex items-center gap-4 text-sm font-bold">
+                <span class="hidden rounded-full bg-[#EAF2FA] px-4 py-1 text-xs tracking-[.18em] text-[#3B6FA8] sm:inline">VISITANTE</span>
+                <a href="IniciarSesion.html" class="text-[#C1562E] hover:underline">Ingresar</a>
+                <a href="Registro.html" class="rounded-lg bg-[#C1562E] px-5 py-2.5 text-white hover:bg-[#9A4223]">Crear cuenta</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="bg-[#FBEBE3]">
+            <div class="mx-auto grid max-w-[1920px] gap-10 px-6 py-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-20 lg:px-20 lg:py-12">
+                <div>
+                    <h1 class="max-w-[760px] text-4xl font-extrabold leading-tight md:text-5xl lg:text-[56px]">Lo que a un compañero le sobra,<br class="hidden xl:block"> a ti te sirve este ciclo</h1>
+                    <p class="mt-5 max-w-[650px] text-lg leading-7 text-[#7A6A62]">Libros, calculadoras e instrumentos de segunda mano publicados por estudiantes de la Universidad de Lima. Oferta, acuerda y recoge dentro del campus.</p>
+                    <form id="busquedaForm" class="mt-6 flex max-w-[660px] rounded-lg border border-[#E8DFD8] bg-white p-1.5">
+                        <label for="busqueda" class="sr-only">¿Qué estás buscando?</label>
+                        <input id="busqueda" class="min-w-0 flex-1 px-4 py-2 outline-none" placeholder="¿Qué estás buscando? Ej. Stewart Cálculo">
+                        <button class="rounded-lg bg-[#C1562E] px-7 py-2.5 font-bold text-white hover:bg-[#9A4223]">Buscar</button>
+                    </form>
+                    <div class="mt-7 flex flex-wrap gap-10">
+                        <div><strong class="block text-3xl font-extrabold">1,248</strong><span class="text-sm text-[#7A6A62]">avisos activos</span></div>
+                        <div><strong class="block text-3xl font-extrabold">S/ 62</strong><span class="text-sm text-[#7A6A62]">precio mediano</span></div>
+                        <div><strong class="block text-3xl font-extrabold">4.8</strong><span class="text-sm text-[#7A6A62]">reputación media</span></div>
+                    </div>
+                </div>
+                <div class="foto-ejemplo flex min-h-[300px] items-center justify-center rounded-xl text-center font-mono text-sm text-[#7A6A62] lg:min-h-[340px]">fotografía · estudiantes intercambiando libros</div>
+            </div>
+        </section>
+
+        <div class="mx-auto max-w-[1920px] px-6 py-8 lg:px-20">
+            <section aria-labelledby="tituloCategorias">
+                <h2 id="tituloCategorias" class="mb-3 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">CATEGORÍAS DESTACADAS</h2>
+                <div class="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Libros de texto</span></a>
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Calculadoras</span></a>
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Instrumentos de dibujo</span></a>
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Apuntes y guías</span></a>
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Laptops y accesorios</span></a>
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Uniformes y mandiles</span></a>
+                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Material de laboratorio</span></a>
+                </div>
+            </section>
+
+            <section id="avisos" class="mt-5" aria-labelledby="tituloAvisos">
+                <div class="mb-3 flex items-center justify-between gap-4"><h2 id="tituloAvisos" class="text-2xl font-extrabold">Avisos recientes</h2><a href="IniciarSesion.html" class="text-sm font-bold text-[#C1562E] hover:underline">Ver todo el catálogo →</a></div>
+                <div id="listaAvisos" class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Cálculo de una variable — Stewart</h3><p class="mt-1 text-xl font-extrabold">S/ 95.00</p><p class="text-sm text-[#7A6A62]">Muy buen estado · Cálculo I</p></div></article>
+                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Calculadora ClassWiz fx-991</h3><p class="mt-1 text-xl font-extrabold">S/ 120.00</p><p class="text-sm text-[#7A6A62]">Como nuevo · Física II</p></div></article>
+                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Escuadras y escalímetro Faber</h3><p class="mt-1 text-xl font-extrabold">S/ 38.00</p><p class="text-sm text-[#7A6A62]">Buen estado · Dibujo Técnico</p></div></article>
+                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Apuntes de Contabilidad General</h3><p class="mt-1 text-xl font-extrabold">S/ 25.00</p><p class="text-sm text-[#7A6A62]">Con marcas de uso</p></div></article>
+                </div>
+                <p id="sinResultados" class="mt-4 hidden rounded-lg border border-[#E8DFD8] bg-white p-5 text-center text-[#7A6A62]">No encontramos avisos recientes con esa búsqueda.</p>
+            </section>
+
+            <section id="como-funciona" class="mt-8 grid gap-6 pb-8 md:grid-cols-3">
+                <div class="flex gap-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#C1562E] font-bold text-white">1</span><div><h2 class="font-extrabold">Publica tu aviso</h2><p class="text-sm text-[#7A6A62]">Sube fotografías, indica el estado del producto y tu precio pedido.</p></div></div>
+                <div class="flex gap-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#C1562E] font-bold text-white">2</span><div><h2 class="font-extrabold">Recibe y negocia ofertas</h2><p class="text-sm text-[#7A6A62]">Acepta, rechaza o contraoferta desde el hilo de negociación.</p></div></div>
+                <div class="flex gap-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#C1562E] font-bold text-white">3</span><div><h2 class="font-extrabold">Coordinen la entrega</h2><p class="text-sm text-[#7A6A62]">Elijan punto y horario en el campus y confirmen la entrega.</p></div></div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="normas" class="border-t border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p class="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><div class="flex flex-wrap gap-6 font-bold text-[#C1562E]"><a href="#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a><a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a></div></div>
+    </footer>
+
+    <script>
+        document.getElementById("busquedaForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const texto = document.getElementById("busqueda").value.trim();
+            const avisos = document.querySelectorAll("#listaAvisos article");
+            let encontrados = 0;
+            avisos.forEach(function (aviso) {
+                const coincide = aviso.textContent.toLowerCase().includes(texto.toLowerCase());
+                aviso.classList.toggle("hidden", !coincide);
+                if (coincide) encontrados++;
+            });
+            document.getElementById("sinResultados").classList.toggle("hidden", encontrados > 0);
+            document.getElementById("avisos").scrollIntoView({ behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>

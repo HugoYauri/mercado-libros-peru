@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablón ULima · Mensajes y modales de acceso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: "Nunito Sans", sans-serif; }</style>
+</head>
+<body class="min-h-screen bg-[#FDFAF7] p-5 text-[#2A211C] lg:p-8">
+    <main class="mx-auto grid max-w-[1920px] gap-8 lg:grid-cols-3">
+        <div class="space-y-8">
+            <section aria-labelledby="tituloError"><h1 id="tituloError" class="mb-4 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">ERROR DE CREDENCIALES</h1><div class="rounded-xl border border-[#E8DFD8] bg-white p-4"><p class="rounded-lg border border-[#B4322B] bg-[#F9ECE9] p-4"><strong class="text-[#B4322B]">No pudimos ingresar.</strong> El correo o la contraseña no coinciden. Te quedan 3 intentos antes del bloqueo temporal.</p><label for="claveError" class="mt-4 block text-xs font-extrabold tracking-[.15em] text-[#7A6A62]">CONTRASEÑA</label><div class="relative mt-1"><input id="claveError" type="password" value="123456" class="w-full rounded-lg border border-[#B4322B] px-4 py-2.5 pr-24"><button type="button" data-mostrar="claveError" class="absolute inset-y-0 right-4 text-sm font-bold text-[#C1562E]">Mostrar</button></div><p class="mt-1 text-sm text-[#B4322B]">Verifica tu contraseña.</p></div></section>
+            <section aria-labelledby="tituloCarga"><h2 id="tituloCarga" class="mb-4 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">BOTÓN EN ESTADO DE CARGA</h2><div class="rounded-xl border border-[#E8DFD8] bg-white p-4"><button disabled class="w-full rounded-lg bg-[#9A4223] px-5 py-3 font-bold text-white">◌ &nbsp; Verificando...</button><p class="mt-3 text-sm text-[#7A6A62]">El botón y los campos quedan deshabilitados mientras se validan las credenciales.</p></div></section>
+        </div>
+
+        <div class="space-y-8">
+            <section aria-labelledby="tituloCreada"><h2 id="tituloCreada" class="mb-4 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">CUENTA CREADA · CONFIRMACIÓN</h2><div class="rounded-xl bg-[#B7B1AD] p-5"><div class="rounded-xl bg-white p-6 text-center"><div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#E5F4EC] text-4xl text-[#2E7D5B]">✓</div><h3 class="mt-4 text-3xl font-extrabold">Cuenta creada</h3><p class="mt-2 text-[#7A6A62]">Enviamos un enlace de confirmación a <strong class="text-[#2A211C]">rosa.quispe@aloe.ulima.edu.pe</strong>. Tienes 24 horas para activarla.</p><a href="IniciarSesion.html" class="mt-6 block rounded-lg bg-[#C1562E] px-4 py-3 font-bold text-white">Ir a iniciar sesión</a><button id="reenviar" class="mt-3 font-bold text-[#C1562E]">Reenviar el correo de confirmación</button><p id="reenviado" class="mt-2 hidden text-sm text-[#2E7D5B]">Correo reenviado.</p></div></div></section>
+            <section aria-labelledby="tituloEnlace"><h2 id="tituloEnlace" class="mb-4 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">RECUPERACIÓN · PASO 2 DE 3</h2><div class="rounded-xl border border-[#E8DFD8] bg-white p-5"><div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF2FA] text-3xl text-[#3B6FA8]">✉</div><h3 class="mt-4 text-2xl font-extrabold">Revisa tu correo</h3><p class="mt-2 text-[#7A6A62]">Enviamos el enlace a 20201234@aloe.ulima.edu.pe. Si no lo ves, revisa la carpeta de correo no deseado.</p><p class="mt-4 rounded-lg bg-[#FBEBE3] p-4 text-sm">Puedes reenviar el enlace en <strong>02:41</strong>.</p></div></section>
+        </div>
+
+        <div class="space-y-8">
+            <section aria-labelledby="tituloNueva"><h2 id="tituloNueva" class="mb-4 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">RECUPERACIÓN · PASO 3 DE 3</h2><div class="rounded-xl border border-[#E8DFD8] bg-white p-4"><h3 class="text-2xl font-extrabold">Crea tu nueva contraseña</h3><label for="claveNueva" class="mt-5 block text-xs font-extrabold tracking-[.15em] text-[#7A6A62]">NUEVA CONTRASEÑA</label><div class="relative mt-1"><input id="claveNueva" type="password" value="Ulima2026" class="w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 pr-24"><button type="button" data-mostrar="claveNueva" class="absolute inset-y-0 right-4 text-sm font-bold text-[#C1562E]">Mostrar</button></div><div class="mt-2 flex gap-2"><span class="h-1 flex-1 rounded bg-[#2E7D5B]"></span><span class="h-1 flex-1 rounded bg-[#2E7D5B]"></span><span class="h-1 flex-1 rounded bg-[#2E7D5B]"></span><span class="h-1 flex-1 rounded bg-[#E8DFD8]"></span></div><p class="mt-2 text-sm text-[#7A6A62]">Mínimo 8 caracteres, con una mayúscula y un número.</p><label for="claveConfirmar" class="mt-4 block text-xs font-extrabold tracking-[.15em] text-[#7A6A62]">CONFIRMAR CONTRASEÑA</label><input id="claveConfirmar" type="password" value="Ulima2026" class="mt-1 w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5"><a href="RecuperarContrasena.html" class="mt-6 block rounded-lg bg-[#C1562E] px-4 py-3 text-center font-bold text-white">Guardar contraseña</a></div></section>
+            <section aria-labelledby="tituloNotificaciones"><h2 id="tituloNotificaciones" class="mb-4 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">NOTIFICACIONES DE RESULTADO</h2><div class="space-y-2"><p class="rounded-lg border border-[#2E7D5B] bg-[#E5F4EC] p-4"><strong class="text-[#2E7D5B]">Listo.</strong> Ya puedes iniciar sesión con tu nueva contraseña.</p><p class="rounded-lg border border-[#B4322B] bg-[#F9ECE9] p-4"><strong class="text-[#B4322B]">Enlace vencido.</strong> Solicita uno nuevo para continuar.</p><p class="rounded-lg bg-[#FBEBE3] p-4"><strong>Cuenta sin verificar.</strong> Confirma tu correo para ofertar o publicar avisos.</p></div></section>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll("[data-mostrar]").forEach(function (boton) {
+            boton.addEventListener("click", function () {
+                const campo = document.getElementById(boton.dataset.mostrar);
+                const visible = campo.type === "text";
+                campo.type = visible ? "password" : "text";
+                boton.textContent = visible ? "Mostrar" : "Ocultar";
+            });
+        });
+        document.getElementById("reenviar").addEventListener("click", function () { document.getElementById("reenviado").classList.remove("hidden"); });
+    </script>
+</body>
+</html>

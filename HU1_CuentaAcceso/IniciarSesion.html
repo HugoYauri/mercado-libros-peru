@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablón ULima · Iniciar sesión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: "Nunito Sans", sans-serif; }
+        .foto-ejemplo { background: repeating-linear-gradient(45deg, #eadfd7 0 12px, #f7eee8 12px 24px); }
+    </style>
+</head>
+<body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-6 px-6 py-4 lg:px-10">
+            <a href="Landing.html" class="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>Tablón ULima</a>
+            <nav class="flex flex-wrap items-center gap-5 text-sm font-bold lg:ml-5 lg:gap-8" aria-label="Navegación principal">
+                <a href="Landing.html#avisos" class="hover:text-[#C1562E]">Catálogo</a><a href="Landing.html#como-funciona" class="hover:text-[#C1562E]">Cómo funciona</a><a href="Landing.html#normas" class="hover:text-[#C1562E]">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe" class="hover:text-[#C1562E]">Ayuda</a>
+            </nav>
+            <div class="ml-auto flex items-center gap-4 text-sm font-bold"><span class="hidden rounded-full bg-[#EAF2FA] px-4 py-1 text-xs tracking-[.18em] text-[#3B6FA8] sm:inline">VISITANTE</span><a href="Registro.html" class="rounded-lg bg-[#C1562E] px-5 py-2.5 text-white hover:bg-[#9A4223]">Crear cuenta</a></div>
+        </div>
+    </header>
+
+    <main class="mx-auto grid w-full max-w-[1920px] flex-1 lg:grid-cols-[42%_58%]">
+        <section class="flex flex-col justify-center bg-[#FBEBE3] px-6 py-12 lg:px-16" aria-label="Testimonio">
+            <div class="foto-ejemplo flex h-[320px] items-center justify-center rounded-xl font-mono text-sm text-[#7A6A62] lg:h-[360px]">fotografía · patio del campus</div>
+            <blockquote class="mt-8 text-2xl font-extrabold leading-9">«Vendí mis libros de Cálculo en tres días y compré los de Física del ciclo siguiente.»</blockquote>
+            <p class="mt-2 text-[#7A6A62]">Rosa María Quispe Ríos · Administración</p>
+        </section>
+        <section class="flex items-center justify-center px-6 py-14 lg:px-16">
+            <div class="w-full max-w-[520px]">
+                <h1 class="text-4xl font-extrabold">Iniciar sesión</h1>
+                <p class="mt-3 text-[#7A6A62]">Usa tu correo institucional @aloe.ulima.edu.pe para ofertar, publicar y coordinar entregas.</p>
+                <p id="errorCredenciales" class="mt-5 hidden rounded-lg border border-[#B4322B] bg-[#F9ECE9] p-4 text-sm" role="alert"><strong class="text-[#B4322B]">No pudimos ingresar.</strong> El correo o la contraseña no coinciden. <span id="intentosRestantes"></span></p>
+                <form id="loginForm" class="mt-6" novalidate>
+                    <label for="correo" class="block text-xs font-extrabold tracking-[.16em] text-[#7A6A62]">CORREO INSTITUCIONAL</label>
+                    <input id="correo" type="email" value="20201234@aloe.ulima.edu.pe" autocomplete="username" class="mt-1 w-full rounded-lg border border-[#E8DFD8] bg-white px-4 py-2.5 outline-none focus:border-[#C1562E]">
+                    <label for="contrasena" class="mt-4 block text-xs font-extrabold tracking-[.16em] text-[#7A6A62]">CONTRASEÑA</label>
+                    <div class="relative mt-1"><input id="contrasena" type="password" value="Ulima2026" autocomplete="current-password" class="w-full rounded-lg border border-[#E8DFD8] bg-white px-4 py-2.5 pr-24 outline-none focus:border-[#C1562E]"><button id="mostrarContrasena" type="button" class="absolute inset-y-0 right-4 text-sm font-bold text-[#C1562E]">Mostrar</button></div>
+                    <div class="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm"><label class="flex items-center gap-2"><input id="recordarme" type="checkbox" checked class="h-4 w-4 accent-[#C1562E]">Recordarme</label><a href="RecuperarContrasena.html" class="font-bold text-[#C1562E] hover:underline">¿Olvidaste tu contraseña?</a></div>
+                    <button id="ingresar" class="mt-7 w-full rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white hover:bg-[#9A4223]">Ingresar</button>
+                </form>
+                <p class="mt-4 text-center text-sm text-[#7A6A62]">¿No tienes cuenta? <a href="Registro.html" class="font-bold text-[#C1562E] hover:underline">Crear cuenta</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-[#E8DFD8] bg-white"><div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p class="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><div class="flex flex-wrap gap-6 font-bold text-[#C1562E]"><a href="Landing.html#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a><a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a></div></div></footer>
+
+    <script>
+        const contrasena = document.getElementById("contrasena");
+        const botonMostrar = document.getElementById("mostrarContrasena");
+        let intentos = 0;
+
+        botonMostrar.addEventListener("click", function () {
+            const visible = contrasena.type === "text";
+            contrasena.type = visible ? "password" : "text";
+            botonMostrar.textContent = visible ? "Mostrar" : "Ocultar";
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const correo = document.getElementById("correo").value.trim().toLowerCase();
+            const clave = contrasena.value;
+            const correoValido = /^[^\s@]+@aloe\.ulima\.edu\.pe$/.test(correo);
+            const claveValida = clave.length >= 8 && /[A-Z]/.test(clave) && /\d/.test(clave);
+            const error = document.getElementById("errorCredenciales");
+
+            if (!correoValido || !claveValida) {
+                intentos++;
+                document.getElementById("intentosRestantes").textContent = `Te quedan ${Math.max(0, 4 - intentos)} intentos antes del bloqueo temporal.`;
+                error.classList.remove("hidden");
+                return;
+            }
+
+            error.classList.add("hidden");
+            const boton = document.getElementById("ingresar");
+            boton.disabled = true;
+            boton.textContent = "Verificando...";
+            sessionStorage.setItem("correoDemo", correo);
+            setTimeout(function () { window.location.href = "MiCuenta.html"; }, 500);
+        });
+    </script>
+</body>
+</html>

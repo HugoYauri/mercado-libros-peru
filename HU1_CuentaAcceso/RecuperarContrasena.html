@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablón ULima · Recuperar contraseña</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: "Nunito Sans", sans-serif; }</style>
+</head>
+<body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
+    <header class="border-b border-[#E8DFD8] bg-white"><div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-6 px-6 py-4 lg:px-10"><a href="Landing.html" class="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>Tablón ULima</a><nav class="flex flex-wrap items-center gap-5 text-sm font-bold lg:ml-5 lg:gap-8" aria-label="Navegación principal"><a href="Landing.html#avisos" class="hover:text-[#C1562E]">Catálogo</a><a href="Landing.html#como-funciona" class="hover:text-[#C1562E]">Cómo funciona</a><a href="Landing.html#normas" class="hover:text-[#C1562E]">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe" class="hover:text-[#C1562E]">Ayuda</a></nav><div class="ml-auto flex items-center gap-4 text-sm font-bold"><span class="hidden rounded-full bg-[#EAF2FA] px-4 py-1 text-xs tracking-[.18em] text-[#3B6FA8] sm:inline">VISITANTE</span><a href="IniciarSesion.html" class="text-[#C1562E] hover:underline">Ingresar</a><a href="Registro.html" class="rounded-lg bg-[#C1562E] px-5 py-2.5 text-white hover:bg-[#9A4223]">Crear cuenta</a></div></div></header>
+
+    <main class="flex flex-1 items-center justify-center px-5 py-12">
+        <div class="w-full max-w-[760px]">
+            <ol class="mb-7 grid grid-cols-3 gap-4 text-sm text-[#7A6A62]" aria-label="Pasos de recuperación"><li id="barra1" class="border-t-4 border-[#C1562E] pt-2 font-bold text-[#C1562E]">Paso 1 · Correo</li><li id="barra2" class="border-t-4 border-[#E8DFD8] pt-2">Paso 2 · Enlace</li><li id="barra3" class="border-t-4 border-[#E8DFD8] pt-2">Paso 3 · Nueva contraseña</li></ol>
+
+            <section id="paso1" class="rounded-xl border border-[#E8DFD8] bg-white p-6 shadow-[0_2px_8px_rgba(42,33,28,.08)] md:p-12">
+                <h1 class="text-3xl font-extrabold md:text-4xl">Ingresa tu correo institucional</h1><p class="mt-3 text-[#7A6A62]">Te enviaremos un enlace para crear una nueva contraseña. El enlace vence en 30 minutos.</p>
+                <form id="correoForm" class="mt-5" novalidate><label for="correo" class="block text-xs font-extrabold tracking-[.16em] text-[#7A6A62]">CORREO INSTITUCIONAL</label><input id="correo" type="email" value="20201234@aloe.ulima.edu.pe" class="mt-1 w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 outline-none focus:border-[#C1562E]"><p id="errorCorreo" class="mt-1 hidden text-sm text-[#B4322B]">Ingresa un correo @aloe.ulima.edu.pe.</p><div class="mt-8 flex flex-wrap items-center justify-between gap-4"><a href="IniciarSesion.html" class="font-bold text-[#C1562E] hover:underline">Volver al inicio de sesión</a><button class="rounded-lg bg-[#C1562E] px-6 py-3 font-bold text-white hover:bg-[#9A4223]">Enviar enlace</button></div></form>
+            </section>
+
+            <section id="paso2" class="hidden rounded-xl border border-[#E8DFD8] bg-white p-6 shadow-[0_2px_8px_rgba(42,33,28,.08)] md:p-12"><div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF2FA] text-3xl text-[#3B6FA8]">✉</div><h1 class="mt-4 text-3xl font-extrabold">Revisa tu correo</h1><p class="mt-3 text-[#7A6A62]">Enviamos el enlace a <strong id="correoEnviado" class="text-[#2A211C]"></strong>. Si no lo ves, revisa la carpeta de correo no deseado.</p><p class="mt-5 rounded-lg bg-[#FBEBE3] p-4 text-sm">Puedes reenviar el enlace en <span id="contador">02:41</span>.</p><button id="abrirEnlace" class="mt-6 rounded-lg bg-[#C1562E] px-6 py-3 font-bold text-white hover:bg-[#9A4223]">Abrir enlace de ejemplo</button></section>
+
+            <section id="paso3" class="hidden rounded-xl border border-[#E8DFD8] bg-white p-6 shadow-[0_2px_8px_rgba(42,33,28,.08)] md:p-12"><h1 class="text-3xl font-extrabold">Crea tu nueva contraseña</h1><form id="nuevaClaveForm" class="mt-6" novalidate><label for="nuevaClave" class="block text-xs font-extrabold tracking-[.16em] text-[#7A6A62]">NUEVA CONTRASEÑA</label><div class="relative mt-1"><input id="nuevaClave" type="password" value="Ulima2026" class="w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 pr-24 outline-none focus:border-[#C1562E]"><button id="mostrarClave" type="button" class="absolute inset-y-0 right-4 text-sm font-bold text-[#C1562E]">Mostrar</button></div><p class="mt-2 text-sm text-[#7A6A62]">Mínimo 8 caracteres, con una mayúscula y un número.</p><label for="repetirClave" class="mt-5 block text-xs font-extrabold tracking-[.16em] text-[#7A6A62]">CONFIRMAR CONTRASEÑA</label><input id="repetirClave" type="password" value="Ulima2026" class="mt-1 w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 outline-none focus:border-[#C1562E]"><p id="errorClave" class="mt-2 hidden text-sm text-[#B4322B]">Revisa la contraseña y su confirmación.</p><button class="mt-7 w-full rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white hover:bg-[#9A4223]">Guardar contraseña</button></form></section>
+
+            <section id="pasoFinal" class="hidden rounded-lg border border-[#2E7D5B] bg-[#E5F4EC] p-5 text-center"><strong class="text-[#2E7D5B]">Listo.</strong> Ya puedes iniciar sesión con tu nueva contraseña.<br><a href="IniciarSesion.html" class="mt-4 inline-block rounded-lg bg-[#C1562E] px-5 py-2.5 font-bold text-white">Ir a iniciar sesión</a></section>
+            <p class="mt-5 text-center text-sm text-[#7A6A62]">Si no recibes el correo en 5 minutos, revisa la carpeta de correo no deseado o escribe a tablon@ulima.edu.pe.</p>
+        </div>
+    </main>
+
+    <footer class="border-t border-[#E8DFD8] bg-white"><div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p class="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><div class="flex flex-wrap gap-6 font-bold text-[#C1562E]"><a href="Landing.html#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a><a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a></div></div></footer>
+
+    <script>
+        function mostrarPaso(numero) {
+            [1, 2, 3].forEach(function (paso) {
+                document.getElementById("paso" + paso).classList.toggle("hidden", paso !== numero);
+                const barra = document.getElementById("barra" + paso);
+                barra.classList.toggle("border-[#C1562E]", paso === numero);
+                barra.classList.toggle("text-[#C1562E]", paso === numero);
+                barra.classList.toggle("font-bold", paso === numero);
+                barra.classList.toggle("border-[#E8DFD8]", paso !== numero);
+            });
+        }
+
+        document.getElementById("correoForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const correo = document.getElementById("correo").value.trim();
+            const valido = /^[^\s@]+@aloe\.ulima\.edu\.pe$/i.test(correo);
+            document.getElementById("errorCorreo").classList.toggle("hidden", valido);
+            if (!valido) return;
+            document.getElementById("correoEnviado").textContent = correo;
+            mostrarPaso(2);
+        });
+
+        document.getElementById("abrirEnlace").addEventListener("click", function () { mostrarPaso(3); });
+        document.getElementById("mostrarClave").addEventListener("click", function () {
+            const campo = document.getElementById("nuevaClave");
+            const visible = campo.type === "text";
+            campo.type = visible ? "password" : "text";
+            this.textContent = visible ? "Mostrar" : "Ocultar";
+        });
+
+        document.getElementById("nuevaClaveForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const clave = document.getElementById("nuevaClave").value;
+            const repetida = document.getElementById("repetirClave").value;
+            const valido = clave.length >= 8 && /[A-Z]/.test(clave) && /\d/.test(clave) && clave === repetida;
+            document.getElementById("errorClave").classList.toggle("hidden", valido);
+            if (!valido) return;
+            document.getElementById("paso3").classList.add("hidden");
+            document.getElementById("pasoFinal").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
