@@ -8,10 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: "Nunito Sans", sans-serif; }
-        .foto-ejemplo { background: repeating-linear-gradient(45deg, #eadfd7 0 12px, #f7eee8 12px 24px); }
-    </style>
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
     <header class="border-b border-[#E8DFD8] bg-white">
@@ -20,7 +17,7 @@
             <form id="buscarForm" class="min-w-[220px] max-w-[600px] flex-1 lg:ml-5"><label for="buscar" class="sr-only">Buscar en el catálogo</label><input id="buscar" placeholder="Buscar libros, calculadoras, apuntes..." class="w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 outline-none focus:border-[#C1562E]"></form>
             <div class="ml-auto flex items-center gap-3 whitespace-nowrap text-sm"><a href="../HU2_Publicaciones/NuevoAviso.html" class="hidden rounded-lg bg-[#C1562E] px-5 py-2.5 font-bold text-white hover:bg-[#9A4223] md:inline">Publicar aviso</a><span class="hidden rounded-full bg-[#C1562E] px-4 py-1 text-xs font-extrabold tracking-[.15em] text-white sm:inline">USUARIO</span><span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#FBEBE3] font-bold text-[#9A4223]">RQ</span><span id="nombreCabecera" class="hidden font-bold lg:inline">Rosa Quispe ▾</span></div>
         </div>
-        <nav class="mx-auto flex max-w-[1920px] gap-6 overflow-x-auto px-6 text-sm font-bold lg:px-10" aria-label="Navegación de usuario"><a href="Landing.html#avisos" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Catálogo</a><a href="../HU2_Publicaciones/MisPublicaciones.html" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Mis publicaciones</a><a href="../HU3_Catalogo/Favoritos.html" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Favoritos</a><a href="#" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Ofertas</a><a href="#" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Acuerdos</a><a href="#" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Calificaciones</a><a href="MiCuenta.html" aria-current="page" class="whitespace-nowrap border-b-2 border-[#C1562E] py-3 text-[#C1562E]">Mi cuenta</a></nav>
+        <nav class="mx-auto flex max-w-[1920px] gap-6 overflow-x-auto px-6 text-sm font-bold lg:px-10" aria-label="Navegación de usuario"><a href="../HU3_Catalogo/Catalogo.html" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Catálogo</a><a href="../HU2_Publicaciones/MisPublicaciones.html" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Mis publicaciones</a><a href="../HU3_Catalogo/Favoritos.html" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Favoritos</a><a href="#" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Ofertas</a><a href="#" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Acuerdos</a><a href="#" class="whitespace-nowrap py-3 hover:text-[#C1562E]">Calificaciones</a><a href="MiCuenta.html" aria-current="page" class="whitespace-nowrap border-b-2 border-[#C1562E] py-3 text-[#C1562E]">Mi cuenta</a></nav>
     </header>
 
     <main class="mx-auto w-full max-w-[1920px] flex-1 px-6 py-9 lg:px-20">
@@ -107,7 +104,7 @@
             document.getElementById("avatar").style.background = `url("${url}") center / cover`;
         });
         document.getElementById("salir").addEventListener("click", function () { sessionStorage.removeItem("correoDemo"); window.location.href = "Landing.html"; });
-        document.getElementById("buscarForm").addEventListener("submit", function (event) { event.preventDefault(); window.location.href = "Landing.html#avisos"; });
+        document.getElementById("buscarForm").addEventListener("submit", function (event) { event.preventDefault(); window.location.href = "../HU3_Catalogo/Catalogo.html"; });
     </script>
 </body>
 </html>

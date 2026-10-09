@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis publicaciones · Tablón ULima</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="../assets/css/estilos.css">
+</head>
+<body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-5 px-6 py-3 lg:px-10"><a href="../HU1_CuentaAcceso/Landing.html" class="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>Tablón ULima</a><form id="buscarForm" class="min-w-[220px] max-w-[600px] flex-1 lg:ml-5"><input id="buscar" placeholder="Buscar libros, calculadoras, apuntes…" class="w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 outline-none"></form><div class="ml-auto flex items-center gap-3 text-sm"><a href="NuevoAviso.html" class="rounded-lg bg-[#C1562E] px-5 py-2.5 font-bold text-white">Publicar aviso</a><span class="rounded-full bg-[#C1562E] px-4 py-1 text-xs font-extrabold tracking-[.15em] text-white">USUARIO</span><a href="../HU1_CuentaAcceso/MiCuenta.html" class="font-bold">Rosa Quispe ▾</a></div></div>
+        <nav class="mx-auto flex max-w-[1920px] gap-6 overflow-x-auto px-6 text-sm font-bold lg:px-10" aria-label="Navegación de usuario"><a href="../HU3_Catalogo/Catalogo.html" class="whitespace-nowrap py-3">Catálogo</a><a href="MisPublicaciones.html" aria-current="page" class="whitespace-nowrap border-b-2 border-[#C1562E] py-3 text-[#C1562E]">Mis publicaciones</a><a href="../HU3_Catalogo/Favoritos.html" class="whitespace-nowrap py-3">Favoritos</a><a href="#" class="whitespace-nowrap py-3">Ofertas</a><a href="#" class="whitespace-nowrap py-3">Acuerdos</a><a href="#" class="whitespace-nowrap py-3">Calificaciones</a><a href="../HU1_CuentaAcceso/MiCuenta.html" class="whitespace-nowrap py-3">Mi cuenta</a></nav>
+    </header>
+    <main class="mx-auto w-full max-w-[1920px] flex-1 px-6 py-9 lg:px-20">
+        <div class="flex flex-wrap items-end justify-between gap-4"><div><h1 class="text-3xl font-extrabold">Mis publicaciones</h1><p id="resumen" class="mt-1 text-[#7A6A62]"></p></div><a href="NuevoAviso.html" class="rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white">+ Nuevo aviso</a></div>
+        <div class="mt-6 flex flex-wrap gap-2" id="filtros"><button data-filtro="Todos" class="rounded-full bg-[#C1562E] px-4 py-2 text-sm font-bold text-white">Todos</button><button data-filtro="Publicado" class="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Publicados</button><button data-filtro="Pausado" class="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Pausados</button><button data-filtro="Borrador" class="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Borradores</button><button data-filtro="Vendido" class="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Vendidos</button></div>
+        <div id="lista" class="mt-5 grid gap-4"></div>
+        <section id="vacio" class="mt-8 hidden rounded-xl border border-[#E8DFD8] bg-white px-6 py-12 text-center"><h2 class="text-2xl font-extrabold">Todavía no publicas nada</h2><p class="mx-auto mt-2 max-w-lg text-[#7A6A62]">Ese libro del ciclo pasado puede servirle a alguien esta semana.</p><a href="NuevoAviso.html" class="mt-5 inline-block rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white">Crear mi primer aviso</a></section>
+    </main>
+    <footer class="border-t border-[#E8DFD8] bg-white"><div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p class="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><div class="flex gap-6 font-bold text-[#C1562E]"><a href="../HU1_CuentaAcceso/Landing.html#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a></div></div></footer>
+    <script src="../datos/iniciales.js"></script><script src="../assets/js/compartido/storage.js"></script><script src="../assets/js/hu2/mis-publicaciones.js"></script>
+</body>
+</html>

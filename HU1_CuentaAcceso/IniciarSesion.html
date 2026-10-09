@@ -8,17 +8,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: "Nunito Sans", sans-serif; }
-        .foto-ejemplo { background: repeating-linear-gradient(45deg, #eadfd7 0 12px, #f7eee8 12px 24px); }
-    </style>
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
     <header class="border-b border-[#E8DFD8] bg-white">
         <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-6 px-6 py-4 lg:px-10">
             <a href="Landing.html" class="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>Tablón ULima</a>
             <nav class="flex flex-wrap items-center gap-5 text-sm font-bold lg:ml-5 lg:gap-8" aria-label="Navegación principal">
-                <a href="Landing.html#avisos" class="hover:text-[#C1562E]">Catálogo</a><a href="Landing.html#como-funciona" class="hover:text-[#C1562E]">Cómo funciona</a><a href="Landing.html#normas" class="hover:text-[#C1562E]">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe" class="hover:text-[#C1562E]">Ayuda</a>
+                <a href="../HU3_Catalogo/Catalogo.html" class="hover:text-[#C1562E]">Catálogo</a><a href="Landing.html#como-funciona" class="hover:text-[#C1562E]">Cómo funciona</a><a href="Landing.html#normas" class="hover:text-[#C1562E]">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe" class="hover:text-[#C1562E]">Ayuda</a>
             </nav>
             <div class="ml-auto flex items-center gap-4 text-sm font-bold"><span class="hidden rounded-full bg-[#EAF2FA] px-4 py-1 text-xs tracking-[.18em] text-[#3B6FA8] sm:inline">VISITANTE</span><a href="Registro.html" class="rounded-lg bg-[#C1562E] px-5 py-2.5 text-white hover:bg-[#9A4223]">Crear cuenta</a></div>
         </div>
@@ -81,7 +78,13 @@
             boton.disabled = true;
             boton.textContent = "Verificando...";
             sessionStorage.setItem("correoDemo", correo);
-            setTimeout(function () { window.location.href = "MiCuenta.html"; }, 500);
+            const destino = new URLSearchParams(window.location.search).get("returnTo");
+            setTimeout(function () {
+                if (destino) {
+                    const urlDestino = new URL(destino, window.location.href);
+                    window.location.href = urlDestino.origin === window.location.origin ? urlDestino.href : "MiCuenta.html";
+                } else window.location.href = "MiCuenta.html";
+            }, 500);
         });
     </script>
 </body>

@@ -8,10 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: "Nunito Sans", sans-serif; }
-        .foto-ejemplo { background: repeating-linear-gradient(45deg, #eadfd7 0 12px, #f7eee8 12px 24px); }
-    </style>
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body class="min-h-screen bg-[#FDFAF7] text-[#2A211C]">
     <header class="border-b border-[#E8DFD8] bg-white">
@@ -20,7 +17,7 @@
                 <span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>Tablón ULima
             </a>
             <nav class="flex flex-wrap items-center gap-5 text-sm font-bold lg:ml-5 lg:gap-8" aria-label="Navegación principal">
-                <a href="#avisos" class="hover:text-[#C1562E]">Catálogo</a>
+                <a href="../HU3_Catalogo/Catalogo.html" class="hover:text-[#C1562E]">Catálogo</a>
                 <a href="#como-funciona" class="hover:text-[#C1562E]">Cómo funciona</a>
                 <a href="#normas" class="hover:text-[#C1562E]">Normas del tablón</a>
                 <a href="mailto:tablon@ulima.edu.pe" class="hover:text-[#C1562E]">Ayuda</a>
@@ -58,23 +55,23 @@
             <section aria-labelledby="tituloCategorias">
                 <h2 id="tituloCategorias" class="mb-3 text-xs font-extrabold tracking-[.2em] text-[#7A6A62]">CATEGORÍAS DESTACADAS</h2>
                 <div class="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Libros de texto</span></a>
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Calculadoras</span></a>
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Instrumentos de dibujo</span></a>
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Apuntes y guías</span></a>
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Laptops y accesorios</span></a>
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Uniformes y mandiles</span></a>
-                    <a href="#avisos" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Material de laboratorio</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Libros%20de%20texto" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Libros de texto</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Calculadoras" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Calculadoras</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Instrumentos%20de%20dibujo" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Instrumentos de dibujo</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Apuntes%20y%20gu%C3%ADas" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Apuntes y guías</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Laptops%20y%20accesorios" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Laptops y accesorios</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Uniformes%20y%20mandiles" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Uniformes y mandiles</span></a>
+                    <a href="../HU3_Catalogo/Catalogo.html?categoria=Material%20de%20laboratorio" class="rounded-xl border border-[#E8DFD8] bg-white px-3 py-4 text-center hover:border-[#C1562E]"><span class="mx-auto mb-3 block h-10 w-10 rounded-lg bg-[#FBEBE3]"></span><span class="text-sm font-bold">Material de laboratorio</span></a>
                 </div>
             </section>
 
             <section id="avisos" class="mt-5" aria-labelledby="tituloAvisos">
-                <div class="mb-3 flex items-center justify-between gap-4"><h2 id="tituloAvisos" class="text-2xl font-extrabold">Avisos recientes</h2><a href="IniciarSesion.html" class="text-sm font-bold text-[#C1562E] hover:underline">Ver todo el catálogo →</a></div>
+                <div class="mb-3 flex items-center justify-between gap-4"><h2 id="tituloAvisos" class="text-2xl font-extrabold">Avisos recientes</h2><a href="../HU3_Catalogo/Catalogo.html" class="text-sm font-bold text-[#C1562E] hover:underline">Ver todo el catálogo →</a></div>
                 <div id="listaAvisos" class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Cálculo de una variable — Stewart</h3><p class="mt-1 text-xl font-extrabold">S/ 95.00</p><p class="text-sm text-[#7A6A62]">Muy buen estado · Cálculo I</p></div></article>
-                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Calculadora ClassWiz fx-991</h3><p class="mt-1 text-xl font-extrabold">S/ 120.00</p><p class="text-sm text-[#7A6A62]">Como nuevo · Física II</p></div></article>
-                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Escuadras y escalímetro Faber</h3><p class="mt-1 text-xl font-extrabold">S/ 38.00</p><p class="text-sm text-[#7A6A62]">Buen estado · Dibujo Técnico</p></div></article>
-                    <article class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Apuntes de Contabilidad General</h3><p class="mt-1 text-xl font-extrabold">S/ 25.00</p><p class="text-sm text-[#7A6A62]">Con marcas de uso</p></div></article>
+                    <a href="../HU3_Catalogo/DetalleAviso.html?id=av-1" class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Cálculo de una variable — Stewart</h3><p class="mt-1 text-xl font-extrabold">S/ 95.00</p><p class="text-sm text-[#7A6A62]">Muy buen estado · Cálculo I</p></div></a>
+                    <a href="../HU3_Catalogo/DetalleAviso.html?id=av-2" class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Calculadora ClassWiz fx-991</h3><p class="mt-1 text-xl font-extrabold">S/ 120.00</p><p class="text-sm text-[#7A6A62]">Como nuevo · Física II</p></div></a>
+                    <a href="../HU3_Catalogo/DetalleAviso.html?id=av-3" class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Escuadras y escalímetro Faber</h3><p class="mt-1 text-xl font-extrabold">S/ 38.00</p><p class="text-sm text-[#7A6A62]">Buen estado · Dibujo Técnico</p></div></a>
+                    <a href="../HU3_Catalogo/DetalleAviso.html?id=av-4" class="flex overflow-hidden rounded-xl border border-[#E8DFD8] bg-white"><div class="foto-ejemplo w-1/3 shrink-0"></div><div class="p-3"><h3 class="font-bold">Apuntes de Contabilidad General</h3><p class="mt-1 text-xl font-extrabold">S/ 25.00</p><p class="text-sm text-[#7A6A62]">Con marcas de uso</p></div></a>
                 </div>
                 <p id="sinResultados" class="mt-4 hidden rounded-lg border border-[#E8DFD8] bg-white p-5 text-center text-[#7A6A62]">No encontramos avisos recientes con esa búsqueda.</p>
             </section>
@@ -95,7 +92,11 @@
         document.getElementById("busquedaForm").addEventListener("submit", function (event) {
             event.preventDefault();
             const texto = document.getElementById("busqueda").value.trim();
-            const avisos = document.querySelectorAll("#listaAvisos article");
+            if (texto) {
+                window.location.href = `../HU3_Catalogo/Catalogo.html?q=${encodeURIComponent(texto)}`;
+                return;
+            }
+            const avisos = document.querySelectorAll("#listaAvisos a");
             let encontrados = 0;
             avisos.forEach(function (aviso) {
                 const coincide = aviso.textContent.toLowerCase().includes(texto.toLowerCase());
