@@ -1,0 +1,12 @@
+import { useEffect } from 'react';
+import { iniciarDetalleAviso } from '../../assets/js/hu3/detalle-aviso.js';
+
+export default function DetalleAviso() {
+  useEffect(() => { iniciarDetalleAviso(); }, []);
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]"><header className="border-b border-[#E8DFD8] bg-white"><div className="mx-auto flex max-w-[1920px] flex-wrap items-center gap-5 px-6 py-3 lg:px-10"><a href="../HU1_CuentaAcceso/Landing.html" className="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span className="h-9 w-9 rounded-lg bg-[#C1562E]" />Tablón ULima</a><form id="buscarForm" className="min-w-[220px] max-w-[600px] flex-1 lg:ml-5"><input id="buscar" placeholder="Buscar libros, calculadoras, apuntes…" className="w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5" /></form><div className="ml-auto flex items-center gap-3 text-sm"><span className="rounded-full bg-[#EAF2FA] px-4 py-1 text-xs font-extrabold tracking-[.15em] text-[#3B6FA8]">VISITANTE</span><a href="../HU1_CuentaAcceso/IniciarSesion.html" className="font-bold text-[#C1562E]">Ingresar</a><a href="../HU1_CuentaAcceso/Registro.html" className="rounded-lg bg-[#C1562E] px-4 py-2 font-bold text-white">Crear cuenta</a></div></div><nav className="mx-auto flex max-w-[1920px] gap-6 overflow-x-auto px-6 text-sm font-bold lg:px-10"><a href="Catalogo.html" className="border-b-2 border-[#C1562E] py-3 text-[#C1562E]">Catálogo</a><a href="Favoritos.html" className="py-3">Favoritos</a></nav></header>
+  <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 py-8 lg:px-12"><p className="text-sm text-[#7A6A62]"><a href="Catalogo.html" className="font-bold text-[#C1562E]">Catálogo</a> › <span id="miga" /></p><div id="contenido" className="mt-5 grid gap-8 lg:grid-cols-[1.2fr_.8fr]" /><section className="mt-8 rounded-xl border border-[#E8DFD8] bg-white p-6"><h2 className="text-xl font-extrabold">Descripción</h2><p id="descripcion" className="mt-3 leading-7 text-[#7A6A62]" /></section></main>
+  <footer className="border-t border-[#E8DFD8] bg-white"><div className="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p className="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><a href="../HU1_CuentaAcceso/Landing.html#normas" className="font-bold text-[#C1562E]">Normas del tablón · Ayuda</a></div></footer></div>
+  );
+}

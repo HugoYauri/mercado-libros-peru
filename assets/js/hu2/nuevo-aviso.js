@@ -1,4 +1,7 @@
-(function () {
+import { buscarDesdeCabecera } from '../compartido/componentes.js';
+
+export function iniciarNuevoAviso() {
+
     const T = window.Tablon;
     const formulario = document.getElementById("avisoForm");
     const parametros = new URLSearchParams(location.search);
@@ -82,6 +85,7 @@
     }
     formulario.addEventListener("submit", (event) => { event.preventDefault(); guardar("Publicado"); });
     document.getElementById("borrador").addEventListener("click", () => guardar("Borrador"));
-    document.getElementById("buscarForm").addEventListener("submit", (event) => { event.preventDefault(); window.location.href = `../HU3_Catalogo/Catalogo.html?q=${encodeURIComponent(document.getElementById("buscar").value)}`; });
+    document.getElementById("buscarForm").addEventListener("submit", buscarDesdeCabecera);
     actualizarVista();
-}());
+
+}

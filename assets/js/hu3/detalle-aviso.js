@@ -1,4 +1,5 @@
-(function () {
+export function iniciarDetalleAviso() {
+
     const T = window.Tablon;
     const id = new URLSearchParams(location.search).get("id");
     const aviso = T.obtenerAviso(id);
@@ -28,4 +29,5 @@
         galeria.innerHTML = `<img src="${URL.createObjectURL(fotos[0])}" alt="${T.escapar(aviso.title)}" class="max-h-[500px] w-full rounded-xl object-contain">`;
         document.getElementById("miniaturas").innerHTML = fotos.map((foto, index) => `<img src="${URL.createObjectURL(foto)}" alt="Fotografía ${index + 1}" class="h-20 w-20 rounded-lg border border-[#E8DFD8] object-cover">`).join("");
     }).catch(() => {});
-}());
+
+}

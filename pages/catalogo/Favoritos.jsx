@@ -1,0 +1,10 @@
+import { useEffect } from 'react';
+import { iniciarFavoritos } from '../../assets/js/hu3/favoritos.js';
+
+export default function Favoritos() {
+  useEffect(() => { iniciarFavoritos(); }, []);
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]"><header className="border-b border-[#E8DFD8] bg-white"><div className="mx-auto flex max-w-[1920px] items-center justify-between px-6 py-4 lg:px-10"><a href="../HU1_CuentaAcceso/Landing.html" className="flex items-center gap-3 text-xl font-extrabold"><span className="h-9 w-9 rounded-lg bg-[#C1562E]" />Tablón ULima</a><div className="flex gap-4 text-sm font-bold"><a href="Catalogo.html" className="text-[#C1562E]">Catálogo</a><a href="../HU1_CuentaAcceso/MiCuenta.html">Mi cuenta</a></div></div></header><main className="mx-auto w-full max-w-[1400px] flex-1 px-6 py-10"><div className="flex items-end justify-between"><div><h1 className="text-3xl font-extrabold">Favoritos</h1><p id="resumen" className="mt-1 text-[#7A6A62]" /></div><a href="Catalogo.html" className="font-bold text-[#C1562E]">Explorar catálogo →</a></div><div id="lista" className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" /><section id="vacio" className="mt-8 hidden rounded-xl border border-[#E8DFD8] bg-white px-6 py-14 text-center"><div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#FBEBE3] text-3xl text-[#C1562E]">♡</div><h2 id="tituloVacio" className="mt-4 text-2xl font-extrabold">Aún no tienes favoritos</h2><p id="textoVacio" className="mx-auto mt-2 max-w-lg text-[#7A6A62]">Toca el corazón en cualquier aviso para guardarlo y volver a él cuando quieras ofertar.</p><a id="accionVacio" href="Catalogo.html" className="mt-5 inline-block rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white">Explorar catálogo</a></section></main><footer className="border-t border-[#E8DFD8] bg-white px-6 py-5 text-center text-sm text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</footer></div>
+  );
+}

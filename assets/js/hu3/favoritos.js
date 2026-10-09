@@ -1,4 +1,5 @@
-(function () {
+export function iniciarFavoritos() {
+
     const T = window.Tablon;
     const lista = document.getElementById("lista");
     const usuario = T.usuarioActivo();
@@ -20,4 +21,5 @@
         T.alternarFavorito(boton.dataset.quitar);
         location.reload();
     });
-}());
+
+}

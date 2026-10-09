@@ -1,0 +1,12 @@
+import { useEffect } from 'react';
+import { iniciarPaginaNoEncontrada } from '../../assets/js/hu1/PaginaNoEncontrada.js';
+
+export default function PaginaNoEncontrada() {
+  useEffect(() => { iniciarPaginaNoEncontrada(); }, []);
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]"><header className="border-b border-[#E8DFD8] bg-white"><div className="mx-auto flex max-w-[1920px] flex-wrap items-center gap-6 px-6 py-4 lg:px-10"><a href="Landing.html" className="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span className="h-9 w-9 rounded-lg bg-[#C1562E]" />Tablón ULima</a><nav className="flex flex-wrap items-center gap-5 text-sm font-bold lg:ml-5 lg:gap-8" aria-label="Navegación principal"><a href="../HU3_Catalogo/Catalogo.html">Catálogo</a><a href="Landing.html#como-funciona">Cómo funciona</a><a href="Landing.html#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Ayuda</a></nav><div className="ml-auto flex items-center gap-4 text-sm font-bold"><a href="IniciarSesion.html" className="text-[#C1562E]">Ingresar</a><a href="Registro.html" className="rounded-lg bg-[#C1562E] px-5 py-2.5 text-white hover:bg-[#9A4223]">Crear cuenta</a></div></div></header>
+  <main className="flex flex-1 items-center justify-center px-5 py-12 text-center"><div className="max-w-[750px]"><p className="text-[110px] font-extrabold leading-none text-[#C1562E] md:text-[140px]">404</p><h1 className="mt-5 text-4xl font-extrabold">Este aviso ya no está en el tablón</h1><p className="mt-4 text-lg leading-8 text-[#7A6A62]">Puede que el vendedor lo haya retirado o que el enlace esté mal escrito. Busca algo parecido en el catálogo.</p><div className="mt-8 flex flex-wrap justify-center gap-5"><a href="../HU3_Catalogo/Catalogo.html" className="rounded-lg bg-[#C1562E] px-6 py-3 font-bold text-white hover:bg-[#9A4223]">Ir al catálogo</a><button id="volver" className="px-3 py-3 font-bold text-[#C1562E]">Volver atrás</button></div></div></main>
+  <footer className="border-t border-[#E8DFD8] bg-white"><div className="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p className="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><div className="flex flex-wrap gap-6 font-bold text-[#C1562E]"><a href="Landing.html#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a><a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a></div></div></footer></div>
+  );
+}

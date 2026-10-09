@@ -1,4 +1,7 @@
-(function () {
+import { buscarDesdeCabecera } from '../compartido/componentes.js';
+
+export function iniciarMisPublicaciones() {
+
     const T = window.Tablon;
     let filtro = "Todos";
     const lista = document.getElementById("lista");
@@ -28,6 +31,7 @@
         T.guardarAviso(aviso);
         renderizar();
     });
-    document.getElementById("buscarForm").addEventListener("submit", (event) => { event.preventDefault(); window.location.href = `../HU3_Catalogo/Catalogo.html?q=${encodeURIComponent(document.getElementById("buscar").value)}`; });
+    document.getElementById("buscarForm").addEventListener("submit", buscarDesdeCabecera);
     renderizar();
-}());
+
+}

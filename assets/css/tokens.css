@@ -1,0 +1,10 @@
+:root {
+  --fuente-principal: "Nunito Sans", sans-serif;
+  --color-fondo: #fdfaf7;
+  --color-texto: #2a211c;
+  --color-primario: #c1562e;
+  --color-borde: #e8dfd8;
+  --color-suave: #fbebe3;
+  --color-error: #b4322b;
+  --color-exito: #2e7d5b;
+}

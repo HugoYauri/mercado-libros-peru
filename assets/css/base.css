@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./componentes.css";
+
+body {
+  font-family: var(--fuente-principal);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}

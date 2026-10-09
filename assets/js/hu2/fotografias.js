@@ -1,4 +1,5 @@
-(function () {
+export function iniciarFotografiasAviso() {
+
     const id = new URLSearchParams(location.search).get("id");
     const aviso = window.Tablon.obtenerAviso(id);
     const mensaje = document.getElementById("mensaje");
@@ -53,4 +54,5 @@
         } catch (error) { mostrar("No se pudieron guardar las fotografías. Inténtalo desde un servidor estático local.", true); }
     });
     renderizar();
-}());
+
+}

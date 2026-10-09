@@ -1,0 +1,20 @@
+import { useEffect } from 'react';
+import { iniciarMisPublicaciones } from '../../assets/js/hu2/mis-publicaciones.js';
+
+export default function MisPublicaciones() {
+  useEffect(() => { iniciarMisPublicaciones(); }, []);
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]"><header className="border-b border-[#E8DFD8] bg-white">
+    <div className="mx-auto flex max-w-[1920px] flex-wrap items-center gap-5 px-6 py-3 lg:px-10"><a href="../HU1_CuentaAcceso/Landing.html" className="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold"><span className="h-9 w-9 rounded-lg bg-[#C1562E]" />Tablón ULima</a><form id="buscarForm" className="min-w-[220px] max-w-[600px] flex-1 lg:ml-5"><input id="buscar" placeholder="Buscar libros, calculadoras, apuntes…" className="w-full rounded-lg border border-[#E8DFD8] px-4 py-2.5 outline-none" /></form><div className="ml-auto flex items-center gap-3 text-sm"><a href="NuevoAviso.html" className="rounded-lg bg-[#C1562E] px-5 py-2.5 font-bold text-white">Publicar aviso</a><span className="rounded-full bg-[#C1562E] px-4 py-1 text-xs font-extrabold tracking-[.15em] text-white">USUARIO</span><a href="../HU1_CuentaAcceso/MiCuenta.html" className="font-bold">Rosa Quispe ▾</a></div></div>
+    <nav className="mx-auto flex max-w-[1920px] gap-6 overflow-x-auto px-6 text-sm font-bold lg:px-10" aria-label="Navegación de usuario"><a href="../HU3_Catalogo/Catalogo.html" className="whitespace-nowrap py-3">Catálogo</a><a href="MisPublicaciones.html" aria-current="page" className="whitespace-nowrap border-b-2 border-[#C1562E] py-3 text-[#C1562E]">Mis publicaciones</a><a href="../HU3_Catalogo/Favoritos.html" className="whitespace-nowrap py-3">Favoritos</a><a href="#" className="whitespace-nowrap py-3">Ofertas</a><a href="#" className="whitespace-nowrap py-3">Acuerdos</a><a href="#" className="whitespace-nowrap py-3">Calificaciones</a><a href="../HU1_CuentaAcceso/MiCuenta.html" className="whitespace-nowrap py-3">Mi cuenta</a></nav>
+  </header>
+  <main className="mx-auto w-full max-w-[1920px] flex-1 px-6 py-9 lg:px-20">
+    <div className="flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-extrabold">Mis publicaciones</h1><p id="resumen" className="mt-1 text-[#7A6A62]" /></div><a href="NuevoAviso.html" className="rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white">+ Nuevo aviso</a></div>
+    <div className="mt-6 flex flex-wrap gap-2" id="filtros"><button data-filtro="Todos" className="rounded-full bg-[#C1562E] px-4 py-2 text-sm font-bold text-white">Todos</button><button data-filtro="Publicado" className="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Publicados</button><button data-filtro="Pausado" className="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Pausados</button><button data-filtro="Borrador" className="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Borradores</button><button data-filtro="Vendido" className="rounded-full border border-[#E8DFD8] bg-white px-4 py-2 text-sm">Vendidos</button></div>
+    <div id="lista" className="mt-5 grid gap-4" />
+    <section id="vacio" className="mt-8 hidden rounded-xl border border-[#E8DFD8] bg-white px-6 py-12 text-center"><h2 className="text-2xl font-extrabold">Todavía no publicas nada</h2><p className="mx-auto mt-2 max-w-lg text-[#7A6A62]">Ese libro del ciclo pasado puede servirle a alguien esta semana.</p><a href="NuevoAviso.html" className="mt-5 inline-block rounded-lg bg-[#C1562E] px-5 py-3 font-bold text-white">Crear mi primer aviso</a></section>
+  </main>
+  <footer className="border-t border-[#E8DFD8] bg-white"><div className="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-6 text-sm lg:px-20"><p className="text-[#7A6A62]">Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600</p><div className="flex gap-6 font-bold text-[#C1562E]"><a href="../HU1_CuentaAcceso/Landing.html#normas">Normas del tablón</a><a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a></div></div></footer></div>
+  );
+}

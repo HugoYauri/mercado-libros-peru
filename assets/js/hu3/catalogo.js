@@ -1,4 +1,5 @@
-(function () {
+export function iniciarCatalogo() {
+
     const T = window.Tablon;
     const parametros = new URLSearchParams(location.search);
     const q = parametros.get("q") || "";
@@ -31,4 +32,5 @@
         renderizar();
     });
     renderizar();
-}());
+
+}
