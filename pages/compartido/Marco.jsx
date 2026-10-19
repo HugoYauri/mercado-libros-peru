@@ -44,7 +44,7 @@ export function Privado({ children, administrador = false }) {
   return children;
 }
 
-export function Modal({ titulo, cerrar, children }) {
+export function Modal({ titulo, cerrar, children, className = '' }) {
   const dialogo = useRef(null);
   useEffect(() => {
     const elemento = dialogo.current;
@@ -54,7 +54,7 @@ export function Modal({ titulo, cerrar, children }) {
   return (
     <dialog
       ref={dialogo}
-      className="neg-modal"
+      className={'neg-modal ' + className}
       onCancel={cerrar}
       aria-labelledby="titulo-modal"
     >
@@ -76,8 +76,19 @@ export function Modal({ titulo, cerrar, children }) {
 export const dinero = (valor) => `S/ ${Number(valor).toFixed(2)}`;
 export const fechaLegible = (valor) => new Date(valor).toLocaleString('es-PE');
 
-export default function Marco({ titulo, descripcion, children }) {
+export default function Marco({
+  titulo,
+  descripcion,
+  children,
+  publicaciones = false,
+  migas,
+  acciones,
+}) {
   const usuario = usuarioActivo();
+  const nombre = usuario
+    ? `${usuario.nombres.split(' ')[0]} ${usuario.apellidos.split(' ')[0]}`
+    : '';
+  const iniciales = usuario ? usuario.nombres[0] + usuario.apellidos[0] : '';
   const enlaces = [
     ['/catalogo', 'Catálogo'],
     ['/mis-publicaciones', 'Mis publicaciones'],
@@ -90,14 +101,22 @@ export default function Marco({ titulo, descripcion, children }) {
   if (usuario?.rol === 'administrador')
     enlaces.push(['/administracion', 'Administración']);
   return (
-    <div className="neg-app">
+    <div className={publicaciones ? 'neg-app hu2-app' : 'neg-app'}>
       <header className="neg-cabecera">
         <div className="neg-barra">
           <a
             className="neg-marca"
             href="/"
           >
-            ■ Tablón ULima
+            {publicaciones ? (
+              <span
+                className="hu2-logo"
+                aria-hidden="true"
+              />
+            ) : (
+              '■ '
+            )}
+            Tablón ULima
           </a>
           <form action="/catalogo">
             <input
@@ -112,7 +131,36 @@ export default function Marco({ titulo, descripcion, children }) {
           >
             Publicar aviso
           </a>
-          {usuario ? (
+          {usuario && publicaciones ? (
+            <div className="hu2-cuenta">
+              <span className="hu2-rol">
+                {usuario.rol === 'administrador' ? 'Administrador' : 'Usuario'}
+              </span>
+              <details className="hu2-menu-cuenta">
+                <summary>
+                  <span
+                    className="hu2-avatar"
+                    aria-hidden="true"
+                  >
+                    {iniciales}
+                  </span>
+                  {nombre} <span aria-hidden="true">⌄</span>
+                </summary>
+                <div className="hu2-menu-opciones">
+                  <a href="/mi-cuenta">Mi cuenta</a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      cerrarSesion();
+                      window.location.assign('/');
+                    }}
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
+              </details>
+            </div>
+          ) : usuario ? (
             <div>
               <a href="/mi-cuenta">{usuario.correo}</a>
               <button
@@ -137,7 +185,12 @@ export default function Marco({ titulo, descripcion, children }) {
             <a
               key={ruta}
               href={ruta}
-              aria-current={location.pathname.startsWith(ruta) ? 'page' : undefined}
+              aria-current={
+                (publicaciones && ruta === '/mis-publicaciones') ||
+                location.pathname.startsWith(ruta)
+                  ? 'page'
+                  : undefined
+              }
             >
               {nombre}
             </a>
@@ -145,12 +198,50 @@ export default function Marco({ titulo, descripcion, children }) {
         </nav>
       </header>
       <main className="neg-contenido">
-        <h1>{titulo}</h1>
-        <p className="neg-subtitulo">{descripcion}</p>
+        {publicaciones ? (
+          <>
+            {migas && (
+              <nav
+                className="hu2-migas"
+                aria-label="Ruta de navegación"
+              >
+                {migas}
+              </nav>
+            )}
+            <div className="hu2-titulo-fila">
+              <div>
+                <h1>{titulo}</h1>
+                {descripcion && <p className="neg-subtitulo">{descripcion}</p>}
+              </div>
+              {acciones}
+            </div>
+          </>
+        ) : (
+          <>
+            <h1>{titulo}</h1>
+            <p className="neg-subtitulo">{descripcion}</p>
+          </>
+        )}
         {children}
       </main>
       <footer className="neg-pie">
-        Universidad de Lima · Campus Monterrico · <a href="/#normas">Normas del tablón</a>
+        {publicaciones ? (
+          <div className="hu2-pie-interior">
+            <span>
+              Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600
+            </span>
+            <div>
+              <a href="/#normas">Normas del tablón</a>
+              <a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a>
+              <a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a>
+            </div>
+          </div>
+        ) : (
+          <>
+            Universidad de Lima · Campus Monterrico ·{' '}
+            <a href="/#normas">Normas del tablón</a>
+          </>
+        )}
       </footer>
     </div>
   );
