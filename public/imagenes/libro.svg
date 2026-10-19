@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <rect width="600" height="400" rx="20" fill="#f3e6da"/>
+  <rect x="170" y="55" width="260" height="290" rx="12" fill="#c1562e"/>
+  <path d="M190 55v290" stroke="#94401f" stroke-width="10"/>
+  <rect x="215" y="100" width="170" height="90" rx="6" fill="#fff9ef"/>
+  <text x="300" y="140" font-family="sans-serif" font-size="24" text-anchor="middle" fill="#653722">MATERIAL</text>
+  <text x="300" y="172" font-family="sans-serif" font-size="24" text-anchor="middle" fill="#653722">DE ESTUDIO</text>
+  <path d="M215 240h160m-160 25h120m-120 25h140" stroke="#edb69b" stroke-width="8"/>
+</svg>

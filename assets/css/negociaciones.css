@@ -1,0 +1,355 @@
+.neg-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fdfaf7;
+  color: #2a211c;
+}
+.neg-cabecera,
+.neg-pie {
+  background: white;
+  border-bottom: 1px solid #e8dfd8;
+}
+.neg-barra,
+.neg-navegacion {
+  max-width: 1440px;
+  margin: auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.neg-barra form {
+  flex: 1;
+  min-width: 220px;
+}
+.neg-marca {
+  font-size: 22px;
+  font-weight: 800;
+  color: #c1562e;
+}
+.neg-salir {
+  display: block;
+  color: #c1562e;
+  font-size: 13px;
+  margin-top: 4px;
+}
+.neg-navegacion {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.neg-navegacion a {
+  padding: 14px 0;
+  font-weight: 700;
+}
+.neg-navegacion [aria-current] {
+  color: #c1562e;
+  border-bottom: 2px solid #c1562e;
+}
+.neg-contenido {
+  width: 100%;
+  max-width: 1200px;
+  padding: 36px 24px;
+  margin: auto;
+  flex: 1;
+}
+.neg-app h1 {
+  font-size: 30px;
+  font-weight: 800;
+}
+.neg-app h2,
+.neg-modal h2 {
+  font-size: 21px;
+  font-weight: 800;
+}
+.neg-app h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+.neg-subtitulo,
+.neg-ayuda {
+  color: #7a6a62;
+  margin: 8px 0 24px;
+}
+.neg-tarjeta {
+  background: white;
+  border: 1px solid #e8dfd8;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 18px 0;
+}
+.neg-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.neg-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+.neg-boton,
+.neg-secundario {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.neg-boton {
+  background: #c1562e;
+  color: white;
+  border: 1px solid #c1562e;
+}
+.neg-secundario {
+  border: 1px solid #c1562e;
+  color: #a94724;
+  background: white;
+}
+.neg-estado {
+  padding: 5px 12px;
+  border-radius: 24px;
+  color: #3b6fa8;
+  background: #eaf2fa;
+  font-size: 13px;
+  font-weight: 700;
+}
+.neg-precio {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 12px 0;
+}
+.neg-app input,
+.neg-app select,
+.neg-app textarea,
+.neg-modal input,
+.neg-modal select,
+.neg-modal textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #d5c7bc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: white;
+  color: #2a211c;
+}
+.neg-app label,
+.neg-modal label {
+  display: block;
+  font-weight: 600;
+  margin: 16px 0;
+}
+.neg-app label > *,
+.neg-modal label > * {
+  margin-top: 6px;
+  font-weight: 400;
+}
+.neg-app button:disabled,
+.neg-modal button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.neg-app :focus-visible,
+.neg-modal :focus-visible {
+  outline: 3px solid #3b6fa8;
+  outline-offset: 3px;
+}
+.neg-error {
+  background: #fff0ef;
+  color: #a32620;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.neg-exito {
+  background: #e5f4ec;
+  color: #246b48;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.neg-vacio {
+  text-align: center;
+  padding: 48px 24px;
+}
+.neg-modal {
+  border: 1px solid #e8dfd8;
+  border-radius: 16px;
+  padding: 28px;
+  width: min(540px, calc(100vw - 32px));
+  max-height: 90vh;
+  overflow: auto;
+  margin: auto;
+  background: #fff;
+}
+.neg-modal::backdrop {
+  background: #2a211c88;
+}
+.neg-historial {
+  margin-top: 20px;
+  padding-left: 20px;
+  border-left: 3px solid #e8dfd8;
+}
+.neg-historial li {
+  margin-bottom: 24px;
+  overflow-wrap: anywhere;
+}
+.neg-historial time {
+  display: block;
+  font-size: 12px;
+  color: #7a6a62;
+}
+.neg-pie {
+  padding: 24px;
+  text-align: center;
+  border-top: 1px solid #e8dfd8;
+}
+.neg-datos {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+.neg-datos dt {
+  color: #7a6a62;
+  font-size: 13px;
+}
+.neg-datos dd {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.formulario-corto {
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.neg-enlace {
+  color: #a94724;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.rejilla-dos {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.rejilla-tres,
+.rejilla-productos {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.catalogo-distribucion {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 250px minmax(0, 1fr);
+}
+.catalogo-distribucion .rejilla-productos {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.filtros-catalogo {
+  height: fit-content;
+}
+.tarjeta-aviso {
+  background: white;
+  border: 1px solid #e8dfd8;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.portada-aviso {
+  height: 190px;
+  width: 100%;
+  object-fit: contain;
+  background: #f3e6da;
+}
+.sin-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7a6a62;
+}
+.neg-app .casilla {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.neg-app .casilla input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+.galeria-fotos {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.galeria-fotos figure {
+  width: 170px;
+  padding: 12px;
+  border: 1px solid #e8dfd8;
+  border-radius: 12px;
+}
+.galeria-fotos img {
+  height: 140px;
+  width: 100%;
+  object-fit: cover;
+}
+.barra-metrica {
+  display: grid;
+  grid-template-columns: 100px 1fr 40px;
+  gap: 12px;
+  align-items: center;
+  margin: 16px 0;
+}
+.barra-metrica progress {
+  width: 100%;
+  accent-color: #c1562e;
+}
+.esqueleto {
+  height: 340px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #efe7e0, #faf6f2, #efe7e0);
+  background-size: 200% 100%;
+  animation: cargar 1s linear infinite;
+}
+@keyframes cargar {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .esqueleto {
+    animation: none;
+  }
+}
+@media (max-width: 850px) {
+  .rejilla-productos,
+  .rejilla-tres {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .catalogo-distribucion {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .rejilla-dos,
+  .rejilla-tres,
+  .rejilla-productos,
+  .catalogo-distribucion .rejilla-productos {
+    grid-template-columns: 1fr;
+  }
+  .neg-barra {
+    gap: 14px;
+  }
+  .neg-barra > div {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  .neg-contenido {
+    padding: 24px 16px;
+  }
+}

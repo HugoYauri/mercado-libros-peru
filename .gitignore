@@ -1,5 +1,6 @@
 node_modules/
 dist/
+<<<<<<< HEAD
 backend/.generated/
 backend/generated/
 .env
@@ -11,3 +12,5 @@ coverage/
 .DS_Store
 test-results/
 playwright-report/
+=======
+>>>>>>> origin/Entrega1_v2

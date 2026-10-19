@@ -1,0 +1,17 @@
+.foto-ejemplo {
+  background: repeating-linear-gradient(45deg, #eadfd7 0 12px, #f7eee8 12px 24px);
+}
+
+.foto-producto {
+  background: linear-gradient(135deg, #f7eee8, #eadfd7);
+}
+
+.sr-only-focusable:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
