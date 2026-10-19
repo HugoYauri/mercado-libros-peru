@@ -8,8 +8,8 @@ ofertas, acuerdos, reputación y moderación. La carpeta original no se modifica
 Abre la carpeta `mercadolibros-V2` en VS Code. En su terminal integrada:
 
 ```powershell
-npm install
-npm run dev
+npm install 
+npm run dev o npm.cmd run dev
 ```
 
 Si ya tienes las dependencias, solo ejecuta `npm run dev`.
