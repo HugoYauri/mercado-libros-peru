@@ -1,16 +1,2 @@
 node_modules/
 dist/
-<<<<<<< HEAD
-backend/.generated/
-backend/generated/
-.env
-.env.*
-!.env.example
-.vercel/
-coverage/
-*.log
-.DS_Store
-test-results/
-playwright-report/
-=======
->>>>>>> origin/Entrega1_v2

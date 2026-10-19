@@ -1,28 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "mercado-libros-ulima",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
-  "engines": {
-    "node": ">=24.0.0 <25"
-  },
-  "scripts": {
-    "dev:frontend": "npm run dev -w frontend",
-    "dev:backend": "npm run dev -w backend",
-    "build": "npm run build -w frontend && npm run build -w backend",
-    "check": "npm run check -w frontend && npm run check -w backend && npm test -w backend",
-    "prisma:generate": "npm run prisma:generate -w backend",
-    "postinstall": "npm run prisma:generate"
-  },
-  "overrides": {
-    "deepmerge-ts": "8.0.2",
-    "mysql2": "3.24.4"
-=======
   "name": "tablon-ulima",
   "private": true,
   "version": "1.0.0",
@@ -45,6 +21,5 @@
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.4"
->>>>>>> origin/Entrega1_v2
   }
 }
