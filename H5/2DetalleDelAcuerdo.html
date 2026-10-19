@@ -1,0 +1,833 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tablón ULima · Detalle del acuerdo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: "Nunito Sans", sans-serif;
+        }
+
+        .foto-ejemplo {
+            background: repeating-linear-gradient(
+                45deg,
+                #eadfd7 0 10px,
+                #f7eee8 10px 20px
+            );
+        }
+
+        .tarjeta {
+            border: 1px solid #E8DFD8;
+            border-radius: 11px;
+            background: white;
+        }
+
+        .etiqueta {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .15em;
+            color: #7A6A62;
+        }
+
+        .campo {
+            width: 100%;
+            border: 1px solid #E8DFD8;
+            border-radius: 7px;
+            padding: 9px 11px;
+            background: white;
+            outline: none;
+        }
+
+        .campo:focus {
+            border-color: #C1562E;
+        }
+
+        .boton {
+            display: block;
+            width: 100%;
+            border-radius: 7px;
+            padding: 9px 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background-color .2s;
+        }
+
+        .boton-naranja {
+            background: #C1562E;
+            color: white;
+        }
+
+        .boton-naranja:hover {
+            background: #9A4223;
+        }
+
+        .boton-verde {
+            background: #32845F;
+            color: white;
+        }
+
+        .boton-verde:hover {
+            background: #256B4B;
+        }
+
+        .boton-borde {
+            border: 1px solid #C1562E;
+            color: #C1562E;
+        }
+
+        .boton-borde:hover {
+            background: #FBEBE3;
+        }
+
+        .boton-cancelar {
+            border: 1px solid #E8DFD8;
+            color: #B42318;
+        }
+
+        .boton-cancelar:hover {
+            background: #F9E7E6;
+        }
+
+        .oculto {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
+
+    <!-- CABECERA -->
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-4 px-6 py-3 lg:px-10">
+
+            <a href="Landing.html"
+               class="flex items-center gap-2 whitespace-nowrap text-lg font-extrabold">
+                <span class="h-8 w-8 rounded-lg bg-[#C1562E]"></span>
+                Tablón ULima
+            </a>
+
+            <form id="formBusqueda" class="mx-auto w-full max-w-md">
+                <label for="busqueda" class="sr-only">Buscar productos</label>
+                <input
+                    id="busqueda"
+                    type="search"
+                    placeholder="Buscar libros, calculadoras, apuntes..."
+                    class="w-full rounded-lg border border-[#E8DFD8] bg-[#FDFAF7] px-3 py-2 text-sm outline-none focus:border-[#C1562E]"
+                >
+            </form>
+
+            <div class="ml-auto flex flex-wrap items-center gap-3 text-sm">
+
+                <a href="NuevoAviso.html"
+                   class="rounded-lg bg-[#C1562E] px-4 py-2 font-bold text-white hover:bg-[#9A4223]">
+                    Publicar aviso
+                </a>
+
+                <span class="rounded-full bg-[#C1562E] px-3 py-1 text-xs font-extrabold tracking-widest text-white">
+                    USUARIO
+                </span>
+
+                <span class="flex h-8 w-8 items-center justify-center rounded-full border border-[#E8DFD8] bg-[#FBEBE3] text-xs">
+                    RQ
+                </span>
+
+                <a href="MiCuenta.html" class="font-bold">
+                    Rosa Quispe ▾
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENÚ PRINCIPAL -->
+    <nav class="border-b border-[#E8DFD8] bg-white"
+         aria-label="Navegación principal">
+
+        <div class="mx-auto flex max-w-[1920px] flex-wrap gap-1 px-6 lg:px-10">
+
+            <a href="Catalogo.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Catálogo
+            </a>
+
+            <a href="MisPublicaciones.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Mis publicaciones
+            </a>
+
+            <a href="Favoritos.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Favoritos
+            </a>
+
+            <a href="Ofertas.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Ofertas
+            </a>
+
+            <a href="MisAcuerdos.html"
+               aria-current="page"
+               class="border-b-2 border-[#C1562E] px-3 py-3 text-sm font-bold text-[#C1562E]">
+                Acuerdos
+            </a>
+
+            <a href="Calificaciones.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Calificaciones
+            </a>
+
+            <a href="MiCuenta.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Mi cuenta
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="mx-auto w-full max-w-[1920px] flex-1 px-5 py-3 sm:px-8 lg:px-16">
+
+        <!-- TÍTULO Y ESTADO -->
+        <div class="mb-1 flex flex-wrap items-center justify-between gap-3">
+
+            <div>
+                <p class="text-xs text-[#7A6A62]">
+                    <a href="MisAcuerdos.html" class="hover:text-[#C1562E]">
+                        Mis acuerdos
+                    </a>
+                    › A-2201
+                </p>
+
+                <div class="mt-1 flex flex-wrap items-center gap-3">
+                    <h1 class="text-2xl font-extrabold sm:text-3xl">
+                        Acuerdo A-2201
+                    </h1>
+
+                    <span id="estadoAcuerdo"
+                          class="rounded-full bg-[#E5F2EB] px-4 py-1 text-xs font-bold text-[#32845F]">
+                        Acordado — pendiente de entrega
+                    </span>
+                </div>
+            </div>
+
+            <button id="reportar"
+                    type="button"
+                    class="text-xs font-bold text-red-600 hover:underline">
+                Reportar a la contraparte
+            </button>
+        </div>
+
+        <!-- DISTRIBUCIÓN EN DOS COLUMNAS -->
+        <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,2.35fr)_minmax(300px,1fr)]">
+
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="space-y-2">
+
+                <!-- INFORMACIÓN DEL PRODUCTO -->
+                <section class="tarjeta flex flex-col gap-3 p-2.5 sm:flex-row sm:items-center">
+
+                    <div class="foto-ejemplo h-[85px] w-full shrink-0 rounded-lg sm:w-[112px]"
+                         role="img"
+                         aria-label="Imagen de ejemplo de un juego de escuadras y escalímetro">
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                        <h2 class="text-base font-extrabold">
+                            Juego de escuadras y escalímetro Faber
+                        </h2>
+
+                        <p class="text-xs text-[#7A6A62]">
+                            Instrumentos de dibujo · Dibujo Técnico · Buen estado
+                        </p>
+
+                        <div class="mt-1 flex flex-wrap items-baseline gap-3">
+                            <p class="text-2xl font-extrabold">
+                                S/ 34.00
+                            </p>
+
+                            <p class="text-xs text-[#7A6A62]">
+                                acordado sobre S/ 38.00 pedidos
+                            </p>
+                        </div>
+                    </div>
+
+                    <a href="Aviso.html"
+                       class="shrink-0 text-xs font-bold text-[#C1562E] hover:underline">
+                        Ver el aviso
+                    </a>
+                </section>
+
+                <!-- DATOS DEL ENCUENTRO -->
+                <section class="tarjeta p-2.5">
+
+                    <h2 class="mb-3 text-base font-extrabold text-[#C1562E]">
+                        Datos del encuentro
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-3 border-b border-[#E8DFD8] pb-2 sm:grid-cols-3">
+
+                        <div>
+                            <p class="etiqueta">PUNTO DE ENCUENTRO</p>
+                            <p id="puntoMostrado" class="mt-1 text-sm font-bold">
+                                Patio del pabellón H
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="etiqueta">FECHA</p>
+                            <p id="fechaMostrada" class="mt-1 text-sm font-bold">
+                                01/09/2026
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="etiqueta">FRANJA HORARIA</p>
+                            <p id="horarioMostrado" class="mt-1 text-sm font-bold">
+                                16:00 – 18:00
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- COMPRADORA Y VENDEDORA -->
+                    <div class="grid grid-cols-1 gap-4 py-2 sm:grid-cols-2">
+
+                        <div>
+                            <p class="etiqueta">COMPRADORA</p>
+
+                            <div class="mt-1 flex items-center gap-3">
+                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#E8DFD8] bg-[#FBEBE3] text-xs font-bold text-[#C1562E]">
+                                    CH
+                                </span>
+
+                                <div>
+                                    <p class="text-xs font-extrabold">
+                                        Carla Huamaní Bravo
+                                    </p>
+                                    <p class="text-xs text-[#7A6A62]">
+                                        4.8 ★ · 987 456 123
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="etiqueta">VENDEDORA</p>
+
+                            <div class="mt-1 flex items-center gap-3">
+                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#C1562E] text-xs font-bold text-white">
+                                    RQ
+                                </span>
+
+                                <div>
+                                    <p class="text-xs font-extrabold">
+                                        Rosa María Quispe Ríos (tú)
+                                    </p>
+                                    <p class="text-xs text-[#7A6A62]">
+                                        4.8 ★ · 987 654 321
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-md border border-[#E8DFD8] bg-[#FBEBE3] p-3 text-xs">
+                        Los teléfonos solo se muestran a las dos partes de este acuerdo.
+                    </div>
+                </section>
+
+                <!-- TRAZABILIDAD -->
+                <section class="tarjeta p-2.5">
+
+                    <h2 class="mb-2 text-base font-extrabold text-[#C1562E]">
+                        Trazabilidad
+                    </h2>
+
+                    <ol id="historial" class="space-y-1.5">
+
+                        <li class="flex gap-3">
+                            <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#32845F]"></span>
+                            <div>
+                                <p class="text-xs font-bold">
+                                    Oferta aceptada — S/ 34.00
+                                </p>
+                                <p class="text-[11px] text-[#7A6A62]">
+                                    27/08/2026 · 18:32 · Rosa María Quispe
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="flex gap-3">
+                            <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#3B6FA8]"></span>
+                            <div>
+                                <p class="text-xs font-bold">
+                                    Propuesta de encuentro: Biblioteca · 29/08/2026 · 10:00 – 12:00
+                                </p>
+                                <p class="text-[11px] text-[#7A6A62]">
+                                    28/08/2026 · 09:10 · Rosa María Quispe
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="flex gap-3">
+                            <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#B87512]"></span>
+                            <div>
+                                <p class="text-xs font-bold">
+                                    Alternativa: Patio del pabellón H · 01/09/2026 · 16:00 – 18:00
+                                </p>
+                                <p class="text-[11px] text-[#7A6A62]">
+                                    29/08/2026 · 15:44 · Carla Huamaní Bravo
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="flex gap-3">
+                            <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#32845F]"></span>
+                            <div>
+                                <p class="text-xs font-bold">
+                                    Punto y horario acordados
+                                </p>
+                                <p class="text-[11px] text-[#7A6A62]">
+                                    30/08/2026 · 08:05 · Rosa María Quispe
+                                </p>
+                            </div>
+                        </li>
+
+                        <li id="eventoCompradora" class="flex gap-3">
+                            <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#32845F]"></span>
+                            <div>
+                                <p class="text-xs font-bold">
+                                    Entrega confirmada por la compradora
+                                </p>
+                                <p class="text-[11px] text-[#7A6A62]">
+                                    01/09/2026 · 16:22 · Carla Huamaní Bravo
+                                </p>
+                            </div>
+                        </li>
+
+                        <li id="eventoVendedora" class="oculto flex gap-3">
+                            <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#32845F]"></span>
+                            <div>
+                                <p class="text-xs font-bold">
+                                    Entrega confirmada por la vendedora
+                                </p>
+                                <p id="fechaConfirmacion" class="text-[11px] text-[#7A6A62]">
+                                    Confirmación registrada en esta sesión
+                                </p>
+                            </div>
+                        </li>
+
+                    </ol>
+                </section>
+            </div>
+
+            <!-- COLUMNA DERECHA -->
+            <aside class="space-y-2">
+
+                <!-- CÓDIGO DE ENTREGA -->
+                <section class="rounded-lg border-2 border-[#32845F] bg-white px-4 py-3 text-center">
+
+                    <p class="etiqueta text-[#32845F]">
+                        CÓDIGO DE ENTREGA
+                    </p>
+
+                    <p class="my-1 font-mono text-4xl font-extrabold tracking-[.12em] sm:text-5xl">
+                        4L9-KT2
+                    </p>
+
+                    <p class="text-xs leading-5 text-[#7A6A62]">
+                        Compártelo solo al momento del encuentro. Sirve para verificar que ambos están en el trato correcto.
+                    </p>
+                </section>
+
+                <!-- CONFIRMACIÓN -->
+                <section class="tarjeta p-2.5">
+
+                    <h2 class="mb-2 etiqueta">
+                        CONFIRMACIÓN DE ENTREGA
+                    </h2>
+
+                    <div class="space-y-1.5">
+
+                        <div class="flex items-center gap-3 rounded-md border border-[#32845F] bg-[#E5F2EB] p-3">
+                            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#32845F] text-xs text-white">
+                                ✓
+                            </span>
+
+                            <p class="text-xs">
+                                Carla confirmó el 01/09/2026 · 16:22
+                            </p>
+                        </div>
+
+                        <div id="estadoVendedora"
+                             class="flex items-center gap-3 rounded-md border border-[#E8DFD8] p-3">
+
+                            <span id="circuloVendedora"
+                                  class="h-5 w-5 shrink-0 rounded-full border border-[#E8DFD8] bg-white">
+                            </span>
+
+                            <p id="textoVendedora" class="text-xs text-[#7A6A62]">
+                                Tú aún no confirmas
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <button id="confirmarEntrega"
+                            type="button"
+                            class="boton boton-verde mt-2.5">
+                        Confirmar entrega
+                    </button>
+
+                    <p id="mensajeConfirmacion"
+                       class="mt-2 text-center text-xs text-[#7A6A62]">
+                        Al confirmar ambos, el aviso pasa a vendido y se abre la calificación.
+                    </p>
+                </section>
+
+                <!-- ACCIONES DEL ACUERDO -->
+                <section class="tarjeta space-y-2 p-2.5">
+
+                    <button id="modificar"
+                            type="button"
+                            class="boton boton-borde">
+                        Modificar punto y horario
+                    </button>
+
+                    <button id="cancelar"
+                            type="button"
+                            class="boton boton-cancelar">
+                        Cancelar el acuerdo
+                    </button>
+                </section>
+
+                <!-- FORMULARIO PARA MODIFICAR EL ENCUENTRO -->
+                <section id="formularioModificar" class="tarjeta oculto p-3">
+
+                    <h2 class="mb-3 font-extrabold text-[#C1562E]">
+                        Modificar encuentro
+                    </h2>
+
+                    <form id="formEncuentro" class="space-y-3">
+
+                        <div>
+                            <label for="nuevoPunto" class="mb-1 block etiqueta">
+                                PUNTO DE ENCUENTRO
+                            </label>
+
+                            <select id="nuevoPunto" class="campo" required>
+                                <option value="Biblioteca">Biblioteca</option>
+                                <option value="Puerta 1">Puerta 1</option>
+                                <option value="Puerta Central">Puerta Central</option>
+                                <option value="Patio del pabellón H">Patio del pabellón H</option>
+                                <option value="Cafetería del pabellón E">Cafetería del pabellón E</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="nuevaFecha" class="mb-1 block etiqueta">
+                                FECHA
+                            </label>
+
+                            <input id="nuevaFecha"
+                                   type="date"
+                                   class="campo"
+                                   value="2026-09-01"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label for="nuevoHorario" class="mb-1 block etiqueta">
+                                FRANJA HORARIA
+                            </label>
+
+                            <select id="nuevoHorario" class="campo" required>
+                                <option value="08:00 – 10:00">08:00 – 10:00</option>
+                                <option value="10:00 – 12:00">10:00 – 12:00</option>
+                                <option value="12:00 – 14:00">12:00 – 14:00</option>
+                                <option value="14:00 – 16:00">14:00 – 16:00</option>
+                                <option value="16:00 – 18:00" selected>16:00 – 18:00</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="boton boton-naranja">
+                            Guardar cambios
+                        </button>
+
+                        <button id="cerrarFormulario"
+                                type="button"
+                                class="boton border border-[#E8DFD8]">
+                            Volver
+                        </button>
+
+                    </form>
+                </section>
+
+                <!-- MENSAJE DE CANCELACIÓN -->
+                <p id="mensajeCancelacion"
+                   class="oculto rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700"
+                   role="status">
+                    El acuerdo ha sido cancelado.
+                </p>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="mt-4 border-t border-[#E8DFD8] bg-white">
+
+        <div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-5 text-xs sm:text-sm lg:px-16">
+
+            <p class="text-[#7A6A62]">
+                Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600
+            </p>
+
+            <div class="flex flex-wrap gap-5 font-bold text-[#C1562E]">
+                <a href="Landing.html#normas">Normas del tablón</a>
+                <a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a>
+                <a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        // Elementos de la página
+        const botonConfirmar = document.getElementById("confirmarEntrega");
+        const formularioModificar = document.getElementById("formularioModificar");
+        const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
+
+        let entregaConfirmadaPorVendedora = false;
+        let acuerdoCancelado = false;
+
+        // Registrar un evento en la trazabilidad
+        function agregarEvento(titulo, detalle) {
+
+            const historial = document.getElementById("historial");
+            const elemento = document.createElement("li");
+
+            elemento.className = "flex gap-3";
+
+            const punto = document.createElement("span");
+            punto.className = "mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#32845F]";
+
+            const contenido = document.createElement("div");
+
+            const textoTitulo = document.createElement("p");
+            textoTitulo.className = "text-xs font-bold";
+            textoTitulo.textContent = titulo;
+
+            const textoDetalle = document.createElement("p");
+            textoDetalle.className = "text-[11px] text-[#7A6A62]";
+            textoDetalle.textContent = detalle;
+
+            contenido.appendChild(textoTitulo);
+            contenido.appendChild(textoDetalle);
+
+            elemento.appendChild(punto);
+            elemento.appendChild(contenido);
+
+            historial.appendChild(elemento);
+        }
+
+        // Obtener la fecha actual en formato día/mes/año
+        function obtenerFechaActual() {
+            const fecha = new Date();
+
+            return fecha.toLocaleDateString("es-PE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            });
+        }
+
+        // Abrir el formulario para cambiar el encuentro
+        document.getElementById("modificar").addEventListener("click", function () {
+
+            if (acuerdoCancelado) {
+                alert("No puedes modificar un acuerdo cancelado.");
+                return;
+            }
+
+            formularioModificar.classList.toggle("oculto");
+        });
+
+        // Cerrar el formulario
+        document.getElementById("cerrarFormulario").addEventListener("click", function () {
+            formularioModificar.classList.add("oculto");
+        });
+
+        // Guardar los cambios del encuentro
+        document.getElementById("formEncuentro").addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            if (acuerdoCancelado) {
+                return;
+            }
+
+            const punto = document.getElementById("nuevoPunto").value;
+            const fechaISO = document.getElementById("nuevaFecha").value;
+            const horario = document.getElementById("nuevoHorario").value;
+
+            if (!fechaISO) {
+                alert("Selecciona una fecha para el encuentro.");
+                return;
+            }
+
+            const partesFecha = fechaISO.split("-");
+            const fecha = partesFecha[2] + "/" + partesFecha[1] + "/" + partesFecha[0];
+
+            document.getElementById("puntoMostrado").textContent = punto;
+            document.getElementById("fechaMostrada").textContent = fecha;
+            document.getElementById("horarioMostrado").textContent = horario;
+
+            agregarEvento(
+                "Propuesta de modificación del encuentro",
+                obtenerFechaActual() + " · " + punto + " · " + fecha + " · " + horario
+            );
+
+            formularioModificar.classList.add("oculto");
+
+            alert("Los datos del encuentro se actualizaron en esta página. En una aplicación real, la otra persona tendría que aceptar los cambios.");
+        });
+
+        // Confirmar la entrega
+        botonConfirmar.addEventListener("click", function () {
+
+            if (acuerdoCancelado) {
+                alert("El acuerdo está cancelado.");
+                return;
+            }
+
+            if (entregaConfirmadaPorVendedora) {
+                return;
+            }
+
+            const confirmar = window.confirm(
+                "¿Confirmas que entregaste el producto a la compradora?"
+            );
+
+            if (!confirmar) {
+                return;
+            }
+
+            entregaConfirmadaPorVendedora = true;
+
+            document.getElementById("circuloVendedora").className =
+                "flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#32845F] text-xs text-white";
+
+            document.getElementById("circuloVendedora").textContent = "✓";
+
+            document.getElementById("estadoVendedora").className =
+                "flex items-center gap-3 rounded-md border border-[#32845F] bg-[#E5F2EB] p-3";
+
+            document.getElementById("textoVendedora").textContent =
+                "Rosa María confirmó la entrega";
+
+            document.getElementById("textoVendedora").className = "text-xs";
+
+            document.getElementById("fechaConfirmacion").textContent =
+                obtenerFechaActual() + " · Confirmación registrada en esta sesión";
+
+            document.getElementById("eventoVendedora").classList.remove("oculto");
+
+            botonConfirmar.textContent = "Entrega confirmada";
+            botonConfirmar.disabled = true;
+            botonConfirmar.classList.add("opacity-60", "cursor-not-allowed");
+
+            mensajeConfirmacion.textContent =
+                "Tu confirmación quedó registrada en esta sesión de demostración.";
+
+            // La compradora ya había confirmado en los datos de ejemplo
+            document.getElementById("estadoAcuerdo").textContent =
+                "Entrega confirmada por ambas partes";
+
+            agregarEvento(
+                "Entrega confirmada por la vendedora",
+                obtenerFechaActual() + " · Rosa María Quispe"
+            );
+
+            alert("Has confirmado la entrega. En esta demostración, ambas partes aparecen como confirmadas.");
+        });
+
+        // Cancelar el acuerdo
+        document.getElementById("cancelar").addEventListener("click", function () {
+
+            if (acuerdoCancelado) {
+                return;
+            }
+
+            const confirmar = window.confirm(
+                "¿Estás segura de que deseas cancelar este acuerdo?"
+            );
+
+            if (!confirmar) {
+                return;
+            }
+
+            acuerdoCancelado = true;
+
+            document.getElementById("estadoAcuerdo").textContent = "Acuerdo cancelado";
+
+            document.getElementById("estadoAcuerdo").className =
+                "rounded-full bg-[#F9E7E6] px-4 py-1 text-xs font-bold text-[#B42318]";
+
+            document.getElementById("mensajeCancelacion").classList.remove("oculto");
+
+            botonConfirmar.disabled = true;
+            botonConfirmar.classList.add("opacity-50", "cursor-not-allowed");
+
+            document.getElementById("modificar").disabled = true;
+            document.getElementById("modificar").classList.add("opacity-50", "cursor-not-allowed");
+
+            document.getElementById("cancelar").disabled = true;
+
+            formularioModificar.classList.add("oculto");
+
+            agregarEvento(
+                "Acuerdo cancelado",
+                obtenerFechaActual() + " · Rosa María Quispe"
+            );
+
+            alert("El acuerdo se ha marcado como cancelado en esta demostración.");
+        });
+
+        // Reportar a la contraparte
+        document.getElementById("reportar").addEventListener("click", function () {
+
+            const motivo = window.prompt(
+                "Describe el motivo del reporte:"
+            );
+
+            if (motivo === null || motivo.trim() === "") {
+                return;
+            }
+
+            alert(
+                "Reporte preparado correctamente.\n\nMotivo: " +
+                motivo.trim() +
+                "\n\nEn una aplicación real, el reporte se enviaría al sistema para su revisión."
+            );
+        });
+
+        // Buscador: filtra el acceso al aviso en esta demostración
+        document.getElementById("formBusqueda").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const texto = document.getElementById("busqueda").value.trim();
+
+            if (texto) {
+                alert("La búsqueda general estará disponible cuando conectemos el catálogo.");
+            }
+        });
+
+    </script>
+
+</body>
+</html>

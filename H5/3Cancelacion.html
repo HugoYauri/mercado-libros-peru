@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablón ULima · Cancelar acuerdo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: "Nunito Sans", sans-serif;
+        }
+
+        .foto-ejemplo {
+            background: repeating-linear-gradient(
+                45deg,
+                #eadfd7 0 12px,
+                #f7eee8 12px 24px
+            );
+        }
+
+        .motivo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #E8DFD8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color .15s, border-color .15s;
+        }
+
+        .motivo:hover {
+            border-color: #C1562E;
+        }
+
+        .motivo.seleccionado {
+            border-color: #C1562E;
+            background: #FBEBE3;
+            font-weight: 700;
+        }
+
+        .motivo input {
+            appearance: none;
+            flex-shrink: 0;
+            width: 19px;
+            height: 19px;
+            border: 1px solid #E8DFD8;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+
+        .motivo input:checked {
+            border: 4px solid #C1562E;
+        }
+
+        .oculto {
+            display: none !important;
+        }
+
+        .modal-fondo {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(42, 33, 28, .55);
+            overflow-y: auto;
+        }
+
+        .modal-contenido {
+            width: 100%;
+            max-width: 620px;
+            max-height: 92vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            padding: 26px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+        }
+
+        @media (max-width: 600px) {
+            .modal-contenido {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-[#FDFAF7] text-[#2A211C]">
+
+    <!-- CABECERA -->
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-5 px-6 py-4">
+            <a href="#" class="flex items-center gap-3 whitespace-nowrap text-xl font-extrabold">
+                <span class="h-9 w-9 rounded-lg bg-[#C1562E]"></span>
+                Tablón ULima
+            </a>
+
+            <div class="hidden max-w-md flex-1 md:block">
+                <input
+                    type="search"
+                    placeholder="Buscar libros, calculadoras, apuntes..."
+                    class="w-full rounded-lg border border-[#E8DFD8] bg-[#FDFAF7] px-4 py-2 text-sm"
+                >
+            </div>
+
+            <div class="ml-auto flex items-center gap-3 text-sm font-bold">
+                <button class="rounded-lg bg-[#C1562E] px-4 py-2 text-white">
+                    Publicar aviso
+                </button>
+                <span class="rounded-full bg-[#C1562E] px-3 py-1 text-xs tracking-widest text-white">
+                    USUARIO
+                </span>
+                <span>Rosa Quispe ▾</span>
+            </div>
+        </div>
+
+        <nav class="flex flex-wrap gap-6 border-t border-[#E8DFD8] px-8 py-3 text-sm font-bold">
+            <a href="#">Catálogo</a>
+            <a href="#">Mis publicaciones</a>
+            <a href="#">Favoritos</a>
+            <a href="#">Ofertas</a>
+            <a href="#" class="border-b-2 border-[#C1562E] text-[#C1562E]">Acuerdos</a>
+            <a href="#">Calificaciones</a>
+            <a href="#">Mi cuenta</a>
+        </nav>
+    </header>
+
+    <!-- DETALLE DEL ACUERDO: PÁGINA 5.4 DE EJEMPLO -->
+    <main class="mx-auto w-full max-w-[1400px] flex-1 px-6 py-6">
+
+        <p class="mb-2 text-xs text-[#7A6A62]">
+            Mis acuerdos › A-2314
+        </p>
+
+        <div class="mb-5 flex flex-wrap items-center gap-3">
+            <h1 class="text-3xl font-extrabold">Acuerdo A-2314</h1>
+            <span id="estadoAcuerdo"
+                  class="rounded-full bg-[#EAF2FA] px-4 py-1 text-sm font-bold text-[#3B6FA8]">
+                Esperando respuesta
+            </span>
+        </div>
+
+        <!-- PRODUCTO -->
+        <section class="mb-4 rounded-xl border border-[#E8DFD8] bg-white p-4">
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="foto-ejemplo h-24 w-28 rounded-lg"></div>
+
+                <div class="flex-1">
+                    <h2 class="text-lg font-extrabold">
+                        Cálculo de una variable — Stewart, 8.ª ed.
+                    </h2>
+                    <p class="text-sm text-[#7A6A62]">
+                        Libros universitarios · Buen estado
+                    </p>
+                    <p class="mt-1 text-2xl font-extrabold">S/ 88.00</p>
+                </div>
+
+                <a href="#" class="font-bold text-[#C1562E]">
+                    Ver el aviso
+                </a>
+            </div>
+        </section>
+
+        <!-- DATOS DEL ENCUENTRO -->
+        <section class="mb-4 rounded-xl border border-[#E8DFD8] bg-white p-5">
+            <h2 class="mb-4 text-lg font-extrabold text-[#C1562E]">
+                Datos del encuentro
+            </h2>
+
+            <div class="grid gap-5 sm:grid-cols-3">
+                <div>
+                    <p class="text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                        PUNTO DE ENCUENTRO
+                    </p>
+                    <p class="mt-1 font-bold">Biblioteca</p>
+                </div>
+
+                <div>
+                    <p class="text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                        FECHA
+                    </p>
+                    <p class="mt-1 font-bold">29/10/2026</p>
+                </div>
+
+                <div>
+                    <p class="text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                        FRANJA HORARIA
+                    </p>
+                    <p class="mt-1 font-bold">10:00 – 12:00</p>
+                </div>
+            </div>
+
+            <hr class="my-4 border-[#E8DFD8]">
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                    <p class="text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                        COMPRADOR
+                    </p>
+                    <p class="mt-2 font-bold">Andrés Castillo Paredes</p>
+                    <p class="text-sm text-[#7A6A62]">4.9 ★ · Comprador</p>
+                </div>
+
+                <div>
+                    <p class="text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                        VENDEDORA
+                    </p>
+                    <p class="mt-2 font-bold">Rosa María Quispe Ríos (tú)</p>
+                    <p class="text-sm text-[#7A6A62]">4.8 ★ · Vendedora</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTONES DEL ACUERDO -->
+        <section class="rounded-xl border border-[#E8DFD8] bg-white p-4">
+            <button
+                id="abrirModal"
+                type="button"
+                class="w-full rounded-lg bg-[#B8322A] px-5 py-3 font-bold text-white hover:bg-[#922820] sm:w-auto"
+            >
+                Cancelar el acuerdo
+            </button>
+
+            <p class="mt-3 text-sm text-[#7A6A62]">
+                Si cancelas, el aviso volverá al catálogo y se registrará
+                el motivo en el historial del acuerdo.
+            </p>
+        </section>
+
+        <!-- MENSAJE DESPUÉS DE CANCELAR -->
+        <div
+            id="mensajeExito"
+            class="oculto mt-5 rounded-lg border border-[#E8B8B2] bg-[#F9E8E6] p-4 text-sm"
+            role="status"
+            aria-live="polite"
+        >
+            <strong class="text-[#B8322A]">Acuerdo cancelado.</strong>
+            <span id="detalleExito">
+                El aviso volvió al catálogo.
+            </span>
+        </div>
+    </main>
+
+    <!-- MODAL 5.5 -->
+    <div
+        id="fondoModal"
+        class="modal-fondo oculto"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloModal"
+    >
+        <section class="modal-contenido">
+
+            <!-- ENCABEZADO -->
+            <div class="mb-3 flex items-center gap-3">
+                <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#F9E8E6] text-xl font-extrabold text-[#B8322A]">
+                    !
+                </span>
+
+                <div>
+                    <h2 id="tituloModal" class="text-xl font-extrabold sm:text-2xl">
+                        Cancelar el acuerdo A-2314
+                    </h2>
+                </div>
+            </div>
+
+            <p class="mb-4 text-sm leading-6 text-[#7A6A62]">
+                Cancelar un acuerdo afecta tu reputación y se registra
+                en el historial de ambas partes.
+            </p>
+
+            <!-- ESTADO INICIAL: SIN MOTIVO -->
+            <div
+                id="avisoInicial"
+                class="mb-4 rounded-lg border border-[#D92D20] bg-[#F9E8E6] p-3 text-sm"
+            >
+                Selecciona un motivo para poder cancelar el acuerdo.
+            </div>
+
+            <!-- AVISO AL SELECCIONAR MOTIVO -->
+            <div
+                id="avisoSeleccionado"
+                class="oculto mb-4 rounded-lg border border-[#D97706] bg-[#FBF1DF] p-3 text-sm"
+            >
+                <strong class="text-[#B66A00]">
+                    El aviso volverá al estado publicado
+                </strong>
+                y podrá recibir ofertas nuevamente.
+            </div>
+
+            <p class="mb-3 text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                MOTIVO DE LA CANCELACIÓN <span class="text-red-600">*</span>
+            </p>
+
+            <!-- ESTADO INICIAL: 3 OPCIONES -->
+            <div id="opcionesIniciales" class="space-y-2">
+                <label class="motivo">
+                    <input type="radio" name="motivoInicial" value="asistencia">
+                    <span class="text-sm">Ya no puedo asistir al encuentro</span>
+                </label>
+
+                <label class="motivo">
+                    <input type="radio" name="motivoInicial" value="respuesta">
+                    <span class="text-sm">La contraparte no responde</span>
+                </label>
+
+                <label class="motivo">
+                    <input type="radio" name="motivoInicial" value="otro">
+                    <span class="text-sm">Otro motivo</span>
+                </label>
+            </div>
+
+            <!-- ESTADO CON SELECCIÓN: FORMULARIO COMPLETO -->
+            <div id="formularioCompleto" class="oculto">
+
+                <div id="opcionesCompletas" class="space-y-2">
+                    <label class="motivo">
+                        <input type="radio" name="motivoCompleto" value="asistencia">
+                        <span class="text-sm">Ya no puedo asistir al encuentro</span>
+                    </label>
+
+                    <label class="motivo">
+                        <input type="radio" name="motivoCompleto" value="respuesta">
+                        <span class="text-sm">La contraparte no responde</span>
+                    </label>
+
+                    <label class="motivo">
+                        <input type="radio" name="motivoCompleto" value="producto">
+                        <span class="text-sm">El producto ya no está disponible</span>
+                    </label>
+
+                    <label class="motivo">
+                        <input type="radio" name="motivoCompleto" value="horario">
+                        <span class="text-sm">No llegamos a un acuerdo de horario</span>
+                    </label>
+
+                    <label class="motivo">
+                        <input type="radio" name="motivoCompleto" value="otro">
+                        <span class="text-sm">Otro motivo</span>
+                    </label>
+                </div>
+
+                <label for="comentario" class="mt-4 mb-2 block text-xs font-extrabold tracking-widest text-[#7A6A62]">
+                    COMENTARIO PARA LA CONTRAPARTE (OPCIONAL)
+                </label>
+
+                <textarea
+                    id="comentario"
+                    rows="3"
+                    maxlength="500"
+                    placeholder="Cuéntale brevemente qué pasó..."
+                    class="w-full resize-y rounded-lg border border-[#E8DFD8] px-3 py-3 text-sm outline-none focus:border-[#C1562E]"
+                ></textarea>
+            </div>
+
+            <!-- BOTONES -->
+            <div class="mt-5 flex flex-wrap items-center justify-end gap-3">
+                <button
+                    id="volver"
+                    type="button"
+                    class="rounded-lg px-4 py-3 text-sm font-bold text-[#C1562E] hover:bg-[#FBEBE3]"
+                >
+                    Volver
+                </button>
+
+                <button
+                    id="confirmarCancelacion"
+                    type="button"
+                    disabled
+                    class="cursor-not-allowed rounded-lg bg-[#E8DFD8] px-5 py-3 text-sm font-bold text-[#7A6A62]"
+                >
+                    Cancelar el acuerdo
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="border-t border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1400px] flex-wrap justify-between gap-4 px-6 py-6 text-sm">
+            <p class="text-[#7A6A62]">
+                Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600
+            </p>
+
+            <div class="flex flex-wrap gap-5 font-bold text-[#C1562E]">
+                <a href="#">Normas del tablón</a>
+                <a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a>
+                <a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const fondoModal = document.getElementById("fondoModal");
+        const abrirModal = document.getElementById("abrirModal");
+        const volver = document.getElementById("volver");
+        const confirmar = document.getElementById("confirmarCancelacion");
+
+        const avisoInicial = document.getElementById("avisoInicial");
+        const avisoSeleccionado = document.getElementById("avisoSeleccionado");
+        const opcionesIniciales = document.getElementById("opcionesIniciales");
+        const formularioCompleto = document.getElementById("formularioCompleto");
+
+        const comentario = document.getElementById("comentario");
+        const mensajeExito = document.getElementById("mensajeExito");
+        const estadoAcuerdo = document.getElementById("estadoAcuerdo");
+
+        let motivoSeleccionado = "";
+
+        const nombresMotivos = {
+            asistencia: "Ya no puedo asistir al encuentro",
+            respuesta: "La contraparte no responde",
+            producto: "El producto ya no está disponible",
+            horario: "No llegamos a un acuerdo de horario",
+            otro: "Otro motivo"
+        };
+
+        function actualizarBoton(habilitado) {
+            confirmar.disabled = !habilitado;
+
+            confirmar.classList.toggle("cursor-not-allowed", !habilitado);
+            confirmar.classList.toggle("bg-[#E8DFD8]", !habilitado);
+            confirmar.classList.toggle("text-[#7A6A62]", !habilitado);
+
+            confirmar.classList.toggle("bg-[#B8322A]", habilitado);
+            confirmar.classList.toggle("text-white", habilitado);
+            confirmar.classList.toggle("hover:bg-[#922820]", habilitado);
+        }
+
+        function limpiarSeleccion() {
+            document.querySelectorAll(
+                'input[name="motivoInicial"], input[name="motivoCompleto"]'
+            ).forEach(function (radio) {
+                radio.checked = false;
+                radio.closest(".motivo").classList.remove("seleccionado");
+            });
+
+            motivoSeleccionado = "";
+            comentario.value = "";
+
+            opcionesIniciales.classList.remove("oculto");
+            formularioCompleto.classList.add("oculto");
+
+            avisoInicial.classList.remove("oculto");
+            avisoSeleccionado.classList.add("oculto");
+
+            actualizarBoton(false);
+        }
+
+        function seleccionarMotivo(valor) {
+            motivoSeleccionado = valor;
+
+            opcionesIniciales.classList.add("oculto");
+            formularioCompleto.classList.remove("oculto");
+
+            avisoInicial.classList.add("oculto");
+            avisoSeleccionado.classList.remove("oculto");
+
+            document.querySelectorAll(
+                'input[name="motivoCompleto"]'
+            ).forEach(function (radio) {
+                radio.checked = radio.value === valor;
+                radio.closest(".motivo").classList.toggle(
+                    "seleccionado",
+                    radio.checked
+                );
+            });
+
+            actualizarBoton(true);
+        }
+
+        // Abrir el modal desde Detalle del acuerdo (5.4).
+        abrirModal.addEventListener("click", function () {
+            limpiarSeleccion();
+            mensajeExito.classList.add("oculto");
+            fondoModal.classList.remove("oculto");
+            document.body.style.overflow = "hidden";
+        });
+
+        // Elegir una de las 3 opciones del estado inicial.
+        document.querySelectorAll(
+            'input[name="motivoInicial"]'
+        ).forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                document.querySelectorAll(
+                    'input[name="motivoInicial"]'
+                ).forEach(function (item) {
+                    item.closest(".motivo").classList.toggle(
+                        "seleccionado",
+                        item.checked
+                    );
+                });
+
+                seleccionarMotivo(radio.value);
+            });
+        });
+
+        // Cambiar el motivo en el formulario completo.
+        document.querySelectorAll(
+            'input[name="motivoCompleto"]'
+        ).forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                motivoSeleccionado = radio.value;
+
+                document.querySelectorAll(
+                    'input[name="motivoCompleto"]'
+                ).forEach(function (item) {
+                    item.closest(".motivo").classList.toggle(
+                        "seleccionado",
+                        item.checked
+                    );
+                });
+
+                actualizarBoton(true);
+            });
+        });
+
+        // Cerrar sin cancelar.
+        function cerrarModal() {
+            fondoModal.classList.add("oculto");
+            document.body.style.overflow = "";
+        }
+
+        volver.addEventListener("click", cerrarModal);
+
+        // Cerrar si se pulsa fuera de la ventana.
+        fondoModal.addEventListener("click", function (event) {
+            if (event.target === fondoModal) {
+                cerrarModal();
+            }
+        });
+
+        // Escape cierra el modal.
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" &&
+                !fondoModal.classList.contains("oculto")) {
+                cerrarModal();
+            }
+        });
+
+        // Confirmar cancelación.
+        confirmar.addEventListener("click", function () {
+            if (!motivoSeleccionado) {
+                return;
+            }
+
+            const motivo = nombresMotivos[motivoSeleccionado];
+            const textoComentario = comentario.value.trim();
+
+            cerrarModal();
+
+            estadoAcuerdo.textContent = "Cancelado";
+            estadoAcuerdo.className =
+                "rounded-full bg-[#F9E8E6] px-4 py-1 text-sm font-bold text-[#B8322A]";
+
+            document.getElementById("detalleExito").textContent =
+                " Motivo: " + motivo +
+                (textoComentario ? ". Comentario: " + textoComentario : "") +
+                ". El aviso volvió al catálogo.";
+
+            mensajeExito.classList.remove("oculto");
+            abrirModal.classList.add("oculto");
+
+            mensajeExito.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        });
+    </script>
+
+</body>
+</html>

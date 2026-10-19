@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tablón ULima · Acuerdo generado</title>
+
+    <!-- Fuente utilizada en las páginas del proyecto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS, igual que en el código de tus compañeros -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: "Nunito Sans", sans-serif;
+        }
+
+        .foto-ejemplo {
+            background: repeating-linear-gradient(
+                45deg,
+                #eadfd7 0 8px,
+                #f7eee8 8px 16px
+            );
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
+
+    <!-- ENCABEZADO PRINCIPAL -->
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-4 px-6 py-3 lg:px-10">
+
+            <a href="Landing.html"
+               class="flex items-center gap-2 whitespace-nowrap text-lg font-extrabold">
+                <span class="h-8 w-8 rounded-lg bg-[#C1562E]"></span>
+                Tablón ULima
+            </a>
+
+            <form action="Landing.html" class="mx-auto w-full max-w-md">
+                <label for="busqueda" class="sr-only">Buscar avisos</label>
+                <input
+                    id="busqueda"
+                    type="search"
+                    placeholder="Buscar libros, calculadoras, apuntes..."
+                    class="w-full rounded-lg border border-[#E8DFD8] bg-[#FDFAF7] px-3 py-2 text-sm outline-none focus:border-[#C1562E]"
+                >
+            </form>
+
+            <div class="ml-auto flex flex-wrap items-center gap-3 text-sm">
+                <a href="NuevoAviso.html"
+                   class="rounded-lg bg-[#C1562E] px-4 py-2 font-bold text-white hover:bg-[#9A4223]">
+                    Publicar aviso
+                </a>
+
+                <span class="rounded-full bg-[#C1562E] px-3 py-1 text-xs font-extrabold tracking-widest text-white">
+                    USUARIO
+                </span>
+
+                <span class="flex h-8 w-8 items-center justify-center rounded-full border border-[#E8DFD8] bg-[#FBEBE3] text-xs">
+                    RQ
+                </span>
+
+                <span class="font-bold">Rosa Quispe ▾</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav class="border-b border-[#E8DFD8] bg-white"
+         aria-label="Navegación principal">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap gap-1 px-6 lg:px-10">
+
+            <a href="Catalogo.html"
+               class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Catálogo
+            </a>
+
+            <a href="MisPublicaciones.html"
+               class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Mis publicaciones
+            </a>
+
+            <a href="Favoritos.html"
+               class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Favoritos
+            </a>
+
+            <a href="Ofertas.html"
+               class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Ofertas
+            </a>
+
+            <a href="AcuerdoGenerado.html"
+               aria-current="page"
+               class="border-b-2 border-[#C1562E] px-3 py-3 text-sm font-bold text-[#C1562E]">
+                Acuerdos
+            </a>
+
+            <a href="Calificaciones.html"
+               class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Calificaciones
+            </a>
+
+            <a href="MiCuenta.html"
+               class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Mi cuenta
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex flex-1 items-center justify-center px-4 py-8 sm:px-6">
+
+        <section class="w-full max-w-[810px] rounded-lg border-2 border-[#32845F] bg-white p-5 sm:p-8 lg:p-10"
+                 aria-labelledby="tituloAcuerdo">
+
+            <!-- MENSAJE DE CONFIRMACIÓN -->
+            <div class="text-center">
+
+                <div class="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[#E5F2EB] text-4xl text-[#32845F]"
+                     aria-hidden="true">
+                    ✓
+                </div>
+
+                <h1 id="tituloAcuerdo"
+                    class="mt-4 text-3xl font-extrabold">
+                    ¡Trato cerrado!
+                </h1>
+
+                <p class="mt-2 text-sm leading-6 text-[#7A6A62] sm:text-base">
+                    Aceptaste la oferta de Andrés Castillo Paredes.
+                    Ahora propongan un punto y un horario de encuentro
+                    dentro del campus.
+                </p>
+            </div>
+
+            <!-- INFORMACIÓN DEL LIBRO -->
+            <article class="mt-6 flex flex-col gap-4 rounded-lg border border-[#E8DFD8] bg-[#FDFAF7] p-3 sm:flex-row sm:items-center">
+
+                <div class="foto-ejemplo h-[100px] w-full shrink-0 rounded-md sm:w-[112px]"
+                     role="img"
+                     aria-label="Imagen de ejemplo del libro">
+                </div>
+
+                <div class="min-w-0 flex-1">
+                    <h2 class="font-extrabold">
+                        Cálculo de una variable — Stewart, 8.ª ed.
+                    </h2>
+
+                    <p class="text-xs text-[#7A6A62] sm:text-sm">
+                        Libros de texto · Cálculo I · Muy buen estado
+                    </p>
+
+                    <div class="mt-1 flex flex-wrap items-baseline gap-3">
+                        <p class="text-2xl font-extrabold text-[#32845F]">
+                            S/ 88.00
+                        </p>
+
+                        <p class="text-xs text-[#7A6A62]">
+                            Monto acordado (precio pedido S/ 95.00)
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- DATOS DEL ACUERDO -->
+            <div class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
+
+                <section class="rounded-lg border border-[#E8DFD8] p-3">
+                    <h2 class="text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                        COMPRADOR
+                    </h2>
+
+                    <p class="mt-1 text-sm font-bold">
+                        Andrés Castillo Paredes
+                    </p>
+
+                    <p class="text-xs text-[#7A6A62]">
+                        Ing. Industrial · 4.9 ★
+                    </p>
+
+                    <p class="text-xs text-[#7A6A62]">
+                        987 123 456
+                    </p>
+                </section>
+
+                <section class="rounded-lg border border-[#E8DFD8] p-3">
+                    <h2 class="text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                        CÓDIGO DEL ACUERDO
+                    </h2>
+
+                    <p class="mt-1 font-mono text-2xl font-extrabold">
+                        A-2314
+                    </p>
+
+                    <p class="text-xs text-[#7A6A62]">
+                        Generado el 31/08/2026
+                    </p>
+                </section>
+
+                <section class="rounded-lg border border-[#E8DFD8] p-3">
+                    <h2 class="text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                        SIGUIENTE PASO
+                    </h2>
+
+                    <p class="mt-1 text-sm font-bold">
+                        Coordinar el encuentro
+                    </p>
+
+                    <p class="text-xs text-[#7A6A62]">
+                        Tienen 48 horas para acordarlo
+                    </p>
+                </section>
+
+            </div>
+
+            <!-- AVISO INFORMATIVO -->
+            <aside class="mt-4 rounded-md border border-[#E8DFD8] bg-[#FBEBE3] p-3 text-xs leading-5 sm:text-sm">
+                Las otras 2 ofertas de este aviso se rechazaron
+                automáticamente y el aviso quedó reservado hasta la entrega.
+            </aside>
+
+            <!-- BOTONES -->
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+
+                <a href="CoordinarEncuentro.html"
+                   class="rounded-lg bg-[#C1562E] px-5 py-3 text-center text-sm font-bold text-white hover:bg-[#9A4223]">
+                    Proponer punto y horario
+                </a>
+
+                <a href="MisAcuerdos.html"
+                   class="rounded-lg border border-[#C1562E] px-5 py-3 text-center text-sm font-bold text-[#C1562E] hover:bg-[#FBEBE3]">
+                    Ver mis acuerdos
+                </a>
+
+            </div>
+
+        </section>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="border-t border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-5 text-xs sm:text-sm lg:px-16">
+
+            <p class="text-[#7A6A62]">
+                Universidad de Lima · Campus Monterrico ·
+                Av. Javier Prado Este 4600
+            </p>
+
+            <div class="flex flex-wrap gap-5 font-bold text-[#C1562E]">
+                <a href="Landing.html#normas">Normas del tablón</a>
+                <a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a>
+                <a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>

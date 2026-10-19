@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tablón ULima · Coordinar punto y horario</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: "Nunito Sans", sans-serif;
+        }
+
+        .foto-ejemplo {
+            background: repeating-linear-gradient(
+                45deg,
+                #eadfd7 0 8px,
+                #f7eee8 8px 16px
+            );
+        }
+
+        input[type="radio"] {
+            accent-color: #C1562E;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen flex-col bg-[#FDFAF7] text-[#2A211C]">
+
+    <!-- ENCABEZADO -->
+    <header class="border-b border-[#E8DFD8] bg-white">
+        <div class="mx-auto flex max-w-[1920px] flex-wrap items-center gap-4 px-6 py-3 lg:px-10">
+
+            <a href="Landing.html"
+               class="flex items-center gap-2 whitespace-nowrap text-lg font-extrabold">
+                <span class="h-8 w-8 rounded-lg bg-[#C1562E]"></span>
+                Tablón ULima
+            </a>
+
+            <form action="Landing.html" class="mx-auto w-full max-w-md">
+                <label for="busqueda" class="sr-only">Buscar avisos</label>
+                <input
+                    id="busqueda"
+                    type="search"
+                    placeholder="Buscar libros, calculadoras, apuntes..."
+                    class="w-full rounded-lg border border-[#E8DFD8] bg-[#FDFAF7] px-3 py-2 text-sm outline-none focus:border-[#C1562E]"
+                >
+            </form>
+
+            <div class="ml-auto flex flex-wrap items-center gap-3 text-sm">
+
+                <a href="NuevoAviso.html"
+                   class="rounded-lg bg-[#C1562E] px-4 py-2 font-bold text-white hover:bg-[#9A4223]">
+                    Publicar aviso
+                </a>
+
+                <span class="rounded-full bg-[#C1562E] px-3 py-1 text-xs font-extrabold tracking-widest text-white">
+                    USUARIO
+                </span>
+
+                <span class="flex h-8 w-8 items-center justify-center rounded-full border border-[#E8DFD8] bg-[#FBEBE3] text-xs">
+                    RQ
+                </span>
+
+                <span class="font-bold">Rosa Quispe ▾</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav class="border-b border-[#E8DFD8] bg-white"
+         aria-label="Navegación principal">
+
+        <div class="mx-auto flex max-w-[1920px] flex-wrap gap-1 px-6 lg:px-10">
+
+            <a href="Catalogo.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Catálogo
+            </a>
+
+            <a href="MisPublicaciones.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Mis publicaciones
+            </a>
+
+            <a href="Favoritos.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Favoritos
+            </a>
+
+            <a href="Ofertas.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Ofertas
+            </a>
+
+            <a href="AcuerdoGenerado.html"
+               class="border-b-2 border-[#C1562E] px-3 py-3 text-sm font-bold text-[#C1562E]">
+                Acuerdos
+            </a>
+
+            <a href="Calificaciones.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Calificaciones
+            </a>
+
+            <a href="MiCuenta.html" class="px-3 py-3 text-sm font-bold hover:text-[#C1562E]">
+                Mi cuenta
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="mx-auto w-full max-w-[1920px] flex-1 px-5 py-4 sm:px-8 lg:px-16">
+
+        <!-- RUTA Y TÍTULO -->
+        <p class="text-xs text-[#7A6A62]">
+            <a href="MisAcuerdos.html" class="hover:text-[#C1562E]">Mis acuerdos</a>
+            › A-2287 › Coordinar la entrega
+        </p>
+
+        <div class="mt-1 flex flex-wrap items-center gap-3">
+
+            <h1 class="text-2xl font-extrabold sm:text-3xl">
+                Coordinar la entrega
+            </h1>
+
+            <span class="rounded-full bg-[#FBF0DA] px-4 py-1.5 text-xs font-extrabold text-[#B87512]">
+                Propuesta recibida — te toca responder
+            </span>
+        </div>
+
+        <!-- TRES COLUMNAS -->
+        <div class="mt-2 grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[1.02fr_1.03fr_.78fr]">
+
+            <!-- COLUMNA 1: PROPUESTA RECIBIDA -->
+            <section class="rounded-lg border-2 border-[#C18419] bg-[#FBF1DF] p-3 sm:p-4">
+
+                <p class="text-[10px] font-extrabold tracking-[.16em] text-[#B87512]">
+                    PROPUESTA DE LA CONTRAPARTE
+                </p>
+
+                <h2 class="mt-1 text-xl font-extrabold sm:text-2xl">
+                    Cafetería del pabellón E
+                </h2>
+
+                <p class="mt-1 text-sm font-bold">
+                    Jueves 03/09/2026 · 14:00 – 16:00
+                </p>
+
+                <p class="mt-2 text-xs leading-5 text-[#7A6A62]">
+                    «Salgo de clase a las 14:00, ahí me queda cerca.»
+                </p>
+
+                <div class="my-4 border-t border-[#E8DCC7]"></div>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#E8DFD8] bg-white text-xs font-bold text-[#C1562E]">
+                        MF
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-bold">
+                            Milagros Flores Tito
+                        </p>
+
+                        <p class="text-xs text-[#7A6A62]">
+                            Compradora · Ing. de Sistemas · 5.0 ★
+                        </p>
+                    </div>
+                </div>
+
+                <button
+                    id="aceptarPropuesta"
+                    type="button"
+                    class="mt-5 w-full rounded-md bg-[#32845F] px-4 py-2.5 text-sm font-bold text-white hover:bg-[#256B4B]">
+                    Aceptar esta propuesta
+                </button>
+
+                <p id="mensajeAceptacion"
+                   class="mt-3 hidden rounded-md bg-white p-3 text-sm text-[#32845F]"
+                   role="status">
+                    Has aceptado la propuesta. Ya pueden coordinar la entrega.
+                </p>
+
+                <p class="mt-2 text-center text-xs leading-5 text-[#7A6A62]">
+                    Al aceptar se genera el código de entrega para ambos.
+                </p>
+            </section>
+
+            <!-- COLUMNA 2: PROPONER ALTERNATIVA -->
+            <section class="rounded-lg border border-[#E8DFD8] bg-white p-3 sm:p-4">
+
+                <h2 class="text-lg font-extrabold text-[#C1562E]">
+                    Proponer una alternativa
+                </h2>
+
+                <form id="formAlternativa" class="mt-3">
+
+                    <!-- PUNTO DE ENCUENTRO -->
+                    <fieldset>
+                        <legend class="mb-2 text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                            PUNTO DE ENCUENTRO
+                        </legend>
+
+                        <label class="opcion-punto mb-1 flex cursor-pointer items-center gap-2 rounded-md border p-2.5 text-sm">
+                            <input type="radio" name="punto" value="Biblioteca" checked required>
+                            Biblioteca
+                        </label>
+
+                        <label class="opcion-punto mb-1 flex cursor-pointer items-center gap-2 rounded-md border p-2.5 text-sm">
+                            <input type="radio" name="punto" value="Puerta 1">
+                            Puerta 1
+                        </label>
+
+                        <label class="opcion-punto mb-1 flex cursor-pointer items-center gap-2 rounded-md border p-2.5 text-sm">
+                            <input type="radio" name="punto" value="Explanada central">
+                            Explanada central
+                        </label>
+
+                        <label class="opcion-punto flex cursor-pointer items-center gap-2 rounded-md border p-2.5 text-sm">
+                            <input type="radio" name="punto" value="Patio del pabellón H">
+                            Patio del pabellón H
+                        </label>
+                    </fieldset>
+
+                    <!-- FECHA -->
+                    <div class="mt-3">
+
+                        <label for="fecha"
+                               class="mb-1 block text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                            FECHA
+                        </label>
+
+                        <input
+                            id="fecha"
+                            name="fecha"
+                            type="date"
+                            value="2026-09-04"
+                            required
+                            class="w-full rounded-md border border-[#E8DFD8] bg-white px-3 py-2 text-sm outline-none focus:border-[#C1562E]"
+                        >
+                    </div>
+
+                    <!-- FRANJA HORARIA -->
+                    <fieldset class="mt-3">
+
+                        <legend class="mb-2 text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                            FRANJA HORARIA
+                        </legend>
+
+                        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+
+                            <label class="opcion-horario flex cursor-pointer items-center justify-center rounded-full border px-2 py-2 text-xs">
+                                <input class="sr-only" type="radio" name="horario" value="08:00 – 10:00" required checked>
+                                08:00 – 10:00
+                            </label>
+
+                            <label class="opcion-horario flex cursor-pointer items-center justify-center rounded-full border px-2 py-2 text-xs">
+                                <input class="sr-only" type="radio" name="horario" value="10:00 – 12:00">
+                                10:00 – 12:00
+                            </label>
+
+                            <label class="opcion-horario flex cursor-pointer items-center justify-center rounded-full border px-2 py-2 text-xs">
+                                <input class="sr-only" type="radio" name="horario" value="14:00 – 16:00">
+                                14:00 – 16:00
+                            </label>
+
+                            <label class="opcion-horario flex cursor-pointer items-center justify-center rounded-full border px-2 py-2 text-xs">
+                                <input class="sr-only" type="radio" name="horario" value="16:00 – 18:00">
+                                16:00 – 18:00
+                            </label>
+
+                        </div>
+                    </fieldset>
+
+                    <!-- MENSAJE OPCIONAL -->
+                    <div class="mt-3">
+
+                        <label for="mensaje"
+                               class="mb-1 block text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                            MENSAJE (OPCIONAL)
+                        </label>
+
+                        <textarea
+                            id="mensaje"
+                            name="mensaje"
+                            rows="3"
+                            placeholder="¿Podría ser temprano en la Biblioteca?"
+                            class="w-full resize-y rounded-md border border-[#E8DFD8] bg-white px-3 py-3 text-sm outline-none focus:border-[#C1562E]"
+                        ></textarea>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="mt-3 w-full rounded-md border border-[#C1562E] px-4 py-2 text-sm font-bold text-[#C1562E] hover:bg-[#FBEBE3]">
+                        Enviar alternativa
+                    </button>
+
+                    <p id="mensajeFormulario"
+                       class="mt-3 hidden rounded-md bg-[#E5F2EB] p-3 text-sm text-[#32845F]"
+                       role="status">
+                    </p>
+
+                </form>
+            </section>
+
+            <!-- COLUMNA 3: RESUMEN E HISTORIAL -->
+            <aside class="flex flex-col gap-2">
+
+                <!-- RESUMEN DEL ACUERDO -->
+                <section class="rounded-lg border border-[#E8DFD8] bg-white p-3">
+
+                    <h2 class="text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                        ACUERDO A-2287
+                    </h2>
+
+                    <div class="mt-2 flex gap-3">
+
+                        <div class="foto-ejemplo h-16 w-[82px] shrink-0 rounded-md"
+                             role="img"
+                             aria-label="Imagen de ejemplo de una calculadora">
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold">
+                                Calculadora científica ClassWiz fx-991
+                            </p>
+
+                            <p class="mt-1 text-lg font-extrabold">
+                                S/ 110.00
+                            </p>
+
+                            <p class="text-xs text-[#7A6A62]">
+                                monto acordado
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- HISTORIAL -->
+                <section class="rounded-lg border border-[#E8DFD8] bg-white p-3">
+
+                    <h2 class="text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                        HISTORIAL DE LA COORDINACIÓN
+                    </h2>
+
+                    <ol class="mt-3 space-y-3">
+
+                        <li class="flex gap-3">
+                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#32845F]"></span>
+
+                            <div>
+                                <p class="text-xs font-bold sm:text-sm">
+                                    Oferta aceptada — S/ 110.00
+                                </p>
+                                <p class="text-xs text-[#7A6A62]">
+                                    31/08/2026 · 10:05
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="flex gap-3">
+                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#3B6FA8]"></span>
+
+                            <div>
+                                <p class="text-xs font-bold sm:text-sm">
+                                    Propuesta: Biblioteca · 02/09 · 10:00 – 12:00
+                                </p>
+                                <p class="text-xs text-[#7A6A62]">
+                                    31/08/2026 · 11:20 · tú
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="flex gap-3">
+                            <span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#C18419]"></span>
+
+                            <div>
+                                <p class="text-xs font-bold sm:text-sm">
+                                    Alternativa: Cafetería E · 03/09 · 14:00 – 16:00
+                                </p>
+                                <p class="text-xs text-[#7A6A62]">
+                                    01/09/2026 · 08:42 · Milagros Flores
+                                </p>
+                            </div>
+                        </li>
+
+                    </ol>
+                </section>
+
+                <!-- ESTADOS -->
+                <section class="rounded-lg border border-[#E8DFD8] bg-white p-3">
+
+                    <h2 class="text-[10px] font-extrabold tracking-[.16em] text-[#7A6A62]">
+                        OTROS ESTADOS DE ESTA PANTALLA
+                    </h2>
+
+                    <div class="mt-3 space-y-2">
+
+                        <div class="flex flex-wrap items-center gap-2 rounded-md border border-[#E8DFD8] p-2.5">
+                            <span class="rounded-full bg-[#EAF2FA] px-3 py-1 text-[10px] font-bold text-[#3B6FA8]">
+                                Esperando respuesta
+                            </span>
+                            <p class="flex-1 text-xs text-[#7A6A62]">
+                                Tu propuesta enviada, sin respuesta aún
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2 rounded-md border border-[#E8DFD8] p-2.5">
+                            <span class="rounded-full bg-[#FBF0DA] px-3 py-1 text-[10px] font-bold text-[#B87512]">
+                                Propuesta recibida
+                            </span>
+                            <p class="flex-1 text-xs text-[#7A6A62]">
+                                Estado mostrado en esta vista
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2 rounded-md border border-[#E8DFD8] p-2.5">
+                            <span class="rounded-full bg-[#E5F2EB] px-3 py-1 text-[10px] font-bold text-[#32845F]">
+                                Acordado
+                            </span>
+                            <p class="flex-1 text-xs text-[#7A6A62]">
+                                Ver 5.4 Detalle del acuerdo
+                            </p>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- AVISO -->
+                <p class="rounded-md border border-[#E8DFD8] bg-[#FBEBE3] p-3 text-xs leading-5">
+                    Si nadie responde en 48 horas, el acuerdo se marca como pendiente y cualquiera de las partes puede cancelarlo sin penalidad.
+                </p>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="border-t border-[#E8DFD8] bg-white">
+
+        <div class="mx-auto flex max-w-[1920px] flex-wrap justify-between gap-4 px-6 py-5 text-xs sm:text-sm lg:px-16">
+
+            <p class="text-[#7A6A62]">
+                Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600
+            </p>
+
+            <div class="flex flex-wrap gap-5 font-bold text-[#C1562E]">
+                <a href="Landing.html#normas">Normas del tablón</a>
+                <a href="mailto:tablon@ulima.edu.pe">Mesa de ayuda</a>
+                <a href="mailto:tablon@ulima.edu.pe">tablon@ulima.edu.pe</a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Obtener los elementos del documento
+        const botonAceptar = document.getElementById("aceptarPropuesta");
+        const mensajeAceptacion = document.getElementById("mensajeAceptacion");
+
+        const formulario = document.getElementById("formAlternativa");
+        const mensajeFormulario = document.getElementById("mensajeFormulario");
+
+        // Cambiar los colores de las opciones seleccionadas
+        function actualizarOpciones(claseOpcion) {
+
+            const opciones = document.querySelectorAll("." + claseOpcion);
+
+            opciones.forEach(function (opcion) {
+
+                const radio = opcion.querySelector('input[type="radio"]');
+
+                if (radio.checked) {
+
+                    // Pintar la opción seleccionada
+                    opcion.classList.add("border-[#C1562E]", "bg-[#FBEBE3]");
+                    opcion.classList.remove("border-[#E8DFD8]");
+
+                } else {
+
+                    // Quitar el color de las opciones no seleccionadas
+                    opcion.classList.remove("border-[#C1562E]", "bg-[#FBEBE3]");
+                    opcion.classList.add("border-[#E8DFD8]");
+
+                }
+            });
+        }
+
+        // Detectar la selección del punto de encuentro
+        document.querySelectorAll('input[name="punto"]').forEach(function (radio) {
+
+            radio.addEventListener("change", function () {
+                actualizarOpciones("opcion-punto");
+            });
+
+        });
+
+        // Detectar la selección de la franja horaria
+        document.querySelectorAll('input[name="horario"]').forEach(function (radio) {
+
+            radio.addEventListener("change", function () {
+                actualizarOpciones("opcion-horario");
+            });
+
+        });
+
+        // Aplicar los colores iniciales
+        actualizarOpciones("opcion-punto");
+        actualizarOpciones("opcion-horario");
+
+        // Aceptar la propuesta
+        botonAceptar.addEventListener("click", function () {
+
+            mensajeAceptacion.classList.remove("hidden");
+
+            botonAceptar.textContent = "Propuesta aceptada";
+            botonAceptar.disabled = true;
+            botonAceptar.classList.add("opacity-70");
+
+        });
+
+        // Enviar la alternativa
+        formulario.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const punto = document.querySelector('input[name="punto"]:checked').value;
+            const fecha = document.getElementById("fecha").value;
+            const horario = document.querySelector('input[name="horario"]:checked').value;
+            const mensaje = document.getElementById("mensaje").value.trim();
+
+            mensajeFormulario.textContent =
+                "Alternativa preparada: " + punto + ", " + fecha +
+                ", " + horario +
+                (mensaje ? ". Mensaje: " + mensaje : "") +
+                ". Esta es una demostración; aún no se envía a otro usuario.";
+
+            mensajeFormulario.classList.remove("hidden");
+
+        });
+    </script>
+
+</body>
+</html>
