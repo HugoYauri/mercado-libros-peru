@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { usuarioActivo } from '../../assets/js/compartido/sesion.js';
 import { esParticipante, responderOferta } from '../../assets/js/hu4/ofertas.js';
+import AcuerdoGenerado from '../acuerdos/AcuerdoGenerado.jsx';
 import Marco, {
   dinero,
   fechaLegible,
@@ -19,12 +20,14 @@ export default function DetalleOferta() {
   const [comentario, setComentario] = useState('');
   const [error, setError] = useState('');
   const [aviso, setAviso] = useState('');
+  const [mostrarAcuerdo, setMostrarAcuerdo] = useState(false);
   const acuerdo = acuerdos.find((item) => item.ofertaId === id);
 
   function confirmar(event) {
     event.preventDefault();
     try {
       responderOferta(id, accion, monto, comentario);
+      if (accion === 'aceptar') setMostrarAcuerdo(true);
       setAccion('');
       setError('');
       setAviso('La respuesta quedó guardada.');
@@ -40,6 +43,15 @@ export default function DetalleOferta() {
         <a href="/ofertas">Volver a ofertas</a>
       </Marco>
     );
+
+  if (mostrarAcuerdo && acuerdo) {
+    return (
+      <AcuerdoGenerado
+        acuerdo={acuerdo}
+        volver={() => setMostrarAcuerdo(false)}
+      />
+    );
+  }
 
   return (
     <Marco
@@ -103,12 +115,21 @@ export default function DetalleOferta() {
           </div>
         )}
         {acuerdo && (
-          <a
-            className="neg-boton"
-            href={`/acuerdos/${acuerdo.id}`}
-          >
-            Ver acuerdo de entrega
-          </a>
+          <div className="neg-acciones">
+            <a
+              className="neg-boton"
+              href={`/acuerdos/${acuerdo.id}`}
+            >
+              Ver acuerdo de entrega
+            </a>
+            <button
+              type="button"
+              className="neg-secundario"
+              onClick={() => setMostrarAcuerdo(true)}
+            >
+              Ver resumen del acuerdo
+            </button>
+          </div>
         )}
       </section>
       {accion && (

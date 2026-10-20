@@ -81,10 +81,16 @@ export default function Marco({
   descripcion,
   children,
   publicaciones = false,
+  acuerdos = false,
+  cuenta = false,
+  sinTitulo = false,
   migas,
   acciones,
+  busquedaLocal,
 }) {
   const usuario = usuarioActivo();
+  const disenoDetallado = publicaciones || acuerdos || cuenta;
+  const prefijo = cuenta ? 'hu1' : acuerdos ? 'hu5' : 'hu2';
   const nombre = usuario
     ? `${usuario.nombres.split(' ')[0]} ${usuario.apellidos.split(' ')[0]}`
     : '';
@@ -101,16 +107,16 @@ export default function Marco({
   if (usuario?.rol === 'administrador')
     enlaces.push(['/administracion', 'Administración']);
   return (
-    <div className={publicaciones ? 'neg-app hu2-app' : 'neg-app'}>
+    <div className={disenoDetallado ? `neg-app ${prefijo}-app` : 'neg-app'}>
       <header className="neg-cabecera">
         <div className="neg-barra">
           <a
             className="neg-marca"
             href="/"
           >
-            {publicaciones ? (
+            {disenoDetallado ? (
               <span
-                className="hu2-logo"
+                className={`${prefijo}-logo`}
                 aria-hidden="true"
               />
             ) : (
@@ -118,11 +124,22 @@ export default function Marco({
             )}
             Tablón ULima
           </a>
-          <form action="/catalogo">
+          <form
+            action="/catalogo"
+            onSubmit={busquedaLocal ? (event) => event.preventDefault() : undefined}
+          >
             <input
+              key={busquedaLocal ? 'busqueda-acuerdos' : 'busqueda-catalogo'}
+              type={busquedaLocal ? 'search' : undefined}
               name="q"
-              aria-label="Buscar productos"
+              aria-label={busquedaLocal ? 'Buscar en mis acuerdos' : 'Buscar productos'}
               placeholder="Buscar libros, calculadoras, apuntes…"
+              value={busquedaLocal?.valor}
+              onChange={
+                busquedaLocal
+                  ? (event) => busquedaLocal.cambiar(event.target.value)
+                  : undefined
+              }
             />
           </form>
           <a
@@ -131,22 +148,22 @@ export default function Marco({
           >
             Publicar aviso
           </a>
-          {usuario && publicaciones ? (
-            <div className="hu2-cuenta">
-              <span className="hu2-rol">
+          {usuario && disenoDetallado ? (
+            <div className={`${prefijo}-cuenta`}>
+              <span className={`${prefijo}-rol`}>
                 {usuario.rol === 'administrador' ? 'Administrador' : 'Usuario'}
               </span>
-              <details className="hu2-menu-cuenta">
+              <details className={`${prefijo}-menu-cuenta`}>
                 <summary>
                   <span
-                    className="hu2-avatar"
+                    className={`${prefijo}-avatar`}
                     aria-hidden="true"
                   >
                     {iniciales}
                   </span>
                   {nombre} <span aria-hidden="true">⌄</span>
                 </summary>
-                <div className="hu2-menu-opciones">
+                <div className={`${prefijo}-menu-opciones`}>
                   <a href="/mi-cuenta">Mi cuenta</a>
                   <button
                     type="button"
@@ -181,40 +198,42 @@ export default function Marco({
           className="neg-navegacion"
           aria-label="Navegación principal"
         >
-          {enlaces.map(([ruta, nombre]) => (
-            <a
-              key={ruta}
-              href={ruta}
-              aria-current={
-                (publicaciones && ruta === '/mis-publicaciones') ||
-                location.pathname.startsWith(ruta)
-                  ? 'page'
-                  : undefined
-              }
-            >
-              {nombre}
-            </a>
-          ))}
+          {enlaces.map(([ruta, nombre]) => {
+            let activo = location.pathname.startsWith(ruta);
+            if (publicaciones) activo = ruta === '/mis-publicaciones';
+            if (acuerdos) activo = ruta === '/acuerdos';
+            return (
+              <a
+                key={ruta}
+                href={ruta}
+                aria-current={activo ? 'page' : undefined}
+              >
+                {nombre}
+              </a>
+            );
+          })}
         </nav>
       </header>
       <main className="neg-contenido">
-        {publicaciones ? (
+        {disenoDetallado ? (
           <>
             {migas && (
               <nav
-                className="hu2-migas"
+                className={`${prefijo}-migas`}
                 aria-label="Ruta de navegación"
               >
                 {migas}
               </nav>
             )}
-            <div className="hu2-titulo-fila">
-              <div>
-                <h1>{titulo}</h1>
-                {descripcion && <p className="neg-subtitulo">{descripcion}</p>}
+            {!sinTitulo && (
+              <div className={`${prefijo}-titulo-fila`}>
+                <div>
+                  <h1>{titulo}</h1>
+                  {descripcion && <p className="neg-subtitulo">{descripcion}</p>}
+                </div>
+                {acciones}
               </div>
-              {acciones}
-            </div>
+            )}
           </>
         ) : (
           <>
@@ -225,8 +244,8 @@ export default function Marco({
         {children}
       </main>
       <footer className="neg-pie">
-        {publicaciones ? (
-          <div className="hu2-pie-interior">
+        {disenoDetallado ? (
+          <div className={`${prefijo}-pie-interior`}>
             <span>
               Universidad de Lima · Campus Monterrico · Av. Javier Prado Este 4600
             </span>

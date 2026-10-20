@@ -1,23 +1,34 @@
-import Marco from '../compartido/Marco.jsx';
+import MarcoCuenta from './MarcoCuenta.jsx';
 
 export default function PaginaNoEncontrada() {
+  function volver() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.assign('/');
+  }
   return (
-    <Marco
-      titulo="Página no encontrada (404)"
-      descripcion="La dirección no existe o el enlace dejó de estar disponible. Puedes volver al catálogo y buscar el material que necesitas."
-    >
-      <section className="neg-tarjeta">
-        <div className="neg-acciones">
+    <MarcoCuenta clase="hu1-estado-pagina">
+      <section>
+        <p className="hu1-numero-404">404</p>
+        <h1>Este aviso ya no está en el tablón</h1>
+        <p className="hu1-intro">
+          Puede que el vendedor lo haya retirado o que el enlace esté mal escrito. Busca
+          algo parecido en el catálogo.
+        </p>
+        <div className="hu1-acciones">
           <a
-            className="neg-boton"
+            className="hu1-boton"
             href="/catalogo"
           >
-            Volver al catálogo
+            Ir al catálogo
           </a>
-          <a href="/">Ir al inicio</a>
-          <a href="/ingresar">Ingresar con otra cuenta</a>
+          <button
+            className="hu1-enlace"
+            onClick={volver}
+          >
+            Volver atrás
+          </button>
         </div>
       </section>
-    </Marco>
+    </MarcoCuenta>
   );
 }
