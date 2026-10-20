@@ -31,10 +31,40 @@ const palabrasPorCampo = {
   fotos: ['fotografía', 'JPG', 'portada'],
 };
 
+const estadosNoEditables = ['Reservado', 'Vendido', 'Retirado', 'Eliminado'];
+
+function puedeEditarAviso(id, aviso, correo) {
+  if (!id) return true;
+  if (!aviso || aviso.owner !== correo) return false;
+  return !estadosNoEditables.includes(aviso.status);
+}
+
+function leerDatosFormulario(formulario) {
+  const valores = new FormData(formulario);
+  return {
+    title: valores.get('title') || '',
+    description: valores.get('description') || '',
+    category: valores.get('category') || '',
+    course: valores.get('course') || '',
+    condition: valores.get('condition') || '',
+    price: valores.get('price') || '',
+    acceptsOffers: valores.has('acceptsOffers'),
+    minimum: valores.get('minimum') || '',
+  };
+}
+
+function obtenerEstadoSeleccionado(event, soloFotos, aviso) {
+  if (soloFotos) return aviso.status;
+  const botonPresionado = event.nativeEvent.submitter;
+  if (botonPresionado && botonPresionado.value) return botonPresionado.value;
+  return 'Publicado';
+}
+
 export default function NuevoAviso({ soloFotos = false, panelFotografias }) {
   const [parametros] = useSearchParams();
   const id = parametros.get('id');
   const existente = id ? obtenerAviso(id) : null;
+  const usuario = usuarioActivo();
   const [archivos, setArchivos] = useState([]);
   const [urls, setUrls] = useState([]);
   const [errores, setErrores] = useState([]);
@@ -49,15 +79,12 @@ export default function NuevoAviso({ soloFotos = false, panelFotografias }) {
     condition: existente?.condition || condiciones[0],
     acceptsOffers: existente?.acceptsOffers !== false,
   });
-  const propietario = !id || existente?.owner === usuarioActivo()?.correo;
-  const editable =
-    propietario &&
-    (!id ||
-      (existente &&
-        !['Reservado', 'Vendido', 'Retirado', 'Eliminado'].includes(existente.status)));
+  const propietario = !id || existente?.owner === usuario?.correo;
+  const editable = puedeEditarAviso(id, existente, usuario?.correo);
   const imagen = !quitarPortada ? existente?.imagen || '' : '';
   const bloqueado = cargando || guardando || errorCarga;
 
+  // Al editar, carga las fotos que ya estaban guardadas para este aviso.
   useEffect(() => {
     let vigente = true;
     if (id && propietario) {
@@ -82,6 +109,7 @@ export default function NuevoAviso({ soloFotos = false, panelFotografias }) {
     };
   }, [id, propietario]);
 
+  // Crea direcciones temporales para mostrar las fotos y las libera al cambiar la lista.
   useEffect(() => {
     const nuevas = archivos.map((archivo) => URL.createObjectURL(archivo));
     setUrls(nuevas);
@@ -89,9 +117,11 @@ export default function NuevoAviso({ soloFotos = false, panelFotografias }) {
   }, [archivos]);
 
   function errorCampo(campo) {
-    return errores.find((error) =>
-      palabrasPorCampo[campo].some((palabra) => error.includes(palabra)),
+    const palabras = palabrasPorCampo[campo] || [];
+    const errorEncontrado = errores.find((error) =>
+      palabras.some((palabra) => error.includes(palabra)),
     );
+    return errorEncontrado || '';
   }
 
   function actualizarVista(event) {
@@ -118,7 +148,7 @@ export default function NuevoAviso({ soloFotos = false, panelFotografias }) {
 
   function mover(origen, destino) {
     const ordenados = [...archivos];
-    const [archivo] = ordenados.splice(origen, 1);
+    const archivo = ordenados.splice(origen, 1)[0];
     ordenados.splice(destino, 0, archivo);
     setArchivos(ordenados);
   }
@@ -128,14 +158,9 @@ export default function NuevoAviso({ soloFotos = false, panelFotografias }) {
     if (!editable || bloqueado) return;
     // En la pantalla de fotos se conservan todos los datos del aviso existente.
     const datos = soloFotos
-      ? { ...existente }
-      : Object.fromEntries(new FormData(event.currentTarget));
-    datos.acceptsOffers = soloFotos
-      ? existente.acceptsOffers !== false
-      : datos.acceptsOffers === 'on';
-    const estado = soloFotos
-      ? existente.status
-      : event.nativeEvent.submitter?.value || 'Publicado';
+      ? { ...existente, acceptsOffers: existente.acceptsOffers !== false }
+      : leerDatosFormulario(event.currentTarget);
+    const estado = obtenerEstadoSeleccionado(event, soloFotos, existente);
     const cantidad = archivos.length + (imagen ? 1 : 0);
     const problemas = validarPublicacion(datos, estado, cantidad);
     if (problemas.length) {

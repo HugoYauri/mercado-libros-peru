@@ -15,6 +15,25 @@ const filtros = [
   ['Reservado', 'Reservados'],
   ['Retirado', 'Retirados'],
 ];
+const avisosPorPagina = 6;
+const estadosNoEditables = ['Reservado', 'Vendido', 'Retirado'];
+
+function contarOfertas(ofertas, estado) {
+  return ofertas.filter((oferta) => oferta.estado === estado).length;
+}
+
+function mensajeOfertasSinPendientes(estadoAviso, aceptadas) {
+  if (estadoAviso === 'Borrador') return '—';
+  if (aceptadas > 0) return `Cerrado con ${aceptadas}`;
+  return 'Sin ofertas';
+}
+
+function obtenerDescripcion(propias, porResponder) {
+  if (propias.length === 0) return 'Ningún aviso todavía';
+  const textoAvisos = propias.length === 1 ? 'aviso' : 'avisos';
+  const textoOfertas = porResponder === 1 ? 'oferta' : 'ofertas';
+  return `${propias.length} ${textoAvisos} · ${porResponder} ${textoOfertas} por responder`;
+}
 
 function fechaPublicacion(aviso) {
   if (aviso.status === 'Borrador') return 'Sin publicar';
@@ -25,9 +44,9 @@ function fechaPublicacion(aviso) {
 
 function FilaPublicacion({ aviso, ofertas, seleccionar }) {
   const [foto, setFoto] = useState(aviso.imagen || '');
-  const editable = !['Reservado', 'Vendido', 'Retirado'].includes(aviso.status);
-  const pendientes = ofertas.filter((oferta) => oferta.estado === 'Pendiente').length;
-  const aceptadas = ofertas.filter((oferta) => oferta.estado === 'Aceptada').length;
+  const editable = !estadosNoEditables.includes(aviso.status);
+  const pendientes = contarOfertas(ofertas, 'Pendiente');
+  const aceptadas = contarOfertas(ofertas, 'Aceptada');
 
   useEffect(() => {
     let vigente = true;
@@ -51,6 +70,11 @@ function FilaPublicacion({ aviso, ofertas, seleccionar }) {
   function abrirModal(event, estado) {
     event.currentTarget.closest('details').open = false;
     seleccionar({ id: aviso.id, titulo: aviso.title, estado });
+  }
+
+  function cambiarEstado(event) {
+    const nuevoEstado = aviso.status === 'Publicado' ? 'Pausado' : 'Publicado';
+    abrirModal(event, nuevoEstado);
   }
 
   return (
@@ -96,11 +120,7 @@ function FilaPublicacion({ aviso, ofertas, seleccionar }) {
           </a>
         ) : (
           <span className="hu2-texto-secundario">
-            {aviso.status === 'Borrador'
-              ? '—'
-              : aceptadas > 0
-                ? `Cerrado con ${aceptadas}`
-                : 'Sin ofertas'}
+            {mensajeOfertasSinPendientes(aviso.status, aceptadas)}
           </span>
         )}
       </td>
@@ -118,12 +138,7 @@ function FilaPublicacion({ aviso, ofertas, seleccionar }) {
                 {aviso.status !== 'Borrador' && (
                   <button
                     type="button"
-                    onClick={(event) =>
-                      abrirModal(
-                        event,
-                        aviso.status === 'Publicado' ? 'Pausado' : 'Publicado',
-                      )
-                    }
+                    onClick={cambiarEstado}
                   >
                     Cambiar estado
                   </button>
@@ -158,20 +173,23 @@ export default function MisPublicaciones() {
   const [seleccion, setSeleccion] = useState(null);
   const [error, setError] = useState('');
   const [mensaje, setMensaje] = useState('');
-  const [, actualizar] = useState(0);
+  const [listaAvisos, setListaAvisos] = useState(avisos);
   const { ofertas } = useNegociaciones();
   const correo = usuarioActivo().correo;
-  const propios = avisos().filter(
+  const propios = listaAvisos.filter(
     (aviso) => aviso.owner === correo && aviso.status !== 'Eliminado',
   );
   const resultados = propios.filter((aviso) => {
-    const coincideEstado = filtro === 'Todos' || aviso.status === filtro;
+    if (filtro !== 'Todos' && aviso.status !== filtro) return false;
     const texto = `${aviso.title} ${aviso.category} ${aviso.course}`.toLowerCase();
-    return coincideEstado && texto.includes(busqueda.trim().toLowerCase());
+    return texto.includes(busqueda.trim().toLowerCase());
   });
-  const paginas = Math.max(1, Math.ceil(resultados.length / 6));
+  const paginas = Math.max(1, Math.ceil(resultados.length / avisosPorPagina));
   const paginaActual = Math.min(pagina, paginas);
-  const visibles = resultados.slice((paginaActual - 1) * 6, paginaActual * 6);
+  const visibles = resultados.slice(
+    (paginaActual - 1) * avisosPorPagina,
+    paginaActual * avisosPorPagina,
+  );
   const porResponder = ofertas.filter(
     (oferta) =>
       oferta.vendedor === correo &&
@@ -199,21 +217,35 @@ export default function MisPublicaciones() {
           ? 'Aviso eliminado. Las ofertas pendientes quedaron cerradas.'
           : 'Publicación actualizada.',
       );
-      actualizar((valor) => valor + 1);
+      setListaAvisos(avisos());
     } catch (problema) {
       setError(problema.message);
     }
   }
 
+  function cambiarFiltro(nuevoFiltro) {
+    setFiltro(nuevoFiltro);
+    setPagina(1);
+  }
+
+  function cambiarBusqueda(event) {
+    setBusqueda(event.target.value);
+    setPagina(1);
+  }
+
+  function limpiarFiltros() {
+    setFiltro('Todos');
+    setBusqueda('');
+    setPagina(1);
+  }
+
+  const descripcion = obtenerDescripcion(propios, porResponder);
+
   return (
     <Marco
       publicaciones
       titulo="Mis publicaciones"
-      descripcion={
-        propios.length
-          ? `${propios.length} ${propios.length === 1 ? 'aviso' : 'avisos'} · ${porResponder} ${porResponder === 1 ? 'oferta' : 'ofertas'} por responder`
-          : 'Ningún aviso todavía'
-      }
+      descripcion={descripcion}
       acciones={
         <a
           href="/nuevo-aviso"
@@ -242,10 +274,7 @@ export default function MisPublicaciones() {
                 type="button"
                 className={'hu2-chip' + (filtro === valor ? ' hu2-chip-activo' : '')}
                 aria-pressed={filtro === valor}
-                onClick={() => {
-                  setFiltro(valor);
-                  setPagina(1);
-                }}
+                onClick={() => cambiarFiltro(valor)}
               >
                 {etiqueta} · {cantidad}
               </button>
@@ -258,10 +287,7 @@ export default function MisPublicaciones() {
             aria-label="Buscar en mis avisos"
             placeholder="Buscar en mis avisos…"
             value={busqueda}
-            onChange={(event) => {
-              setBusqueda(event.target.value);
-              setPagina(1);
-            }}
+            onChange={cambiarBusqueda}
           />
         )}
       </div>
@@ -293,11 +319,7 @@ export default function MisPublicaciones() {
             <button
               type="button"
               className="hu2-boton"
-              onClick={() => {
-                setFiltro('Todos');
-                setBusqueda('');
-                setPagina(1);
-              }}
+              onClick={limpiarFiltros}
             >
               Limpiar filtros
             </button>
@@ -357,9 +379,9 @@ export default function MisPublicaciones() {
             aria-label="Paginación de publicaciones"
           >
             <p aria-live="polite">
-              Mostrando {(paginaActual - 1) * 6 + 1}–
-              {Math.min(paginaActual * 6, resultados.length)} de {resultados.length}{' '}
-              avisos
+              Mostrando {(paginaActual - 1) * avisosPorPagina + 1}–
+              {Math.min(paginaActual * avisosPorPagina, resultados.length)} de{' '}
+              {resultados.length} avisos
             </p>
             <button
               type="button"

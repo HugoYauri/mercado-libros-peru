@@ -21,6 +21,10 @@ export default function GaleriaFotografias({
   const cantidad = urls.length + (imagen ? 1 : 0);
   const bloqueada = deshabilitada || cargando;
 
+  function abrirSelector() {
+    if (!bloqueada) entrada.current?.click();
+  }
+
   function seleccionar(event) {
     agregar(Array.from(event.target.files || []));
     event.target.value = '';
@@ -32,6 +36,41 @@ export default function GaleriaFotografias({
     if (!bloqueada && origen === null) {
       agregar(Array.from(event.dataTransfer.files));
     }
+  }
+
+  function arrastrarSobreZona(event) {
+    event.preventDefault();
+    if (!bloqueada) setArrastrandoArchivos(true);
+  }
+
+  function salirDeZona() {
+    setArrastrandoArchivos(false);
+  }
+
+  function iniciarArrastre(event, indice) {
+    setOrigen(indice);
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', String(indice));
+  }
+
+  function arrastrarSobreFoto(event, indice) {
+    if (origen === null) return;
+    event.preventDefault();
+    setDestino(indice);
+  }
+
+  function soltarFoto(event, indice) {
+    event.preventDefault();
+    if (!bloqueada && origen !== null) mover(origen, indice);
+    terminarArrastre();
+  }
+
+  function claseFoto(indice) {
+    let clase = 'hu2-foto';
+    if (indice === 0) clase += ' hu2-foto-principal';
+    if (destino === indice && origen !== indice) clase += ' hu2-foto-destino';
+    if (origen === indice) clase += ' hu2-foto-arrastrada';
+    return clase;
   }
 
   function terminarArrastre() {
@@ -61,12 +100,9 @@ export default function GaleriaFotografias({
             (error ? ' hu2-zona-error' : '')
           }
           disabled={bloqueada}
-          onClick={() => entrada.current.click()}
-          onDragOver={(event) => {
-            event.preventDefault();
-            if (!bloqueada) setArrastrandoArchivos(true);
-          }}
-          onDragLeave={() => setArrastrandoArchivos(false)}
+          onClick={abrirSelector}
+          onDragOver={arrastrarSobreZona}
+          onDragLeave={salirDeZona}
           onDrop={soltarArchivos}
         >
           {!compacta && (
@@ -94,29 +130,11 @@ export default function GaleriaFotografias({
         {urls.map((url, indice) => (
           <figure
             key={url}
-            className={
-              'hu2-foto' +
-              (indice === 0 ? ' hu2-foto-principal' : '') +
-              (destino === indice && origen !== indice ? ' hu2-foto-destino' : '') +
-              (origen === indice ? ' hu2-foto-arrastrada' : '')
-            }
+            className={claseFoto(indice)}
             draggable={!bloqueada}
-            onDragStart={(event) => {
-              setOrigen(indice);
-              event.dataTransfer.effectAllowed = 'move';
-              event.dataTransfer.setData('text/plain', String(indice));
-            }}
-            onDragOver={(event) => {
-              if (origen !== null) {
-                event.preventDefault();
-                setDestino(indice);
-              }
-            }}
-            onDrop={(event) => {
-              event.preventDefault();
-              if (!bloqueada && origen !== null) mover(origen, indice);
-              terminarArrastre();
-            }}
+            onDragStart={(event) => iniciarArrastre(event, indice)}
+            onDragOver={(event) => arrastrarSobreFoto(event, indice)}
+            onDrop={(event) => soltarFoto(event, indice)}
             onDragEnd={terminarArrastre}
           >
             <img
@@ -184,7 +202,7 @@ export default function GaleriaFotografias({
             type="button"
             className="hu2-agregar-foto"
             disabled={bloqueada}
-            onClick={() => entrada.current.click()}
+            onClick={abrirSelector}
           >
             <span aria-hidden="true">+</span>
             {compacta ? 'Agregar foto' : 'Agregar'}

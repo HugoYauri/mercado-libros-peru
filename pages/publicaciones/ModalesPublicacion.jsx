@@ -11,32 +11,47 @@ export default function ModalesPublicacion({
   const [confirmacion, setConfirmacion] = useState('');
   const [estado, setEstado] = useState(seleccion.estado);
   const eliminando = seleccion.estado === 'Eliminado';
+  const titulo = eliminando ? (
+    <>
+      <span
+        className="hu2-icono-eliminar"
+        aria-hidden="true"
+      >
+        !
+      </span>
+      Eliminar aviso
+    </>
+  ) : (
+    'Cambiar el estado del aviso'
+  );
+  const descripcion = eliminando
+    ? `Vas a eliminar «${seleccion.titulo}». El aviso dejará de mostrarse.`
+    : `«${seleccion.titulo}» dejará de aparecer en el catálogo si lo pausas.`;
+  const mostrarAvisoOfertas = ofertas > 0 && (eliminando || estado === 'Pausado');
+  const textoAvisoOfertas = eliminando
+    ? `El aviso tiene ${ofertas} oferta(s) pendiente(s).`
+    : 'Atención.';
+  const claseAvisoOfertas = eliminando
+    ? 'hu2-alerta hu2-alerta-error'
+    : 'hu2-alerta hu2-alerta-atencion';
+  const claseConfirmar = eliminando ? 'hu2-boton hu2-destructivo' : 'hu2-boton';
+  const textoConfirmar = eliminando ? 'Eliminar aviso' : 'Confirmar cambio';
+
+  function confirmarCambio() {
+    if (eliminando) {
+      confirmar('Eliminado');
+      return;
+    }
+    confirmar(estado);
+  }
 
   return (
     <Modal
-      titulo={
-        eliminando ? (
-          <>
-            <span
-              className="hu2-icono-eliminar"
-              aria-hidden="true"
-            >
-              !
-            </span>
-            Eliminar aviso
-          </>
-        ) : (
-          'Cambiar el estado del aviso'
-        )
-      }
+      titulo={titulo}
       cerrar={cerrar}
       className={'hu2-modal' + (eliminando ? ' hu2-modal-eliminar' : '')}
     >
-      <p className="hu2-ayuda">
-        {eliminando
-          ? `Vas a eliminar «${seleccion.titulo}». El aviso dejará de mostrarse.`
-          : `«${seleccion.titulo}» dejará de aparecer en el catálogo si lo pausas.`}
-      </p>
+      <p className="hu2-ayuda">{descripcion}</p>
       {!eliminando && (
         <fieldset className="hu2-estados-modal">
           <legend className="hu2-solo-lectores">Nuevo estado del aviso</legend>
@@ -68,18 +83,10 @@ export default function ModalesPublicacion({
           </label>
         </fieldset>
       )}
-      {ofertas > 0 && (eliminando || estado === 'Pausado') && (
-        <p
-          className={
-            eliminando ? 'hu2-alerta hu2-alerta-error' : 'hu2-alerta hu2-alerta-atencion'
-          }
-        >
-          <strong>
-            {eliminando
-              ? `El aviso tiene ${ofertas} oferta(s) pendiente(s).`
-              : 'Atención.'}
-          </strong>{' '}
-          Las ofertas pendientes quedarán cerradas al confirmar.
+      {mostrarAvisoOfertas && (
+        <p className={claseAvisoOfertas}>
+          <strong>{textoAvisoOfertas}</strong> Las ofertas pendientes quedarán cerradas al
+          confirmar.
         </p>
       )}
       {eliminando && (
@@ -111,11 +118,11 @@ export default function ModalesPublicacion({
         </button>
         <button
           type="button"
-          className={eliminando ? 'hu2-boton hu2-destructivo' : 'hu2-boton'}
+          className={claseConfirmar}
           disabled={eliminando && confirmacion !== 'ELIMINAR'}
-          onClick={() => confirmar(eliminando ? 'Eliminado' : estado)}
+          onClick={confirmarCambio}
         >
-          {eliminando ? 'Eliminar aviso' : 'Confirmar cambio'}
+          {textoConfirmar}
         </button>
       </div>
     </Modal>
