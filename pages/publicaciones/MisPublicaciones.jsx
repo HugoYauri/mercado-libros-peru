@@ -179,6 +179,7 @@ export default function MisPublicaciones() {
   const propios = listaAvisos.filter(
     (aviso) => aviso.owner === correo && aviso.status !== 'Eliminado',
   );
+  // Se aplican los filtros
   const resultados = propios.filter((aviso) => {
     if (filtro !== 'Todos' && aviso.status !== filtro) return false;
     const texto = `${aviso.title} ${aviso.category} ${aviso.course}`.toLowerCase();
@@ -222,7 +223,7 @@ export default function MisPublicaciones() {
       setError(problema.message);
     }
   }
-
+  // cambiar filtros
   function cambiarFiltro(nuevoFiltro) {
     setFiltro(nuevoFiltro);
     setPagina(1);
@@ -269,6 +270,7 @@ export default function MisPublicaciones() {
             // Los estados de otras HU siguen disponibles cuando hay avisos en ellos.
             if (['Reservado', 'Retirado'].includes(valor) && cantidad === 0) return null;
             return (
+              // Aqui al hacer click se cambia los filtros
               <button
                 key={valor}
                 type="button"

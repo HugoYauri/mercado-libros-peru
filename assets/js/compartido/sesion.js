@@ -48,28 +48,38 @@ export function claveValida(clave) {
 }
 
 export function iniciarSesion(correo, clave) {
-  const normalizado = correo.trim().toLowerCase();
+  const normalizado = correo.trim().toLowerCase(); //limpia los espacios
   const intentosClave = 'tablon_intentos_' + normalizado;
   const intentos = JSON.parse(
     localStorage.getItem(intentosClave) || '{"cantidad":0,"hasta":0}',
   );
-  if (intentos.hasta > Date.now()) {
+  const bloqueoActivo = intentos.hasta > Date.now();
+  if (bloqueoActivo) {
     throw new Error('Demasiados intentos. Espera un minuto antes de volver a ingresar.');
   }
+
   const usuario = usuarios().find((item) => item.correo === normalizado);
-  if (!usuario || usuario.clave !== clave) {
-    const cantidad = intentos.hasta ? 1 : intentos.cantidad + 1;
+  const credencialesIncorrectas = !usuario || usuario.clave !== clave;
+  if (credencialesIncorrectas) {
+    const bloqueoAnteriorVencido = Boolean(intentos.hasta);
+    const cantidadIntentos = bloqueoAnteriorVencido ? 1 : intentos.cantidad + 1;
+    const fechaDesbloqueo =
+      cantidadIntentos >= 4 ? Date.now() + 60000 : 0;
+
     localStorage.setItem(
       intentosClave,
       JSON.stringify({
-        cantidad,
-        hasta: cantidad >= 4 ? Date.now() + 60000 : 0,
+        cantidad: cantidadIntentos,
+        hasta: fechaDesbloqueo,
       }),
     );
     throw new Error('Correo o contraseña incorrectos.');
   }
-  if (usuario.bloqueado)
+
+  if (usuario.bloqueado) {
     throw new Error('Esta cuenta está bloqueada. Contacta a la administración.');
+  }
+
   localStorage.removeItem(intentosClave);
   sessionStorage.setItem(CLAVE_SESION, normalizado);
   return perfilPublico(normalizado);

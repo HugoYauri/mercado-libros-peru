@@ -83,19 +83,37 @@ export default function Marco({
   publicaciones = false,
   acuerdos = false,
   cuenta = false,
+  catalogo = false,
+  ofertas = false,
   sinTitulo = false,
   migas,
   acciones,
   busquedaLocal,
 }) {
   const usuario = usuarioActivo();
-  const disenoDetallado = publicaciones || acuerdos || cuenta;
-  const prefijo = cuenta ? 'hu1' : acuerdos ? 'hu5' : 'hu2';
+  const disenoDetallado = publicaciones || acuerdos || cuenta || catalogo || ofertas;
+  const prefijo = cuenta
+    ? 'hu1'
+    : publicaciones
+      ? 'hu2'
+      : acuerdos
+        ? 'hu5'
+        : catalogo
+          ? 'hu3'
+          : ofertas
+            ? 'hu4'
+            : 'hu2';
+  const visitanteCatalogo = catalogo && !usuario;
   const nombre = usuario
     ? `${usuario.nombres.split(' ')[0]} ${usuario.apellidos.split(' ')[0]}`
     : '';
   const iniciales = usuario ? usuario.nombres[0] + usuario.apellidos[0] : '';
-  const enlaces = [
+  const enlaces = visitanteCatalogo
+    ? [
+        ['/catalogo', 'Catálogo'],
+        ['/#como-funciona', 'Cómo funciona'],
+      ]
+    : [
     ['/catalogo', 'Catálogo'],
     ['/mis-publicaciones', 'Mis publicaciones'],
     ['/favoritos', 'Favoritos'],
@@ -103,7 +121,7 @@ export default function Marco({
     ['/acuerdos', 'Acuerdos'],
     ['/calificaciones', 'Calificaciones'],
     ['/mi-cuenta', 'Mi cuenta'],
-  ];
+      ];
   if (usuario?.rol === 'administrador')
     enlaces.push(['/administracion', 'Administración']);
   return (
@@ -126,13 +144,25 @@ export default function Marco({
           </a>
           <form
             action="/catalogo"
-            onSubmit={busquedaLocal ? (event) => event.preventDefault() : undefined}
+            onSubmit={
+              busquedaLocal?.buscar
+                ? busquedaLocal.buscar
+                : busquedaLocal
+                  ? (event) => event.preventDefault()
+                  : undefined
+            }
           >
             <input
-              key={busquedaLocal ? 'busqueda-acuerdos' : 'busqueda-catalogo'}
+              key={busquedaLocal ? `${prefijo}-busqueda` : 'busqueda-catalogo'}
               type={busquedaLocal ? 'search' : undefined}
               name="q"
-              aria-label={busquedaLocal ? 'Buscar en mis acuerdos' : 'Buscar productos'}
+              aria-label={
+                busquedaLocal
+                  ? catalogo
+                    ? 'Buscar productos del catálogo'
+                    : 'Buscar en mis acuerdos'
+                  : 'Buscar productos'
+              }
               placeholder="Buscar libros, calculadoras, apuntes…"
               value={busquedaLocal?.valor}
               onChange={
@@ -142,77 +172,98 @@ export default function Marco({
               }
             />
           </form>
-          <a
-            className="neg-boton"
-            href="/nuevo-aviso"
-          >
-            Publicar aviso
-          </a>
-          {usuario && disenoDetallado ? (
-            <div className={`${prefijo}-cuenta`}>
-              <span className={`${prefijo}-rol`}>
-                {usuario.rol === 'administrador' ? 'Administrador' : 'Usuario'}
-              </span>
-              <details className={`${prefijo}-menu-cuenta`}>
-                <summary>
-                  <span
-                    className={`${prefijo}-avatar`}
-                    aria-hidden="true"
-                  >
-                    {iniciales}
-                  </span>
-                  {nombre} <span aria-hidden="true">⌄</span>
-                </summary>
-                <div className={`${prefijo}-menu-opciones`}>
-                  <a href="/mi-cuenta">Mi cuenta</a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      cerrarSesion();
-                      window.location.assign('/');
-                    }}
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
-              </details>
-            </div>
-          ) : usuario ? (
-            <div>
-              <a href="/mi-cuenta">{usuario.correo}</a>
-              <button
-                className="neg-salir"
-                onClick={() => {
-                  cerrarSesion();
-                  window.location.assign('/');
-                }}
-              >
-                Cerrar sesión
-              </button>
-            </div>
-          ) : (
-            <a href="/ingresar">Ingresar</a>
-          )}
-        </div>
-        <nav
-          className="neg-navegacion"
-          aria-label="Navegación principal"
-        >
-          {enlaces.map(([ruta, nombre]) => {
-            let activo = location.pathname.startsWith(ruta);
-            if (publicaciones) activo = ruta === '/mis-publicaciones';
-            if (acuerdos) activo = ruta === '/acuerdos';
-            return (
+          {visitanteCatalogo ? (
+            <nav
+              className="hu3-visitante-enlaces"
+              aria-label="Acceso de visitante"
+            >
+              <span className="hu3-rol-visitante">Visitante</span>
+              <a href="/ingresar">Ingresar</a>
               <a
-                key={ruta}
-                href={ruta}
-                aria-current={activo ? 'page' : undefined}
+                className="neg-boton"
+                href="/registro"
               >
-                {nombre}
+                Crear cuenta
               </a>
-            );
-          })}
-        </nav>
+            </nav>
+          ) : (
+            <a
+              className="neg-boton"
+              href="/nuevo-aviso"
+            >
+              Publicar aviso
+            </a>
+          )}
+          {!visitanteCatalogo &&
+            (usuario && disenoDetallado ? (
+              <div className={`${prefijo}-cuenta`}>
+                <span className={`${prefijo}-rol`}>
+                  {usuario.rol === 'administrador' ? 'Administrador' : 'Usuario'}
+                </span>
+                <details className={`${prefijo}-menu-cuenta`}>
+                  <summary>
+                    <span
+                      className={`${prefijo}-avatar`}
+                      aria-hidden="true"
+                    >
+                      {iniciales}
+                    </span>
+                    {nombre} <span aria-hidden="true">⌄</span>
+                  </summary>
+                  <div className={`${prefijo}-menu-opciones`}>
+                    <a href="/mi-cuenta">Mi cuenta</a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        cerrarSesion();
+                        window.location.assign('/');
+                      }}
+                    >
+                      Cerrar sesión
+                    </button>
+                  </div>
+                </details>
+              </div>
+            ) : usuario ? (
+              <div>
+                <a href="/mi-cuenta">{usuario.correo}</a>
+                <button
+                  className="neg-salir"
+                  onClick={() => {
+                    cerrarSesion();
+                    window.location.assign('/');
+                  }}
+                >
+                  Cerrar sesión
+                </button>
+              </div>
+            ) : (
+              <a href="/ingresar">Ingresar</a>
+            ))}
+        </div>
+        {!visitanteCatalogo && (
+          <nav
+            className="neg-navegacion"
+            aria-label="Navegación principal"
+          >
+            {enlaces.map(([ruta, nombre]) => {
+              let activo = location.pathname.startsWith(ruta);
+              if (publicaciones) activo = ruta === '/mis-publicaciones';
+              if (acuerdos) activo = ruta === '/acuerdos';
+              if (catalogo && ['/aviso', '/vendedor'].includes(location.pathname))
+                activo = ruta === '/catalogo';
+              return (
+                <a
+                  key={ruta}
+                  href={ruta}
+                  aria-current={activo ? 'page' : undefined}
+                >
+                  {nombre}
+                </a>
+              );
+            })}
+          </nav>
+        )}
       </header>
       <main className="neg-contenido">
         {disenoDetallado ? (

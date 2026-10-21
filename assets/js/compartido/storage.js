@@ -27,9 +27,11 @@ function avisos() {
 function guardarAvisos(lista) {
   guardar(CLAVE_AVISOS, lista);
 }
+
 function obtenerAviso(id) {
   return avisos().find((aviso) => aviso.id === id);
 }
+
 function guardarAviso(aviso) {
   const lista = avisos();
   const indice = lista.findIndex((item) => item.id === aviso.id);

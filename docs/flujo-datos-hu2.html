@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Diagramas del flujo de datos de la HU2: publicaciones, fotos, persistencia y catálogo."
+    />
+    <title>Flujo de datos · HU2 Publicaciones</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --fondo: #f4f7fb;
+        --superficie: #ffffff;
+        --texto: #17263c;
+        --secundario: #53647a;
+        --linea: #c7d2e0;
+        --azul: #1769aa;
+        --azul-claro: #eaf4ff;
+        --verde: #19734c;
+        --verde-claro: #e9f7ef;
+        --naranja: #a85b12;
+        --naranja-claro: #fff4e5;
+        --morado: #6941a5;
+        --morado-claro: #f2edfb;
+        --rojo: #a93434;
+        --rojo-claro: #fff0f0;
+        --gris-claro: #f0f3f7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--fondo);
+        color: var(--texto);
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(1180px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 42px 0 64px;
+      }
+
+      header {
+        max-width: 850px;
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--azul);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 12px;
+        font-size: clamp(2rem, 5vw, 3.25rem);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+      }
+
+      header p {
+        max-width: 780px;
+        margin-bottom: 0;
+        color: var(--secundario);
+        font-size: 1.05rem;
+      }
+
+      .leyenda {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        margin: 24px 0 34px;
+        color: var(--secundario);
+        font-size: 0.9rem;
+      }
+
+      .leyenda span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .muestra {
+        width: 13px;
+        height: 13px;
+        border: 1px solid currentColor;
+        border-radius: 4px;
+      }
+
+      .muestra.datos {
+        background: var(--azul-claro);
+        color: var(--azul);
+      }
+
+      .muestra.almacen {
+        background: var(--verde-claro);
+        color: var(--verde);
+      }
+
+      .muestra.ejemplo {
+        background: var(--naranja-claro);
+        color: var(--naranja);
+      }
+
+      .muestra.alerta {
+        background: var(--rojo-claro);
+        color: var(--rojo);
+      }
+
+      section {
+        margin-top: 42px;
+      }
+
+      .titulo-seccion {
+        margin-bottom: 6px;
+        font-size: 1.4rem;
+        letter-spacing: -0.02em;
+      }
+
+      .intro-seccion {
+        max-width: 850px;
+        margin-bottom: 16px;
+        color: var(--secundario);
+      }
+
+      .diagrama {
+        overflow-x: auto;
+        border-top: 1px solid var(--linea);
+        border-bottom: 1px solid var(--linea);
+        background: var(--superficie);
+      }
+
+      .diagrama svg {
+        display: block;
+        width: 100%;
+        min-width: 850px;
+        height: auto;
+      }
+
+      .flow .conector {
+        fill: none;
+        stroke: #74869b;
+        stroke-width: 2;
+      }
+
+      .flow .conector-secundario {
+        fill: none;
+        stroke: #9b6c2f;
+        stroke-width: 2;
+        stroke-dasharray: 7 6;
+      }
+
+      .flow-inicio .conector {
+        marker-end: url(#flecha-inicio);
+      }
+
+      .flow-inicio .conector-secundario {
+        marker-end: url(#flecha-secundaria-inicio);
+      }
+
+      .flow-gestion .conector {
+        marker-end: url(#flecha-gestion);
+      }
+
+      .flow-gestion .conector-secundario {
+        marker-end: url(#flecha-secundaria-gestion);
+      }
+
+      .flow-catalogo .conector {
+        marker-end: url(#flecha-catalogo);
+      }
+
+      .flow-catalogo .conector-secundario {
+        marker-end: url(#flecha-secundaria-catalogo);
+      }
+
+      .flow .etiqueta-linea {
+        fill: #40536a;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .flow .nodo rect {
+        stroke-width: 1.5;
+      }
+
+      .flow .nodo text {
+        fill: var(--texto);
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        font-size: 16px;
+      }
+
+      .flow .nodo .titulo {
+        font-size: 17px;
+        font-weight: 700;
+      }
+
+      .flow .nodo .detalle {
+        fill: var(--secundario);
+        font-size: 14px;
+      }
+
+      .flow .nodo.proceso rect {
+        fill: var(--azul-claro);
+        stroke: #7bb5e5;
+      }
+
+      .flow .nodo.almacen rect {
+        fill: var(--verde-claro);
+        stroke: #75bd93;
+      }
+
+      .flow .nodo.ejemplo rect {
+        fill: var(--naranja-claro);
+        stroke: #e6b56f;
+      }
+
+      .flow .nodo.componente rect {
+        fill: var(--morado-claro);
+        stroke: #b19ad9;
+      }
+
+      .flow .nodo.alerta rect {
+        fill: var(--rojo-claro);
+        stroke: #df9898;
+      }
+
+      .flow .decision {
+        fill: #fff9e9;
+        stroke: #d7b85c;
+        stroke-width: 1.5;
+      }
+
+      .flow .decision-label {
+        fill: var(--texto);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .notas {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 26px 48px;
+        margin-top: 28px;
+      }
+
+      .notas h3 {
+        margin-bottom: 7px;
+        font-size: 1rem;
+      }
+
+      .notas p {
+        margin-bottom: 0;
+        color: var(--secundario);
+      }
+
+      .archivos {
+        margin: 16px 0 0;
+        padding-left: 20px;
+      }
+
+      .archivos li {
+        margin: 7px 0;
+      }
+
+      a {
+        color: #145f9c;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      code {
+        padding: 0.1em 0.32em;
+        border-radius: 4px;
+        background: #e9eef5;
+        color: #263b54;
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 0.92em;
+      }
+
+      .nota-importante {
+        padding-left: 15px;
+        border-left: 3px solid var(--naranja);
+      }
+
+      @media (max-width: 680px) {
+        main {
+          width: min(100% - 24px, 1180px);
+          padding-top: 28px;
+        }
+
+        .notas {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .leyenda {
+          gap: 9px 14px;
+          font-size: 0.82rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">Mercado Libros · HU2</p>
+        <h1>Flujo de datos de publicaciones</h1>
+        <p>
+          Desde la carga de datos iniciales hasta la creación, edición y gestión de avisos.
+          Los diagramas siguen las llamadas y escrituras que aparecen en el código actual.
+        </p>
+      </header>
+
+      <div class="leyenda" aria-label="Leyenda de diagramas">
+        <span><i class="muestra datos" aria-hidden="true"></i>Componente o proceso</span>
+        <span><i class="muestra almacen" aria-hidden="true"></i>Almacenamiento</span>
+        <span><i class="muestra ejemplo" aria-hidden="true"></i>Datos de ejemplo</span>
+        <span><i class="muestra alerta" aria-hidden="true"></i>Validación o estado especial</span>
+        <span>Flecha discontinua: relación secundaria o alternativa</span>
+      </div>
+
+      <section aria-labelledby="inicio-titulo">
+        <h2 class="titulo-seccion" id="inicio-titulo">1. Inicio y carga de avisos</h2>
+        <p class="intro-seccion">
+          <code>main.jsx</code> prepara datos antes de montar React. En una primera carga,
+          <code>avisos()</code> toma <code>avisosIniciales</code> como base; después se agregan
+          registros de demostración sin repetir IDs existentes.
+        </p>
+        <div class="diagrama">
+          <svg class="flow flow-inicio" viewBox="0 0 1000 720" role="img" aria-labelledby="inicio-svg-titulo inicio-svg-desc">
+            <title id="inicio-svg-titulo">Inicialización y carga de avisos</title>
+            <desc id="inicio-svg-desc">
+              main.jsx ejecuta prepararDemostracion, inicializa usuarios y, si aún no se sembró
+              la demostración, carga avisos iniciales y agrega datos de ejemplo a localStorage.
+            </desc>
+            <defs>
+              <marker id="flecha-inicio" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#74869b"></path>
+              </marker>
+              <marker id="flecha-secundaria-inicio" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#9b6c2f"></path>
+              </marker>
+            </defs>
+
+            <path class="conector" d="M500 92 V128"></path>
+            <path class="conector" d="M405 205 C330 225 190 225 160 260"></path>
+            <path class="conector" d="M160 350 V397"></path>
+            <path class="conector" d="M595 205 C650 222 690 240 710 270"></path>
+            <path class="conector" d="M710 342 C710 370 630 378 565 402"></path>
+            <path class="conector" d="M500 470 V514"></path>
+            <path class="conector" d="M500 590 V633"></path>
+            <path class="conector" d="M650 552 C735 552 770 590 806 633"></path>
+            <path class="conector-secundario" d="M750 435 H650"></path>
+            <path class="conector-secundario" d="M650 435 C720 465 780 540 845 633"></path>
+            <path class="conector-secundario" d="M500 92 C930 98 940 180 900 248"></path>
+            <path class="conector" d="M805 305 H930"></path>
+
+            <text class="etiqueta-linea" x="230" y="232">usuarios()</text>
+            <text class="etiqueta-linea" x="720" y="228">comprueba la marca</text>
+            <text class="etiqueta-linea" x="745" y="365">No: aún no se sembró</text>
+            <text class="etiqueta-linea" x="665" y="421">fallback si falta una lista válida</text>
+            <text class="etiqueta-linea" x="710" y="522">inicializa la clave si hace falta</text>
+            <text class="etiqueta-linea" x="875" y="233">continúa al montar App</text>
+            <text class="etiqueta-linea" x="835" y="293">Sí</text>
+
+            <g class="nodo proceso">
+              <rect x="350" y="20" width="300" height="72" rx="14"></rect>
+              <text x="500" y="50" text-anchor="middle" class="titulo">main.jsx</text>
+              <text x="500" y="73" text-anchor="middle" class="detalle">prepara datos y luego monta App</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="350" y="128" width="300" height="77" rx="14"></rect>
+              <text x="500" y="159" text-anchor="middle" class="titulo">prepararDemostracion()</text>
+              <text x="500" y="183" text-anchor="middle" class="detalle">datos/demostracion.js</text>
+            </g>
+            <g class="nodo ejemplo">
+              <rect x="30" y="260" width="260" height="90" rx="14"></rect>
+              <text x="160" y="294" text-anchor="middle" class="titulo">usuarios()</text>
+              <text x="160" y="319" text-anchor="middle" class="detalle">usa datos/usuarios.js si hace falta</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="30" y="397" width="260" height="74" rx="14"></rect>
+              <text x="160" y="428" text-anchor="middle" class="titulo">localStorage</text>
+              <text x="160" y="451" text-anchor="middle" class="detalle">tablon_usuarios_v3</text>
+            </g>
+
+            <polygon class="decision" points="710,235 815,290 710,345 605,290"></polygon>
+            <text x="710" y="285" text-anchor="middle" class="decision-label">¿Existe</text>
+            <text x="710" y="307" text-anchor="middle" class="decision-label">tablon_demo_completa_v1?</text>
+
+            <g class="nodo componente">
+              <rect x="830" y="248" width="140" height="70" rx="14"></rect>
+              <text x="900" y="278" text-anchor="middle" class="titulo">App.jsx</text>
+              <text x="900" y="300" text-anchor="middle" class="detalle">rutas React</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="350" y="402" width="300" height="68" rx="14"></rect>
+              <text x="500" y="431" text-anchor="middle" class="titulo">avisos()</text>
+              <text x="500" y="453" text-anchor="middle" class="detalle">lee o inicializa la lista</text>
+            </g>
+            <g class="nodo ejemplo">
+              <rect x="750" y="397" width="220" height="78" rx="14"></rect>
+              <text x="860" y="429" text-anchor="middle" class="titulo">avisosIniciales</text>
+              <text x="860" y="452" text-anchor="middle" class="detalle">6 registros base</text>
+            </g>
+            <g class="nodo ejemplo">
+              <rect x="350" y="514" width="300" height="76" rx="14"></rect>
+              <text x="500" y="546" text-anchor="middle" class="titulo">Ejemplos de demostración</text>
+              <text x="500" y="569" text-anchor="middle" class="detalle">12 productos y 1 borrador</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="350" y="633" width="300" height="68" rx="14"></rect>
+              <text x="500" y="662" text-anchor="middle" class="titulo">guardarAvisos()</text>
+              <text x="500" y="684" text-anchor="middle" class="detalle">agrega IDs de ejemplo faltantes</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="750" y="633" width="220" height="68" rx="14"></rect>
+              <text x="860" y="662" text-anchor="middle" class="titulo">localStorage</text>
+              <text x="860" y="684" text-anchor="middle" class="detalle">tablon_avisos_v1</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section aria-labelledby="gestion-titulo">
+        <h2 class="titulo-seccion" id="gestion-titulo">2. Acciones del usuario en HU2</h2>
+        <p class="intro-seccion">
+          La creación y edición se coordinan en <code>NuevoAviso.jsx</code>. Los cambios de
+          estado se originan en la lista y pasan por un modal antes de llegar a
+          <code>cambiarEstadoPublicacion()</code>.
+        </p>
+        <div class="diagrama">
+          <svg class="flow flow-gestion" viewBox="0 0 1200 850" role="img" aria-labelledby="gestion-svg-titulo gestion-svg-desc">
+            <title id="gestion-svg-titulo">Crear, editar y cambiar el estado de una publicación</title>
+            <desc id="gestion-svg-desc">
+              MisPublicaciones lee avisos, filtra en memoria y permite crear o editar mediante
+              NuevoAviso, guardar datos y fotos, o confirmar cambios de estado mediante un modal.
+            </desc>
+            <defs>
+              <marker id="flecha-gestion" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#74869b"></path>
+              </marker>
+              <marker id="flecha-secundaria-gestion" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#9b6c2f"></path>
+              </marker>
+            </defs>
+
+            <path class="conector" d="M430 106 V143"></path>
+            <path class="conector" d="M810 74 H580"></path>
+            <path class="conector" d="M360 220 C275 242 190 250 180 289"></path>
+            <path class="conector" d="M470 220 C500 242 520 254 530 289"></path>
+            <path class="conector" d="M180 366 C270 390 370 394 435 418"></path>
+            <path class="conector" d="M390 327 H320"></path>
+            <path class="conector" d="M530 494 V535"></path>
+            <path class="conector" d="M435 610 C330 630 260 643 225 675"></path>
+            <path class="conector" d="M380 712 H720"></path>
+            <path class="conector" d="M875 749 C765 790 650 794 585 794"></path>
+            <path class="conector" d="M580 100 C700 180 760 250 810 371"></path>
+            <path class="conector" d="M950 410 V449"></path>
+            <path class="conector" d="M950 525 V565"></path>
+            <path class="conector" d="M950 641 V682"></path>
+            <path class="conector-secundario" d="M1045 603 C1140 620 1140 720 1048 756"></path>
+            <path class="conector-secundario" d="M280 713 C340 730 390 756 450 775"></path>
+            <path class="conector-secundario" d="M225 675 C110 610 310 530 390 458"></path>
+
+            <text class="etiqueta-linea" x="198" y="251">Nuevo / Editar</text>
+            <text class="etiqueta-linea" x="540" y="252">Fotografías ?id=</text>
+            <text class="etiqueta-linea" x="330" y="385">renderiza galería</text>
+            <text class="etiqueta-linea" x="323" y="316">modo solo fotos</text>
+            <text class="etiqueta-linea" x="850" y="301">Acción de la fila</text>
+            <text class="etiqueta-linea" x="540" y="521">al enviar</text>
+            <text class="etiqueta-linea" x="1063" y="665">Pausado o Eliminado</text>
+            <text class="etiqueta-linea" x="100" y="580">listarFotos(id)</text>
+            <text class="etiqueta-linea" x="483" y="696">después de guardar las fotos</text>
+
+            <g class="nodo componente">
+              <rect x="280" y="30" width="300" height="76" rx="14"></rect>
+              <text x="430" y="62" text-anchor="middle" class="titulo">MisPublicaciones.jsx</text>
+              <text x="430" y="85" text-anchor="middle" class="detalle">avisos() + usuarioActivo()</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="810" y="38" width="300" height="72" rx="14"></rect>
+              <text x="960" y="68" text-anchor="middle" class="titulo">localStorage</text>
+              <text x="960" y="91" text-anchor="middle" class="detalle">tablon_avisos_v1</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="280" y="143" width="300" height="77" rx="14"></rect>
+              <text x="430" y="175" text-anchor="middle" class="titulo">Filtros y búsqueda</text>
+              <text x="430" y="198" text-anchor="middle" class="detalle">propietario, estado y texto · memoria React</text>
+            </g>
+            <g class="nodo componente">
+              <rect x="40" y="289" width="280" height="77" rx="14"></rect>
+              <text x="180" y="321" text-anchor="middle" class="titulo">NuevoAviso.jsx</text>
+              <text x="180" y="342" text-anchor="middle" class="detalle">crear o editar con ?id=</text>
+              <text x="180" y="360" text-anchor="middle" class="detalle">Publicar o guardar borrador</text>
+            </g>
+            <g class="nodo componente">
+              <rect x="390" y="289" width="280" height="77" rx="14"></rect>
+              <text x="530" y="321" text-anchor="middle" class="titulo">FotografiasAviso.jsx</text>
+              <text x="530" y="342" text-anchor="middle" class="detalle">wrapper de NuevoAviso</text>
+              <text x="530" y="360" text-anchor="middle" class="detalle">modo solo fotos · conserva estado</text>
+            </g>
+            <g class="nodo componente">
+              <rect x="390" y="418" width="280" height="76" rx="14"></rect>
+              <text x="530" y="450" text-anchor="middle" class="titulo">GaleriaFotografias.jsx</text>
+              <text x="530" y="473" text-anchor="middle" class="detalle">archivos locales vía callbacks</text>
+            </g>
+            <g class="nodo alerta">
+              <rect x="390" y="535" width="280" height="75" rx="14"></rect>
+              <text x="530" y="558" text-anchor="middle" class="titulo">NuevoAviso.guardar()</text>
+              <text x="530" y="581" text-anchor="middle" class="detalle">validarPublicacion() · validarFotos()</text>
+              <text x="530" y="601" text-anchor="middle" class="detalle">exigirPropietario() al editar</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="70" y="675" width="310" height="74" rx="14"></rect>
+              <text x="225" y="706" text-anchor="middle" class="titulo">IndexedDB · guardarFotos()</text>
+              <text x="225" y="729" text-anchor="middle" class="detalle">tablon_ulima_local / fotos / orden</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="720" y="675" width="310" height="74" rx="14"></rect>
+              <text x="875" y="706" text-anchor="middle" class="titulo">localStorage · guardarAviso()</text>
+              <text x="875" y="729" text-anchor="middle" class="detalle">inserta o reemplaza el registro</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="390" y="770" width="280" height="52" rx="14"></rect>
+              <text x="530" y="802" text-anchor="middle" class="titulo">Vuelve a MisPublicaciones</text>
+            </g>
+
+            <g class="nodo componente">
+              <rect x="810" y="333" width="280" height="77" rx="14"></rect>
+              <text x="950" y="365" text-anchor="middle" class="titulo">ModalesPublicacion.jsx</text>
+              <text x="950" y="388" text-anchor="middle" class="detalle">pausar, reactivar o eliminar</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="810" y="449" width="280" height="76" rx="14"></rect>
+              <text x="950" y="481" text-anchor="middle" class="titulo">cambiarEstadoPublicacion()</text>
+              <text x="950" y="504" text-anchor="middle" class="detalle">llamada desde confirmar() · verifica permisos</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="810" y="565" width="280" height="76" rx="14"></rect>
+              <text x="950" y="597" text-anchor="middle" class="titulo">guardarAviso()</text>
+              <text x="950" y="620" text-anchor="middle" class="detalle">actualiza status en localStorage</text>
+            </g>
+            <g class="nodo ejemplo">
+              <rect x="810" y="682" width="280" height="76" rx="14"></rect>
+              <text x="950" y="714" text-anchor="middle" class="titulo">Ofertas pendientes</text>
+              <text x="950" y="737" text-anchor="middle" class="detalle">tablon_negociaciones_v2 · se cierran</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section aria-labelledby="catalogo-titulo">
+        <h2 class="titulo-seccion" id="catalogo-titulo">3. Lectura en catálogo y conexiones indirectas</h2>
+        <p class="intro-seccion">
+          El catálogo consume la misma lista que administra HU2. Otras historias también
+          actualizan el estado de un aviso usando la capa compartida de almacenamiento.
+        </p>
+        <div class="diagrama">
+          <svg class="flow flow-catalogo" viewBox="0 0 1100 500" role="img" aria-labelledby="catalogo-svg-titulo catalogo-svg-desc">
+            <title id="catalogo-svg-titulo">Catálogo, fotos y estados compartidos</title>
+            <desc id="catalogo-svg-desc">
+              El catálogo lee avisos publicados de localStorage, las tarjetas y el detalle
+              consultan las fotos en IndexedDB, y otras historias pueden actualizar status.
+            </desc>
+            <defs>
+              <marker id="flecha-catalogo" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#74869b"></path>
+              </marker>
+              <marker id="flecha-secundaria-catalogo" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#9b6c2f"></path>
+              </marker>
+            </defs>
+
+            <path class="conector-secundario" d="M350 117 H460"></path>
+            <path class="conector" d="M500 118 C500 160 240 150 200 193"></path>
+            <path class="conector" d="M240 235 H350"></path>
+            <path class="conector" d="M570 235 H680"></path>
+            <path class="conector" d="M900 235 H980"></path>
+            <path class="conector" d="M790 313 C780 357 690 374 610 396"></path>
+            <path class="conector" d="M1030 313 C990 357 790 376 610 396"></path>
+
+            <text class="etiqueta-linea" x="366" y="102">guardarAviso()</text>
+            <text class="etiqueta-linea" x="296" y="157">escritura en la clave de avisos</text>
+            <text class="etiqueta-linea" x="248" y="220">avisos()</text>
+            <text class="etiqueta-linea" x="904" y="220">clic en aviso</text>
+            <text class="etiqueta-linea" x="651" y="367">listarFotos(id)</text>
+
+            <g class="nodo componente">
+              <rect x="20" y="48" width="300" height="70" rx="14"></rect>
+              <text x="170" y="78" text-anchor="middle" class="titulo">HU4 · HU5 · HU7</text>
+              <text x="170" y="101" text-anchor="middle" class="detalle">Reservado, Vendido, Retirado o Pausado</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="350" y="48" width="300" height="70" rx="14"></rect>
+              <text x="500" y="78" text-anchor="middle" class="titulo">storage.guardarAviso()</text>
+              <text x="500" y="101" text-anchor="middle" class="detalle">módulo compartido</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="20" y="193" width="220" height="84" rx="14"></rect>
+              <text x="130" y="228" text-anchor="middle" class="titulo">localStorage</text>
+              <text x="130" y="252" text-anchor="middle" class="detalle">tablon_avisos_v1</text>
+            </g>
+            <g class="nodo proceso">
+              <rect x="350" y="193" width="220" height="84" rx="14"></rect>
+              <text x="460" y="228" text-anchor="middle" class="titulo">Catalogo.jsx</text>
+              <text x="460" y="252" text-anchor="middle" class="detalle">Publicado + filtros del catálogo</text>
+            </g>
+            <g class="nodo componente">
+              <rect x="680" y="193" width="220" height="84" rx="14"></rect>
+              <text x="790" y="228" text-anchor="middle" class="titulo">TarjetaAviso.jsx</text>
+              <text x="790" y="252" text-anchor="middle" class="detalle">imagen, precio y datos</text>
+            </g>
+            <g class="nodo componente">
+              <rect x="980" y="193" width="110" height="120" rx="14"></rect>
+              <text x="1035" y="230" text-anchor="middle" class="titulo">Detalle</text>
+              <text x="1035" y="254" text-anchor="middle" class="detalle">Aviso</text>
+              <text x="1035" y="278" text-anchor="middle" class="detalle">?id=...</text>
+            </g>
+            <g class="nodo almacen">
+              <rect x="390" y="356" width="300" height="78" rx="14"></rect>
+              <text x="540" y="389" text-anchor="middle" class="titulo">IndexedDB · listarFotos()</text>
+              <text x="540" y="413" text-anchor="middle" class="detalle">tablon_ulima_local / fotos</text>
+            </g>
+            <text class="etiqueta-linea" x="355" y="466">
+              Las fotos son archivos separados del JSON del aviso y se ordenan por el campo orden.
+            </text>
+          </svg>
+        </div>
+      </section>
+
+      <section aria-labelledby="notas-titulo">
+        <h2 class="titulo-seccion" id="notas-titulo">Qué queda guardado y qué solo se calcula</h2>
+        <div class="notas">
+          <div>
+            <h3>localStorage</h3>
+            <p>
+              <code>tablon_avisos_v1</code> guarda los campos del aviso y su estado como JSON.
+              <code>storage.js</code> también publica estas operaciones en
+              <code>window.Tablon</code>, pero los componentes React usan sus imports.
+            </p>
+          </div>
+          <div>
+            <h3>IndexedDB</h3>
+            <p>
+              <code>guardarFotos()</code> y <code>listarFotos()</code> guardan los archivos
+              binarios en <code>tablon_ulima_local</code>, almacén <code>fotos</code>. Cada
+              registro incluye el ID del aviso y su orden.
+            </p>
+          </div>
+          <div>
+            <h3>Filtros</h3>
+            <p>
+              Los filtros y la búsqueda de «Mis publicaciones» son estado de React. No se
+              guardan en <code>localStorage</code>; se vuelven a calcular al renderizar.
+            </p>
+          </div>
+          <div class="nota-importante">
+            <h3>Eliminar es un cambio de estado</h3>
+            <p>
+              HU2 conserva el registro con estado <code>Eliminado</code> y lo oculta de la
+              lista y el catálogo. El flujo de eliminación no borra las fotos de IndexedDB.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="archivos-titulo">
+        <h2 class="titulo-seccion" id="archivos-titulo">Archivos que forman este recorrido</h2>
+        <ul class="archivos">
+          <li><a href="../main.jsx">main.jsx</a> y <a href="../App.jsx">App.jsx</a>: inicialización y rutas.</li>
+          <li><a href="../datos/iniciales.js">datos/iniciales.js</a>, <a href="../datos/demostracion.js">datos/demostracion.js</a> y <a href="../datos/usuarios.js">datos/usuarios.js</a>: datos iniciales y ejemplos.</li>
+          <li><a href="../pages/publicaciones/MisPublicaciones.jsx">MisPublicaciones.jsx</a>, <a href="../pages/publicaciones/NuevoAviso.jsx">NuevoAviso.jsx</a>, <a href="../pages/publicaciones/FotografiasAviso.jsx">FotografiasAviso.jsx</a> y <a href="../pages/publicaciones/GaleriaFotografias.jsx">GaleriaFotografias.jsx</a>: lista, formulario y fotos.</li>
+          <li><a href="../pages/publicaciones/ModalesPublicacion.jsx">ModalesPublicacion.jsx</a> y <a href="../assets/js/hu2/publicaciones.js">assets/js/hu2/publicaciones.js</a>: confirmaciones, validaciones y estados.</li>
+          <li><a href="../assets/js/compartido/storage.js">assets/js/compartido/storage.js</a> y <a href="../assets/js/compartido/sesion.js">assets/js/compartido/sesion.js</a>: persistencia y usuario activo.</li>
+          <li><a href="../pages/catalogo/Catalogo.jsx">Catalogo.jsx</a>, <a href="../pages/compartido/TarjetaAviso.jsx">TarjetaAviso.jsx</a> y <a href="../pages/catalogo/DetalleAviso.jsx">DetalleAviso.jsx</a>: lectura pública del aviso.</li>
+          <li><a href="../assets/js/hu4/ofertas.js">HU4 ofertas</a>, <a href="../assets/js/hu5/acuerdos.js">HU5 acuerdos</a> y <a href="../assets/js/hu7/moderacion.js">HU7 moderación</a>: conexiones que también actualizan avisos.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
