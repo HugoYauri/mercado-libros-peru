@@ -1,112 +1,71 @@
 import { useState } from 'react';
-import {
-  usuarioActivo,
-  guardarUsuario,
-  cambiarClave,
-  cerrarSesion,
-} from '../../assets/js/compartido/sesion.js';
-import { avisos } from '../../assets/js/compartido/storage.js';
-import { reputacion } from '../../assets/js/hu6/reputacion.js';
-import { puntosCampus } from '../../assets/js/hu5/acuerdos.js';
-import { useNegociaciones } from '../compartido/Marco.jsx';
 import MarcoCuenta from './MarcoCuenta.jsx';
-import { AvisoCuenta, CampoClave, carreras } from './ComponentesCuenta.jsx';
+import { CampoClave } from './ComponentesCuenta.jsx';
 
 export default function MiCuenta() {
-  const [usuario, setUsuario] = useState(usuarioActivo);
+  const ejemplos = [
+    {
+      nombres: 'Estudiante',
+      apellidos: 'de ejemplo',
+      correo: 'estudiante@aloe.ulima.edu.pe',
+      carrera: 'Administración',
+      ciclo: 5,
+    },
+  ];
+  const actividad = [
+    ['Avisos publicados', 3],
+    ['Acuerdos cerrados', 2],
+    ['Entregas confirmadas por mí', 2],
+  ];
+  const [persona, setPersona] = useState(ejemplos[0]);
   const [mensaje, setMensaje] = useState('');
-  const [error, setError] = useState('');
-  const { acuerdos } = useNegociaciones();
-  const propios = acuerdos.filter(
-    (acuerdo) =>
-      acuerdo.comprador === usuario.correo || acuerdo.vendedor === usuario.correo,
-  );
-  const cerrados = propios.filter((acuerdo) => acuerdo.estado === 'Cerrado');
-  const publicados = avisos().filter(
-    (aviso) => aviso.owner === usuario.correo && aviso.status === 'Publicado',
-  );
-  const valoracion = reputacion(usuario.correo);
-  const nombre = usuario.nombres + ' ' + usuario.apellidos;
-
   function guardar(event) {
     event.preventDefault();
-    try {
-      guardarUsuario(Object.fromEntries(new FormData(event.currentTarget)));
-      setUsuario(usuarioActivo());
-      setMensaje('Datos personales guardados.');
-      setError('');
-    } catch (problema) {
-      setMensaje('');
-      setError(problema.message);
-    }
+    setPersona({ ...persona, ...Object.fromEntries(new FormData(event.currentTarget)) });
+    setMensaje('Datos de ejemplo actualizados.');
   }
-  function actualizarClave(event) {
+  function cambiarClave(event) {
     event.preventDefault();
     const datos = new FormData(event.currentTarget);
-    try {
-      if (datos.get('nueva') !== datos.get('confirmar'))
-        throw new Error('Las contraseñas no coinciden.');
-      cambiarClave(datos.get('actual'), datos.get('nueva'));
-      event.currentTarget.reset();
-      setMensaje('Contraseña actualizada.');
-      setError('');
-    } catch (problema) {
-      setMensaje('');
-      setError(problema.message);
-    }
+    setMensaje(
+      datos.get('nueva') === datos.get('confirmar')
+        ? 'Cambio de contraseña de ejemplo completado.'
+        : 'Las contraseñas no coinciden.',
+    );
   }
-  function salir() {
-    cerrarSesion();
-    window.location.assign('/');
-  }
-
   return (
     <MarcoCuenta privado>
       <div className="hu1-perfil-titulo">
         <h1>Mi cuenta</h1>
         <p>
-          {nombre} · {usuario.carrera}, ciclo {usuario.ciclo}
+          {persona.nombres} {persona.apellidos} · {persona.carrera}, ciclo {persona.ciclo}
         </p>
       </div>
-      {mensaje && <AvisoCuenta tipo="exito">{mensaje}</AvisoCuenta>}
-      {error && <AvisoCuenta>{error}</AvisoCuenta>}
+      {mensaje && (
+        <p className="hu1-aviso hu1-aviso-info" role="status">
+          {mensaje}
+        </p>
+      )}
       <div className="hu1-perfil-rejilla">
         <section className="hu1-panel">
           <h2>Datos personales</h2>
-          <form
-            className="hu1-formulario"
-            onSubmit={guardar}
-            key={JSON.stringify(usuario)}
-          >
+          <form className="hu1-formulario" onSubmit={guardar}>
             <div className="hu1-campo">
               <label htmlFor="cuenta-nombres">Nombres</label>
-              <input
-                id="cuenta-nombres"
-                name="nombres"
-                defaultValue={usuario.nombres}
-                autoComplete="given-name"
-                required
-                maxLength={60}
-              />
+              <input id="cuenta-nombres" name="nombres" defaultValue={persona.nombres} required />
             </div>
             <div className="hu1-campo">
               <label htmlFor="cuenta-apellidos">Apellidos</label>
               <input
                 id="cuenta-apellidos"
                 name="apellidos"
-                defaultValue={usuario.apellidos}
-                autoComplete="family-name"
+                defaultValue={persona.apellidos}
                 required
-                maxLength={60}
               />
             </div>
             <div className="hu1-campo">
               <label htmlFor="cuenta-correo">Correo institucional</label>
-              <input
-                id="cuenta-correo"
-                value={usuario.correo}
-                readOnly
-              />
+              <input id="cuenta-correo" value={persona.correo} readOnly />
               <p className="hu1-ayuda">No editable.</p>
             </div>
             <div className="hu1-campo">
@@ -115,54 +74,34 @@ export default function MiCuenta() {
                 id="cuenta-telefono"
                 name="telefono"
                 type="tel"
-                inputMode="numeric"
-                autoComplete="tel-national"
+                pattern="[0-9]{9}"
                 maxLength={9}
-                defaultValue={usuario.telefono}
               />
-              <p className="hu1-ayuda">
-                Se muestra a la contraparte en el detalle de tus acuerdos.
-              </p>
             </div>
-            <div
-              className="hu1-dos-columnas hu1-formulario"
-              style={{ marginTop: 0 }}
-            >
+            <div className="hu1-dos-columnas">
               <div className="hu1-campo">
                 <label htmlFor="cuenta-carrera">Carrera</label>
-                <select
-                  id="cuenta-carrera"
-                  name="carrera"
-                  defaultValue={usuario.carrera}
-                  required
-                >
-                  {!carreras.includes(usuario.carrera) && (
-                    <option>{usuario.carrera}</option>
-                  )}
-                  {carreras.map((carrera) => (
-                    <option key={carrera}>{carrera}</option>
-                  ))}
+                <select id="cuenta-carrera" name="carrera" defaultValue={persona.carrera}>
+                  <option>Administración</option>
+                  <option>Ingeniería de Sistemas</option>
+                  <option>Ingeniería Industrial</option>
                 </select>
               </div>
               <div className="hu1-campo">
                 <label htmlFor="cuenta-ciclo">Ciclo</label>
                 <input
                   id="cuenta-ciclo"
-                  name="ciclo"
                   type="number"
+                  name="ciclo"
                   min={1}
                   max={12}
-                  defaultValue={usuario.ciclo}
-                  required
+                  defaultValue={persona.ciclo}
                 />
               </div>
             </div>
             <div className="hu1-acciones">
               <button className="hu1-boton">Guardar cambios</button>
-              <button
-                type="reset"
-                className="hu1-enlace"
-              >
+              <button className="hu1-enlace" type="reset">
                 Descartar
               </button>
             </div>
@@ -170,137 +109,57 @@ export default function MiCuenta() {
         </section>
         <section className="hu1-panel">
           <h2>Cambiar contraseña</h2>
-          <form
-            className="hu1-formulario"
-            onSubmit={actualizarClave}
-          >
-            <CampoClave
-              etiqueta="Contraseña actual"
-              name="actual"
-              autoComplete="current-password"
-              required
-            />
+          <form className="hu1-formulario" onSubmit={cambiarClave}>
+            <CampoClave etiqueta="Contraseña actual" name="actual" required />
             <CampoClave
               etiqueta="Nueva contraseña"
               name="nueva"
-              autoComplete="new-password"
-              required
               minLength={8}
+              pattern="(?=.*[A-Z])(?=.*[0-9]).{8,}"
+              required
               ayuda="Mínimo 8 caracteres, una mayúscula y un número."
             />
-            <CampoClave
-              etiqueta="Confirmar nueva contraseña"
-              name="confirmar"
-              autoComplete="new-password"
-              required
-            />
+            <CampoClave etiqueta="Confirmar nueva contraseña" name="confirmar" required />
             <button className="hu1-boton hu1-ancho">Actualizar contraseña</button>
           </form>
           <div className="hu1-preferencias">
             <h2>Punto de encuentro preferido</h2>
-            <p className="hu1-ayuda">
-              Próximamente podrás guardar tu preferencia. Por ahora, el punto se elige al
-              coordinar cada acuerdo.
-            </p>
             <div className="hu1-puntos">
-              {puntosCampus.map((punto) => (
-                <button
-                  key={punto}
-                  type="button"
-                  disabled
-                >
-                  {punto}
-                </button>
-              ))}
+              <button disabled>Biblioteca</button>
+              <button disabled>Cafetería central</button>
             </div>
           </div>
         </section>
         <aside className="hu1-lateral">
           <section className="hu1-panel hu1-tarjeta-perfil">
-            <div
-              className="hu1-avatar-grande"
-              aria-hidden="true"
-            >
-              {usuario.nombres[0]}
-              {usuario.apellidos[0]}
-            </div>
-            <h3>{nombre}</h3>
-            <p>
-              {valoracion.recibidas.length
-                ? 'Reputación ' + valoracion.promedio.toFixed(1)
-                : 'Sin calificaciones todavía'}{' '}
-              · {cerrados.length} acuerdos cerrados
-            </p>
-            <button
-              type="button"
-              className="hu1-secundario"
-              disabled
-              aria-describedby="foto-pendiente"
-            >
+            <div className="hu1-avatar-grande">EE</div>
+            <h3>
+              {persona.nombres} {persona.apellidos}
+            </h3>
+            <p>Reputación 4.8 · 2 acuerdos cerrados</p>
+            <button className="hu1-secundario" disabled>
               Cambiar fotografía
             </button>
-            <p
-              id="foto-pendiente"
-              className="hu1-ayuda"
-            >
-              Próximamente
-            </p>
           </section>
           <section className="hu1-panel hu1-actividad">
             <h2>Mi actividad</h2>
             <dl>
-              <div>
-                <dt>Avisos publicados</dt>
-                <dd>{publicados.length}</dd>
-              </div>
-              <div>
-                <dt>Acuerdos cerrados</dt>
-                <dd>{cerrados.length}</dd>
-              </div>
-              <div>
-                <dt>Entregas confirmadas por mí</dt>
-                <dd>
-                  {
-                    propios.filter((acuerdo) =>
-                      acuerdo.confirmaciones.includes(usuario.correo),
-                    ).length
-                  }
-                </dd>
-              </div>
+              {actividad.map(([titulo, cantidad]) => (
+                <div key={titulo}>
+                  <dt>{titulo}</dt>
+                  <dd>{cantidad}</dd>
+                </div>
+              ))}
             </dl>
-            <div className="hu1-actividad-enlaces">
-              <a
-                className="hu1-enlace"
-                href="/mis-publicaciones"
-              >
-                Publicaciones
-              </a>
-              <a
-                className="hu1-enlace"
-                href="/ofertas"
-              >
-                Ofertas
-              </a>
-              <a
-                className="hu1-enlace"
-                href="/acuerdos"
-              >
-                Acuerdos
-              </a>
-              <a
-                className="hu1-enlace"
-                href="/calificaciones"
-              >
-                Calificaciones
-              </a>
-            </div>
           </section>
           <section className="hu1-panel hu1-cerrar-sesion">
             <div>
               <h2>Cerrar sesión</h2>
               <p>En este dispositivo</p>
             </div>
-            <button onClick={salir}>Salir</button>
+            <button onClick={() => setMensaje('Ejemplo de cierre de sesión completado.')}>
+              Salir
+            </button>
           </section>
         </aside>
       </div>

@@ -1,53 +1,57 @@
 import { useState } from 'react';
-import { usuarioActivo, perfilPublico } from '../../assets/js/compartido/sesion.js';
-import { calificaciones, calificar, reputacion } from '../../assets/js/hu6/reputacion.js';
-import { esParticipante } from '../../assets/js/hu4/ofertas.js';
-import Marco, { Modal, useNegociaciones, fechaLegible } from '../compartido/Marco.jsx';
+import { useSearchParams } from 'react-router-dom';
+import Marco from '../compartido/Marco.jsx';
+import ModalCalificacion from './ModalCalificacion.jsx';
 
 export default function Calificaciones() {
-  const correo = usuarioActivo().correo;
-  const { acuerdos } = useNegociaciones();
+  const ejemplos = [
+    { id: 1, titulo: 'Cálculo de una variable', persona: 'María García', vista: 'Pendientes' },
+    {
+      id: 2,
+      persona: 'Carlos Mendoza',
+      vista: 'Recibidas',
+      puntaje: 5,
+      comentario: 'Puntual y amable. Todo conforme.',
+    },
+    {
+      id: 3,
+      persona: 'Andrea López',
+      vista: 'Enviadas',
+      puntaje: 4,
+      comentario: 'El producto estaba en buen estado.',
+    },
+  ];
+  const vistas = ['Pendientes', 'Recibidas', 'Enviadas'];
+  const [parametros] = useSearchParams();
+  const [lista, setLista] = useState(parametros.get('ejemplo') === 'vacio' ? [] : ejemplos);
   const [vista, setVista] = useState('Pendientes');
-  const [acuerdoId, setAcuerdoId] = useState('');
-  const [error, setError] = useState('');
+  const [seleccion, setSeleccion] = useState(null);
   const [mensaje, setMensaje] = useState('');
-  const lista = calificaciones();
-  const { promedio, recibidas } = reputacion(correo);
-  const pendientes = acuerdos.filter(
-    (item) =>
-      item.estado === 'Cerrado' &&
-      esParticipante(item, correo) &&
-      !lista.some((resena) => resena.acuerdoId === item.id && resena.autor === correo),
-  );
-  const resenas = lista.filter((item) =>
-    vista === 'Recibidas' ? item.destinatario === correo : item.autor === correo,
-  );
-  function enviar(event) {
-    event.preventDefault();
-    const datos = new FormData(event.currentTarget);
-    try {
-      calificar(acuerdoId, datos.get('puntaje'), datos.get('comentario'));
-      setAcuerdoId('');
-      setError('');
-      setMensaje('Tu calificación quedó registrada.');
-    } catch (problema) {
-      setError(problema.message);
-    }
+  const visibles = lista.filter((item) => item.vista === vista);
+  function enviar(puntaje, comentario) {
+    setLista(
+      lista.map((item) =>
+        item.id === seleccion.id ? { ...item, puntaje, comentario, vista: 'Enviadas' } : item,
+      ),
+    );
+    setSeleccion(null);
+    setMensaje('Calificación aplicada al ejemplo.');
   }
   return (
     <Marco
+      historia="hu6"
       titulo="Mis calificaciones"
       descripcion="Valora tu experiencia después de completar un acuerdo de entrega."
     >
       <section className="neg-tarjeta">
         <h2>Tu reputación</h2>
         <p className="neg-precio">
-          {recibidas.length ? promedio.toFixed(1) + ' ★' : 'Sin calificaciones'}
+          {lista.some((item) => item.vista === 'Recibidas') ? '5.0 ★' : 'Sin calificaciones'}
         </p>
-        <p>{recibidas.length} opiniones recibidas</p>
+        <p>{lista.filter((item) => item.vista === 'Recibidas').length} opiniones recibidas</p>
       </section>
       <div className="neg-acciones">
-        {['Pendientes', 'Recibidas', 'Enviadas'].map((valor) => (
+        {vistas.map((valor) => (
           <button
             key={valor}
             aria-pressed={vista === valor}
@@ -59,114 +63,37 @@ export default function Calificaciones() {
         ))}
       </div>
       {mensaje && (
-        <p
-          className="neg-exito"
-          role="status"
-        >
+        <p className="neg-exito" role="status">
           {mensaje}
         </p>
       )}
-      {vista === 'Pendientes' ? (
-        pendientes.length ? (
-          pendientes.map((acuerdo) => (
-            <article
-              className="neg-tarjeta"
-              key={acuerdo.id}
-            >
-              <h2>{acuerdo.titulo}</h2>
-              <p className="neg-ayuda">
-                Entrega completada. Ya puedes calificar a la otra persona.
-              </p>
-              <button
-                className="neg-boton"
-                onClick={() => {
-                  setError('');
-                  setAcuerdoId(acuerdo.id);
-                }}
-              >
+      {visibles.map((item) => (
+        <article className="neg-tarjeta" key={item.id}>
+          {vista === 'Pendientes' ? (
+            <>
+              <h2>{item.titulo}</h2>
+              <p className="neg-ayuda">Entrega completada. Ya puedes calificar a {item.persona}.</p>
+              <button className="neg-boton" onClick={() => setSeleccion(item)}>
                 Calificar a la contraparte
               </button>
-            </article>
-          ))
-        ) : (
-          <p className="neg-tarjeta">No tienes acuerdos pendientes de calificación.</p>
-        )
-      ) : resenas.length ? (
-        resenas.map((resena) => (
-          <article
-            key={resena.id}
-            className="neg-tarjeta"
-          >
-            <h2>
-              {'★'.repeat(resena.puntaje)} · {resena.puntaje}/5
-            </h2>
-            <p>
-              {vista === 'Recibidas'
-                ? 'De: ' + (perfilPublico(resena.autor)?.nombres || resena.autor)
-                : 'Para: ' +
-                  (perfilPublico(resena.destinatario)?.nombres || resena.destinatario)}
-            </p>
-            <p className="my-3">{resena.comentario || 'Sin comentario adicional.'}</p>
-            <time>{fechaLegible(resena.fecha)}</time>
-          </article>
-        ))
-      ) : (
-        <p className="neg-tarjeta">Todavía no hay calificaciones en esta sección.</p>
-      )}
-      {acuerdoId && (
-        <Modal
-          titulo="Calificar a la contraparte"
-          cerrar={() => setAcuerdoId('')}
-        >
-          <form onSubmit={enviar}>
-            <label>
-              Puntaje
-              <select
-                name="puntaje"
-                required
-                defaultValue=""
-              >
-                <option value="">Selecciona estrellas</option>
-                {[5, 4, 3, 2, 1].map((valor) => (
-                  <option
-                    key={valor}
-                    value={valor}
-                  >
-                    {valor} {'★'.repeat(valor)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Comentario opcional
-              <textarea
-                name="comentario"
-                rows={4}
-                maxLength={300}
-              />
-            </label>
-            <p className="neg-ayuda">Solo puedes enviar una calificación por acuerdo.</p>
-            {error && (
-              <p
-                className="neg-error"
-                role="alert"
-              >
-                {error}
+            </>
+          ) : (
+            <>
+              <h2>
+                {'★'.repeat(item.puntaje)} · {item.puntaje}/5
+              </h2>
+              <p>
+                {vista === 'Recibidas' ? 'De: ' : 'Para: '}
+                {item.persona}
               </p>
-            )}
-            <div className="neg-acciones">
-              <button className="neg-boton">Enviar calificación</button>
-              <button
-                type="button"
-                className="neg-secundario"
-                onClick={() => setAcuerdoId('')}
-              >
-                Cancelar
-              </button>
-            </div>
-          </form>
-        </Modal>
-      )}
+              <p className="my-3">{item.comentario || 'Sin comentario adicional.'}</p>
+              <time>Agosto de 2026</time>
+            </>
+          )}
+        </article>
+      ))}
+      {!visibles.length && <p className="neg-tarjeta">No hay calificaciones en esta sección.</p>}
+      {seleccion && <ModalCalificacion cerrar={() => setSeleccion(null)} confirmar={enviar} />}
     </Marco>
   );
 }

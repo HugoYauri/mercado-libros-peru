@@ -1,16 +1,5 @@
+import Enlace from '../compartido/Enlace.jsx';
 import { useId, useState } from 'react';
-
-export const carreras = [
-  'Administración',
-  'Ingeniería de Sistemas',
-  'Ingeniería Industrial',
-  'Contabilidad',
-  'Economía',
-  'Arquitectura',
-  'Comunicación',
-  'Derecho',
-  'Psicología',
-];
 
 export function CampoClave({
   etiqueta = 'Contraseña',
@@ -59,10 +48,7 @@ export function CampoClave({
 
 export function AvisoCuenta({ children, tipo = 'error' }) {
   return (
-    <div
-      className={'hu1-aviso hu1-aviso-' + tipo}
-      role={tipo === 'error' ? 'alert' : 'status'}
-    >
+    <div className={'hu1-aviso hu1-aviso-' + tipo} role={tipo === 'error' ? 'alert' : 'status'}>
       {children}
     </div>
   );
@@ -71,27 +57,20 @@ export function AvisoCuenta({ children, tipo = 'error' }) {
 export function CuentaCreada({ ejemplo = false }) {
   return (
     <div className="hu1-cuenta-creada">
-      <span
-        className="hu1-icono-exito"
-        aria-hidden="true"
-      >
+      <span className="hu1-icono-exito" aria-hidden="true">
         ✓
       </span>
       <h2>Cuenta creada</h2>
       <p>
         {ejemplo
           ? 'Ejemplo visual de la confirmación de registro.'
-          : 'Tu cuenta quedó registrada. Ya puedes iniciar sesión con tu correo institucional.'}
+          : 'Registro de ejemplo completado. Puedes revisar el inicio de sesión.'}
       </p>
-      <a
-        className="hu1-boton hu1-ancho"
-        href="/ingresar"
-      >
+      <Enlace className="hu1-boton hu1-ancho" href="/ingresar">
         Ir a iniciar sesión
-      </a>
+      </Enlace>
       <p className="hu1-ayuda">
-        La confirmación por correo estará disponible cuando se conecte el servicio de
-        correo.
+        La confirmación por correo estará disponible cuando se conecte el servicio de correo.
       </p>
     </div>
   );

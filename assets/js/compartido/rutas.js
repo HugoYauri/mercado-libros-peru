@@ -27,3 +27,13 @@ export function limpiarDireccionAnterior() {
     history.replaceState(null, '', nuevaRuta + location.search + location.hash);
   }
 }
+
+export function historiaDeRuta(ruta) {
+  if (/^\/(mis-publicaciones|nuevo-aviso|fotografias-aviso)(\/|$)/.test(ruta)) return 'hu2';
+  if (/^\/(catalogo|aviso|vendedor|favoritos)(\/|$)/.test(ruta)) return 'hu3';
+  if (ruta.startsWith('/ofertas')) return 'hu4';
+  if (/^\/(acuerdos|acuerdo-generado)(\/|$)/.test(ruta)) return 'hu5';
+  if (ruta.startsWith('/calificaciones')) return 'hu6';
+  if (ruta.startsWith('/administracion')) return 'hu7';
+  return 'hu1';
+}

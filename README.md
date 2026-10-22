@@ -1,115 +1,87 @@
-# MercadoLibros V2 · Tablón ULima
+# Tablón ULima — Entrega1_v1.2
 
-Avance de frontend en React y Vite con HU1 a HU7: cuenta, publicaciones, catálogo,
-ofertas, acuerdos, reputación y moderación. La carpeta original no se modifica.
+Prototipo de interfaces en React, JSX, HTML y CSS. Se toma `Entrega1_v1` como
+referencia de programación: componentes directos, formularios, arreglos pequeños,
+`map`, `filter` y estados locales para interacciones básicas.
 
-## Ejecutar en la misma terminal de VS Code
+## Ejecutar
 
-Abre la carpeta `mercadolibros-V2` en VS Code. En su terminal integrada:
-
-```powershell
-npm install 
-npm run dev o npm.cmd run dev
+```bash
+npm ci
+npm run dev
+npm run build
+npm test
 ```
 
-Si ya tienes las dependencias, solo ejecuta `npm run dev`.
-Abre `http://localhost:5173/`. Si otro proyecto ocupa ese puerto, detén su servidor
-con Ctrl+C en su propia terminal antes de iniciar esta versión.
+Vite muestra la dirección local al iniciar. Para comprobar el resultado de
+producción: `npm run build` y `npm run preview`.
 
-## Cuentas de prueba
+## Revisar cada historia de usuario
 
-| Persona | Correo                          | Contraseña | Rol            |
-| ------- | ------------------------------- | ---------- | -------------- |
-| Rosa    | rosa.quispe@aloe.ulima.edu.pe   | Rosa2026!  | Estudiante     |
-| Diego   | diego.salazar@aloe.ulima.edu.pe | Diego2026! | Estudiante     |
-| Andrea  | admin@aloe.ulima.edu.pe         | Admin2026! | Administración |
+| HU                    | Entrada directa                     | Ejemplos adicionales                                                                                                          |
+| --------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| HU1 · Cuenta y acceso | `/hu1` o `/`                        | `/ingresar`, `/registro`, `/mi-cuenta`, `/recuperar-contrasena`, `/mensajes-acceso`                                           |
+| HU2 · Publicaciones   | `/hu2` o `/mis-publicaciones`       | `/mis-publicaciones?ejemplo=vacio`, `/nuevo-aviso`, `/nuevo-aviso?id=1`, `/nuevo-aviso?ejemplo=errores`, `/fotografias-aviso` |
+| HU3 · Catálogo        | `/hu3` o `/catalogo`                | `/aviso`, `/aviso?ejemplo=vendido`, `/favoritos`, `/favoritos?ejemplo=vacio`, `/vendedor`                                     |
+| HU4 · Ofertas         | `/hu4` o `/ofertas`                 | `/ofertas?vista=enviadas`, `/ofertas?ejemplo=vacio`, `/ofertas/1`                                                             |
+| HU5 · Acuerdos        | `/hu5` o `/acuerdos`                | `/acuerdos?ejemplo=vacio`, `/acuerdos/1`, `/acuerdos/2`, `/acuerdos/3`, `/acuerdos/1?vista=coordinar`, `/acuerdo-generado`    |
+| HU6 · Calificaciones  | `/hu6` o `/calificaciones`          | `/calificaciones?ejemplo=vacio`                                                                                               |
+| HU7 · Administración  | `/hu7` o `/administracion/metricas` | `/administracion/reportes`, `/administracion/reportes/1`, `/administracion/usuarios`                                          |
 
-También se conserva la cuenta de ejemplo `demo@aloe.ulima.edu.pe`, clave
-`Demo2026!`, propietaria de una publicación del proyecto original.
+Cada HU se abre directamente **sin correo, cuenta ni inicio de sesión**. Los
+arreglos de ejemplo están dentro del componente JSX que los muestra. No existe
+un repositorio compartido de datos ni sincronización entre pantallas. Al recargar
+o cambiar de pantalla, los ejemplos se reinician.
 
-Son credenciales ficticias para esta demostración local. No uses contraseñas ni
-datos personales reales. La autenticación comprueba la contraseña guardada, pero
-no es un sistema de seguridad de producción: los datos y claves de demostración
-están en el navegador. La recuperación genera un enlace temporal local y NO
-envía correos. No hay backend, pagos ni sincronización entre dispositivos.
+La cabecera y el pie se comparten mediante `Cabecera`, `Pie` y `Marco`. Los enlaces
+visuales a otras HU se mantienen en su lugar y no ejecutan navegación, para que
+la revisión sea independiente. Las rutas de la tabla permiten abrir cada HU.
 
-## Qué probar
+## Alcance de las interacciones
 
-1. Ingresa como Rosa: revisa sus publicaciones y la oferta recibida de Diego.
-2. En Ofertas, abre Álgebra lineal y responde con una contraoferta o acéptala.
-3. Cierra sesión e ingresa como Diego para continuar la misma negociación.
-4. Al aceptar, se reserva el producto y aparece un acuerdo en ambas cuentas.
-5. Propón punto y fecha futura; la otra persona debe aprobar el horario.
-6. Confirma la entrega desde ambas cuentas: el acuerdo cierra y el aviso se vende.
-7. En Calificaciones, valora a la contraparte. Hay acuerdos cerrados de ejemplo
-   para probar sin realizar primero todos los pasos.
-8. Reporta un aviso ajeno desde su detalle o un usuario desde su perfil.
-9. Ingresa como administrador para revisar reportes, retirar avisos, bloquear o
-   habilitar cuentas y consultar métricas. Los estudiantes no pueden entrar.
-10. Para ver los estados vacíos, filtra por un estado sin datos o registra una
-    nueva cuenta de prueba. En el catálogo busca un texto que no exista.
+- HU1: validación básica, mostrar contraseña, confirmaciones y edición local de
+  una ficha. `/ingresar` acepta cualquier correo con formato
+  `nombre@aloe.ulima.edu.pe` y una clave de ocho caracteres con mayúscula y número;
+  abre la ficha ilustrativa de la propia HU1. No autentica ni registra cuentas.
+- HU2: buscar, filtrar, cambiar estado y eliminar una fila; editar un formulario,
+  ver su vista previa y agregar, quitar o elegir la foto principal. Publicar y
+  guardar borrador muestran una confirmación local.
+- HU3: buscar, filtrar, ordenar, marcar favoritos y preparar o retirar una oferta
+  de ejemplo. Los favoritos y ofertas no se trasladan a otra pantalla o HU.
+- HU4: pestañas, filtros y respuestas locales a ofertas. Aceptar una oferta no
+  crea un registro en la HU5. Los mensajes del hilo son ejemplos estáticos del
+  componente y no un historial vinculado a una cuenta.
+- HU5: filtrar acuerdos, proponer punto y horario, aceptar una propuesta,
+  confirmar entrega y cancelar el ejemplo.
+- HU6: consultar pestañas y calificar un ejemplo pendiente, sin depender de HU5.
+- HU7: métricas ilustrativas, filtros de reportes y acciones locales de moderación.
+  Las fichas de usuarios son contenido visual; no son cuentas precargadas.
 
-Los datos se generan una sola vez: no se duplican ni se reinician al recargar.
-Usa siempre el mismo navegador y dirección: localhost y 127.0.0.1 mantienen
-almacenamientos diferentes. Puedes alternar cuentas cerrando sesión; cada pestaña
-mantiene su sesión y comparte los datos locales del mismo origen.
+No se usan `localStorage`, `sessionStorage`, IndexedDB, cookies, servicios remotos
+ni cuentas con credenciales. Las fotos seleccionadas se leen en memoria y se
+pierden al salir. No se incluyen historiales persistentes de demostración.
 
-## Organización
+## Estructura
 
 ```text
-App.jsx                       Rutas limpias de React
-main.jsx                      Inicio y carga de datos de demostración
-pages/
-  cuenta/                     HU1
-  publicaciones/              HU2
-  catalogo/                   HU3
-  ofertas/                    HU4
-  acuerdos/                   HU5
-  reputacion/                 HU6
-  administracion/             HU7
-  compartido/                 Marco, diálogos, tarjetas y reportes
-assets/
-  css/                        Estilos y diseño adaptable
-  js/
-    compartido/               Sesión y almacenamiento
-    hu1/, hu2/, hu3/           Estructura heredada y reglas de publicaciones
-    hu4/, hu5/, hu6/, hu7/     Reglas de negociación, entrega y moderación
-datos/                        Usuarios y registros de ejemplo
-public/imagenes/              Portada ilustrativa
-docs/HISTORIAS_FUNCIONALES.md  Objetivos, pantallas, validaciones e implementación
-docs/mockups/                 Capturas de las siete historias
-tests/                        Pruebas automatizadas de reglas y permisos
+App.jsx                     Rutas directas de las siete HU
+main.jsx                    Entrada de React
+pages/cuenta/               HU1
+pages/publicaciones/        HU2
+pages/catalogo/              HU3
+pages/ofertas/               HU4
+pages/acuerdos/              HU5
+pages/reputacion/            HU6
+pages/administracion/        HU7
+pages/compartido/            Cabecera, pie, marco y presentación común
+assets/css/                 Estilos visuales existentes
+assets/js/compartido/        Compatibilidad de rutas anteriores
+docs/mockups/              Imágenes originales de referencia
 ```
 
-Se conservan los módulos antiguos de HU1–HU3 como referencia del proyecto recibido.
-Las pantallas actuales usan React; la autenticación vigente está en
-`assets/js/compartido/sesion.js`, no en los antiguos controladores de formularios.
+Las imágenes originales y las hojas de estilo de las HU se conservan. Se añadió
+`modales.css` con las mismas reglas del modal existente para compartirlas sin
+que la HU4 tenga que importar el catálogo. Las referencias disponibles cubren
+H1–H5; HU6 y HU7 conservan sus clases y presentación existentes.
 
-Las URLs no llevan .html: `/catalogo`, `/ofertas`, `/acuerdos`,
-`/calificaciones`, `/administracion`. Los enlaces antiguos se convierten.
-El archivo técnico `index.html` es necesario para Vite y no aparece en la dirección.
-Un despliegue futuro necesita redirigir rutas desconocidas a esa entrada de React.
-
-## Persistencia y límites
-
-Avisos, usuarios, favoritos por cuenta, ofertas, acuerdos, reportes y calificaciones
-se guardan en localStorage. Fotos en IndexedDB; sesión y recuperación en sessionStorage.
-La eliminación de avisos es lógica para conservar el historial. La moderación
-cierra ofertas y cancela acuerdos activos relacionados; no borra entregas cerradas.
-Desbloquear una cuenta no vuelve a publicar automáticamente sus avisos pausados.
-
-Las métricas de ventas cuentan acuerdos cerrados y su monto acordado; un aviso
-antiguo marcado vendido sin acuerdo no incrementa esas métricas.
-
-## Verificaciones y formato
-
-```powershell
-npm test
-npm run build
-npm run format
-```
-
-Las pruebas se ejecutan con datos en memoria, sin modificar los del navegador.
-El código fuente tiene sangría de dos espacios, atributos separados y bloques
-legibles. No edites `dist/`: sus archivos se comprimen automáticamente al compilar.
-El ZIP incluye fuentes y documentación; no necesita incluir node_modules ni dist.
+Consulta [EJEMPLOS_HU.md](docs/EJEMPLOS_HU.md) para la revisión manual de cada HU.

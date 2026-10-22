@@ -1,63 +1,44 @@
 import { useState } from 'react';
-import { iniciarSesion } from '../../assets/js/compartido/sesion.js';
+import { useNavigate } from 'react-router-dom';
 import MarcoCuenta from './MarcoCuenta.jsx';
-import { AvisoCuenta, CampoClave } from './ComponentesCuenta.jsx';
+import Enlace from '../compartido/Enlace.jsx';
+import { CampoClave } from './ComponentesCuenta.jsx';
 
 export default function IniciarSesion() {
   const [error, setError] = useState('');
-  const [ingresando, setIngresando] = useState(false);
-
+  const navigate = useNavigate();
   function ingresar(event) {
     event.preventDefault();
     const datos = new FormData(event.currentTarget);
-    setIngresando(true);
-    try {
-      const usuario = iniciarSesion(datos.get('correo'), datos.get('clave'));
-      const destino = new URLSearchParams(location.search).get('returnTo');
-      let ruta = usuario.rol === 'administrador' ? '/administracion' : '/mi-cuenta';
-      if (destino && destino.startsWith('/') && !destino.startsWith('//')) {
-        ruta = destino;
-      }
-      window.location.assign(ruta);
-    } catch (problema) {
-      setError(problema.message);
-      setIngresando(false);
+    if (!/^[^\s@]+@aloe\.ulima\.edu\.pe$/i.test(datos.get('correo').trim())) {
+      setError('Usa tu correo institucional @aloe.ulima.edu.pe.');
+      return;
     }
+    navigate('/mi-cuenta');
   }
-
   return (
     <MarcoCuenta>
       <div className="hu1-login">
-        <section
-          className="hu1-testimonio"
-          aria-label="Testimonio del mockup"
-        >
-          <div className="hu1-foto-ejemplo hu1-foto-campus">
-            fotografía · patio del campus
-          </div>
+        <section className="hu1-testimonio" aria-label="Comunidad universitaria">
+          <div className="hu1-foto-ejemplo hu1-foto-campus">fotografía · patio del campus</div>
           <blockquote>
-            «Vendí mis libros de Cálculo en tres días y compré los de Física del ciclo
-            siguiente.»
+            Encuentra materiales académicos y coordina intercambios dentro del campus.
           </blockquote>
-          <p>Rosa María Quispe Ríos · Administración</p>
+          <p>Comunidad ULima</p>
         </section>
         <section className="hu1-login-derecha">
           <div className="hu1-login-formulario">
             <h1>Iniciar sesión</h1>
             <p className="hu1-intro">
-              Usa tu correo institucional @aloe.ulima.edu.pe para ofertar, publicar y
-              coordinar entregas.
+              Usa tu correo institucional @aloe.ulima.edu.pe para ofertar, publicar y coordinar
+              entregas.
             </p>
             {error && (
-              <AvisoCuenta>
-                <strong>No pudimos ingresar.</strong> {error}
-              </AvisoCuenta>
+              <p className="hu1-aviso hu1-aviso-error" role="alert">
+                {error}
+              </p>
             )}
-            <form
-              className="hu1-formulario"
-              onSubmit={ingresar}
-              aria-busy={ingresando}
-            >
+            <form className="hu1-formulario" onSubmit={ingresar}>
               <div className="hu1-campo">
                 <label htmlFor="correo-login">Correo institucional</label>
                 <input
@@ -67,46 +48,32 @@ export default function IniciarSesion() {
                   autoComplete="username"
                   placeholder="tu.correo@aloe.ulima.edu.pe"
                   required
-                  disabled={ingresando}
                 />
               </div>
               <CampoClave
                 autoComplete="current-password"
                 required
-                disabled={ingresando}
+                minLength={8}
+                pattern="(?=.*[A-Z])(?=.*[0-9]).{8,}"
+                title="Mínimo 8 caracteres, una mayúscula y un número."
               />
               <div className="hu1-login-opciones">
-                <span className="hu1-ayuda">Sesión en este navegador</span>
-                <a
-                  className="hu1-enlace"
-                  href="/recuperar-contrasena"
-                >
+                <label className="hu1-casilla">
+                  <input type="checkbox" />
+                  Recordarme
+                </label>
+                <Enlace className="hu1-enlace" href="/recuperar-contrasena">
                   ¿Olvidaste tu contraseña?
-                </a>
+                </Enlace>
               </div>
-              <button
-                className="hu1-boton hu1-ancho"
-                disabled={ingresando}
-              >
-                {ingresando ? 'Verificando…' : 'Ingresar'}
-              </button>
+              <button className="hu1-boton hu1-ancho">Ingresar</button>
             </form>
             <p className="hu1-login-pie">
               ¿No tienes cuenta?{' '}
-              <a
-                className="hu1-enlace"
-                href="/registro"
-              >
+              <Enlace className="hu1-enlace" href="/registro">
                 Crear cuenta
-              </a>
+              </Enlace>
             </p>
-            <details className="hu1-demo">
-              <summary>Cuentas para probar el avance</summary>
-              <p>Rosa: rosa.quispe@aloe.ulima.edu.pe / Rosa2026!</p>
-              <p>Diego: diego.salazar@aloe.ulima.edu.pe / Diego2026!</p>
-              <p>Administración: admin@aloe.ulima.edu.pe / Admin2026!</p>
-              <p>Son cuentas locales de demostración. No uses contraseñas personales.</p>
-            </details>
           </div>
         </section>
       </div>

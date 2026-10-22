@@ -1,236 +1,116 @@
-import { useId, useRef, useState } from 'react';
+import { useId, useState } from 'react';
 
-// Solo presenta y ordena la selección. El formulario conserva la validación y el guardado.
-export default function GaleriaFotografias({
-  urls,
-  imagen,
-  cargando,
-  deshabilitada,
-  compacta = false,
-  error,
-  agregar,
-  quitar,
-  quitarPortada,
-  mover,
-}) {
-  const entrada = useRef(null);
-  const ayudaId = useId();
-  const [arrastrandoArchivos, setArrastrandoArchivos] = useState(false);
-  const [origen, setOrigen] = useState(null);
-  const [destino, setDestino] = useState(null);
-  const cantidad = urls.length + (imagen ? 1 : 0);
-  const bloqueada = deshabilitada || cargando;
-
-  function abrirSelector() {
-    if (!bloqueada) entrada.current?.click();
-  }
-
-  function seleccionar(event) {
-    agregar(Array.from(event.target.files || []));
-    event.target.value = '';
-  }
-
-  function soltarArchivos(event) {
-    event.preventDefault();
-    setArrastrandoArchivos(false);
-    if (!bloqueada && origen === null) {
-      agregar(Array.from(event.dataTransfer.files));
+export default function GaleriaFotografias({ fotos = [], compacta = false, cambiar }) {
+  const id = useId();
+  const [error, setError] = useState('');
+  function agregar(archivos) {
+    const lista = Array.from(archivos);
+    if (
+      lista.length + fotos.length > 6 ||
+      lista.some(
+        (foto) => !['image/jpeg', 'image/png'].includes(foto.type) || foto.size > 5 * 1024 * 1024,
+      )
+    ) {
+      setError('Selecciona hasta 6 JPG o PNG de máximo 5 MB.');
+      return;
     }
+    setError('');
+    lista.forEach((archivo) => {
+      const lector = new FileReader();
+      lector.onload = () => {
+        cambiar((actuales) =>
+          [...actuales, { nombre: archivo.name, imagen: lector.result }].slice(0, 6),
+        );
+      };
+      lector.onerror = () => setError('No pudimos leer la fotografía. Intenta con otra imagen.');
+      lector.readAsDataURL(archivo);
+    });
   }
-
-  function arrastrarSobreZona(event) {
-    event.preventDefault();
-    if (!bloqueada) setArrastrandoArchivos(true);
+  function mover(indice) {
+    const nuevas = [...fotos];
+    nuevas.unshift(nuevas.splice(indice, 1)[0]);
+    cambiar(nuevas);
   }
-
-  function salirDeZona() {
-    setArrastrandoArchivos(false);
-  }
-
-  function iniciarArrastre(event, indice) {
-    setOrigen(indice);
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/plain', String(indice));
-  }
-
-  function arrastrarSobreFoto(event, indice) {
-    if (origen === null) return;
-    event.preventDefault();
-    setDestino(indice);
-  }
-
-  function soltarFoto(event, indice) {
-    event.preventDefault();
-    if (!bloqueada && origen !== null) mover(origen, indice);
-    terminarArrastre();
-  }
-
-  function claseFoto(indice) {
-    let clase = 'hu2-foto';
-    if (indice === 0) clase += ' hu2-foto-principal';
-    if (destino === indice && origen !== indice) clase += ' hu2-foto-destino';
-    if (origen === indice) clase += ' hu2-foto-arrastrada';
-    return clase;
-  }
-
-  function terminarArrastre() {
-    setOrigen(null);
-    setDestino(null);
-  }
-
   return (
-    <div className={compacta ? 'hu2-galeria hu2-galeria-compacta' : 'hu2-galeria'}>
+    <div className={'hu2-galeria' + (compacta ? ' hu2-galeria-compacta' : '')}>
       <input
-        ref={entrada}
+        id={id}
         type="file"
+        className="hu2-archivo-oculto"
+        aria-label="Seleccionar fotografías"
         accept="image/jpeg,image/png"
         multiple
-        aria-label="Seleccionar fotografías"
-        aria-describedby={ayudaId}
-        disabled={bloqueada}
-        className="hu2-archivo-oculto"
-        onChange={seleccionar}
+        onChange={(event) => {
+          agregar(event.target.files);
+          event.target.value = '';
+        }}
       />
-      {(!compacta || cantidad === 0) && (
-        <button
-          type="button"
-          className={
-            'hu2-zona-carga' +
-            (arrastrandoArchivos ? ' hu2-arrastrando' : '') +
-            (error ? ' hu2-zona-error' : '')
-          }
-          disabled={bloqueada}
-          onClick={abrirSelector}
-          onDragOver={arrastrarSobreZona}
-          onDragLeave={salirDeZona}
-          onDrop={soltarArchivos}
+      {(!compacta || !fotos.length) && (
+        <label
+          htmlFor={id}
+          className="hu2-zona-carga"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => {
+            event.preventDefault();
+            agregar(event.dataTransfer.files);
+          }}
         >
-          {!compacta && (
-            <span
-              className="hu2-subir-icono"
-              aria-hidden="true"
-            >
-              ↑
-            </span>
-          )}
+          <span className="hu2-subir-icono">↑</span>
           <strong>Arrastra tus fotografías aquí</strong>
           <span>
             o <b>búscalas en tu dispositivo</b>
           </span>
-        </button>
+        </label>
       )}
       {!compacta && (
         <div className="hu2-galeria-encabezado">
-          <span className="hu2-etiqueta">{cantidad} de 6 fotografías</span>
-          <span>Arrastra las miniaturas para reordenar</span>
+          <span className="hu2-etiqueta">{fotos.length} de 6 fotografías</span>
+          <span>Usa Hacer principal para cambiar la portada</span>
         </div>
       )}
-      {cargando && <p role="status">Cargando fotografías…</p>}
       <div className="hu2-miniaturas">
-        {urls.map((url, indice) => (
+        {fotos.map((foto, i) => (
           <figure
-            key={url}
-            className={claseFoto(indice)}
-            draggable={!bloqueada}
-            onDragStart={(event) => iniciarArrastre(event, indice)}
-            onDragOver={(event) => arrastrarSobreFoto(event, indice)}
-            onDrop={(event) => soltarFoto(event, indice)}
-            onDragEnd={terminarArrastre}
+            className={'hu2-foto' + (i === 0 ? ' hu2-foto-principal' : '')}
+            key={foto.nombre + i}
           >
-            <img
-              src={url}
-              alt={'Fotografía ' + (indice + 1)}
-              draggable="false"
-            />
-            {indice === 0 && (
-              <figcaption className="hu2-insignia-principal">Principal</figcaption>
+            {foto.imagen ? (
+              <img src={foto.imagen} alt={foto.nombre} />
+            ) : (
+              <div className="hu2-sin-foto" style={{ height: '100%' }}>
+                {foto.nombre}
+              </div>
             )}
+            {i === 0 && <figcaption className="hu2-insignia-principal">Principal</figcaption>}
             <button
               type="button"
               className="hu2-quitar-foto"
-              disabled={bloqueada}
-              onClick={() => quitar(indice)}
-              aria-label={'Quitar fotografía ' + (indice + 1)}
+              aria-label={'Quitar fotografía ' + (i + 1)}
+              onClick={() => {
+                cambiar(fotos.filter((_, indice) => indice !== i));
+              }}
             >
               ×
             </button>
-            {indice > 0 && (
+            {i > 0 && (
               <div className="hu2-foto-herramientas">
-                <button
-                  type="button"
-                  disabled={bloqueada}
-                  onClick={() => mover(indice, 0)}
-                >
+                <button type="button" onClick={() => mover(i)}>
                   Hacer principal
-                </button>
-                <button
-                  type="button"
-                  disabled={bloqueada}
-                  onClick={() => mover(indice, indice - 1)}
-                  aria-label={'Mover antes la fotografía ' + (indice + 1)}
-                >
-                  ←
                 </button>
               </div>
             )}
           </figure>
         ))}
-        {imagen && (
-          <figure
-            className={'hu2-foto' + (urls.length === 0 ? ' hu2-foto-principal' : '')}
-          >
-            <img
-              src={imagen}
-              alt="Imagen de ejemplo del aviso"
-            />
-            <figcaption className="hu2-insignia-principal">
-              {urls.length === 0 ? 'Principal' : 'De ejemplo'}
-            </figcaption>
-            <button
-              type="button"
-              className="hu2-quitar-foto"
-              disabled={bloqueada}
-              onClick={quitarPortada}
-              aria-label="Quitar imagen de ejemplo"
-            >
-              ×
-            </button>
-          </figure>
-        )}
-        {cantidad > 0 && cantidad < 6 && (
-          <button
-            type="button"
-            className="hu2-agregar-foto"
-            disabled={bloqueada}
-            onClick={abrirSelector}
-          >
-            <span aria-hidden="true">+</span>
-            {compacta ? 'Agregar foto' : 'Agregar'}
-          </button>
+        {fotos.length > 0 && fotos.length < 6 && (
+          <label htmlFor={id} className="hu2-agregar-foto">
+            <span>+</span>Agregar foto
+          </label>
         )}
       </div>
-      <p
-        id={ayudaId}
-        className="hu2-ayuda"
-      >
-        {compacta
-          ? `${cantidad} de 6 fotografías. Arrastra las miniaturas para reordenarlas.`
-          : 'JPG o PNG de hasta 5 MB cada una. La primera fotografía será la portada.'}
-      </p>
+      <p className="hu2-ayuda">{fotos.length} de 6 fotografías. JPG o PNG de hasta 5 MB.</p>
       {error && (
-        <p
-          className="hu2-error-campo"
-          role="alert"
-        >
+        <p className="hu2-error-campo" role="alert">
           {error}
-        </p>
-      )}
-      {cantidad === 6 && (
-        <p
-          className="hu2-aviso"
-          role="status"
-        >
-          <strong>Límite alcanzado.</strong> Elimina una fotografía para agregar otra.
         </p>
       )}
     </div>

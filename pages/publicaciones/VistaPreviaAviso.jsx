@@ -2,17 +2,11 @@ import { dinero } from '../compartido/Marco.jsx';
 
 export default function VistaPreviaAviso({ titulo, precio, condicion, curso, foto }) {
   return (
-    <section
-      className="hu2-panel hu2-vista-previa"
-      aria-label="Vista previa del aviso"
-    >
+    <section className="hu2-panel hu2-vista-previa" aria-label="Vista previa del aviso">
       <h2 className="hu2-etiqueta">Vista previa de la tarjeta</h2>
       <div className="hu2-tarjeta-previa">
         {foto ? (
-          <img
-            src={foto}
-            alt="Fotografía principal del aviso"
-          />
+          <img src={foto} alt="Fotografía principal del aviso" />
         ) : (
           <div className="hu2-sin-foto">
             <span>sin fotografía</span>

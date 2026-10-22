@@ -1,415 +1,236 @@
-import { useEffect, useState } from 'react';
-import { avisos, listarFotos } from '../../assets/js/compartido/storage.js';
-import { usuarioActivo } from '../../assets/js/compartido/sesion.js';
-import { cambiarEstadoPublicacion } from '../../assets/js/hu2/publicaciones.js';
-import Marco, { dinero, useNegociaciones } from '../compartido/Marco.jsx';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Marco, { dinero } from '../compartido/Marco.jsx';
+import Enlace from '../compartido/Enlace.jsx';
 import ModalesPublicacion from './ModalesPublicacion.jsx';
 import '../../assets/css/publicaciones.css';
 
-const filtros = [
-  ['Todos', 'Todos'],
-  ['Publicado', 'Publicados'],
-  ['Pausado', 'Pausados'],
-  ['Borrador', 'Borradores'],
-  ['Vendido', 'Vendidos'],
-  ['Reservado', 'Reservados'],
-  ['Retirado', 'Retirados'],
-];
-const avisosPorPagina = 6;
-const estadosNoEditables = ['Reservado', 'Vendido', 'Retirado'];
-
-function contarOfertas(ofertas, estado) {
-  return ofertas.filter((oferta) => oferta.estado === estado).length;
-}
-
-function mensajeOfertasSinPendientes(estadoAviso, aceptadas) {
-  if (estadoAviso === 'Borrador') return '—';
-  if (aceptadas > 0) return `Cerrado con ${aceptadas}`;
-  return 'Sin ofertas';
-}
-
-function obtenerDescripcion(propias, porResponder) {
-  if (propias.length === 0) return 'Ningún aviso todavía';
-  const textoAvisos = propias.length === 1 ? 'aviso' : 'avisos';
-  const textoOfertas = porResponder === 1 ? 'oferta' : 'ofertas';
-  return `${propias.length} ${textoAvisos} · ${porResponder} ${textoOfertas} por responder`;
-}
-
-function fechaPublicacion(aviso) {
-  if (aviso.status === 'Borrador') return 'Sin publicar';
-  if (!aviso.published) return '—';
-  if (aviso.published.includes('/')) return aviso.published;
-  return new Date(aviso.published).toLocaleDateString('es-PE');
-}
-
-function FilaPublicacion({ aviso, ofertas, seleccionar }) {
-  const [foto, setFoto] = useState(aviso.imagen || '');
-  const editable = !estadosNoEditables.includes(aviso.status);
-  const pendientes = contarOfertas(ofertas, 'Pendiente');
-  const aceptadas = contarOfertas(ofertas, 'Aceptada');
-
-  useEffect(() => {
-    let vigente = true;
-    let url = '';
-    listarFotos(aviso.id)
-      .then((fotos) => {
-        if (vigente && fotos.length) {
-          url = URL.createObjectURL(fotos[0]);
-          setFoto(url);
-        }
-      })
-      .catch(() => {
-        // Si la foto local no está disponible, se mantiene el marcador visual.
-      });
-    return () => {
-      vigente = false;
-      if (url) URL.revokeObjectURL(url);
-    };
-  }, [aviso.id]);
-
-  function abrirModal(event, estado) {
-    event.currentTarget.closest('details').open = false;
-    seleccionar({ id: aviso.id, titulo: aviso.title, estado });
-  }
-
-  function cambiarEstado(event) {
-    const nuevoEstado = aviso.status === 'Publicado' ? 'Pausado' : 'Publicado';
-    abrirModal(event, nuevoEstado);
-  }
-
-  return (
-    <tr className={'hu2-fila-' + aviso.status.toLowerCase()}>
-      <td>
-        {foto ? (
-          <img
-            className="hu2-miniatura-lista"
-            src={foto}
-            alt={'Portada de ' + aviso.title}
-          />
-        ) : (
-          <div
-            className="hu2-miniatura-lista hu2-sin-foto"
-            aria-label="Sin fotografía"
-          >
-            {aviso.status === 'Borrador' && <span>sin foto</span>}
-          </div>
-        )}
-      </td>
-      <td className="hu2-celda-aviso">
-        <h2>{aviso.title}</h2>
-        <p>
-          {aviso.category} · {aviso.course} · {aviso.condition}
-        </p>
-        {aviso.motivoModeracion && (
-          <p className="hu2-error-campo">{aviso.motivoModeracion}</p>
-        )}
-      </td>
-      <td className="hu2-precio">{dinero(aviso.price)}</td>
-      <td>
-        <span className={'hu2-estado hu2-estado-' + aviso.status.toLowerCase()}>
-          {aviso.status}
-        </span>
-      </td>
-      <td>
-        {pendientes > 0 ? (
-          <a
-            className="hu2-enlace"
-            href="/ofertas"
-          >
-            {pendientes} oferta{pendientes === 1 ? '' : 's'}
-          </a>
-        ) : (
-          <span className="hu2-texto-secundario">
-            {mensajeOfertasSinPendientes(aviso.status, aceptadas)}
-          </span>
-        )}
-      </td>
-      <td className="hu2-fecha">{fechaPublicacion(aviso)}</td>
-      <td className="hu2-celda-acciones">
-        <details className="hu2-menu-acciones">
-          <summary aria-label={'Acciones de ' + aviso.title}>
-            Acciones <span aria-hidden="true">⌄</span>
-          </summary>
-          <div className="hu2-menu-opciones">
-            {editable && (
-              <>
-                <a href={'/nuevo-aviso?id=' + aviso.id}>Editar aviso</a>
-                <a href={'/fotografias-aviso?id=' + aviso.id}>Fotografías</a>
-                {aviso.status !== 'Borrador' && (
-                  <button
-                    type="button"
-                    onClick={cambiarEstado}
-                  >
-                    Cambiar estado
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className="hu2-texto-error"
-                  onClick={(event) => abrirModal(event, 'Eliminado')}
-                >
-                  Eliminar aviso
-                </button>
-              </>
-            )}
-            {aviso.status === 'Reservado' && <a href="/acuerdos">Gestionar entrega</a>}
-            {['Publicado', 'Vendido'].includes(aviso.status) && (
-              <a href={'/aviso?id=' + aviso.id}>Ver aviso</a>
-            )}
-            {aviso.status === 'Retirado' && (
-              <span className="hu2-menu-ayuda">Retirado por moderación</span>
-            )}
-          </div>
-        </details>
-      </td>
-    </tr>
-  );
-}
-
 export default function MisPublicaciones() {
-  const [filtro, setFiltro] = useState('Todos');
-  const [busqueda, setBusqueda] = useState('');
-  const [pagina, setPagina] = useState(1);
+  const ejemplos = [
+    {
+      id: 1,
+      titulo: 'Cálculo de una variable — Stewart, 8.ª ed.',
+      datos: 'Libros de texto · Cálculo I · Muy buen estado',
+      precio: 95,
+      estado: 'Publicado',
+      ofertas: '4 ofertas',
+      fecha: '18/08/2026',
+    },
+    {
+      id: 2,
+      titulo: 'Calculadora científica ClassWiz fx-991',
+      datos: 'Calculadoras · Física II · Como nuevo',
+      precio: 120,
+      estado: 'Publicado',
+      ofertas: '3 ofertas',
+      fecha: '22/08/2026',
+    },
+    {
+      id: 3,
+      titulo: 'Juego de escuadras y escalímetro Faber',
+      datos: 'Instrumentos de dibujo · Dibujo técnico · Buen estado',
+      precio: 38,
+      estado: 'Pausado',
+      ofertas: '2 ofertas',
+      fecha: '10/08/2026',
+    },
+    {
+      id: 4,
+      titulo: 'Apuntes de Contabilidad General — 2 ciclos',
+      datos: 'Apuntes y guías · Contabilidad General · Con marcas de uso',
+      precio: 25,
+      estado: 'Publicado',
+      ofertas: 'Sin ofertas',
+      fecha: '29/08/2026',
+    },
+    {
+      id: 5,
+      titulo: 'Mandil de laboratorio talla M',
+      datos: 'Uniformes y mandiles · Química General · Buen estado',
+      precio: 45,
+      estado: 'Borrador',
+      ofertas: '—',
+      fecha: 'Sin publicar',
+    },
+    {
+      id: 6,
+      titulo: 'Física para ciencias e ingeniería — Serway, tomo I',
+      datos: 'Libros de texto · Física II · Buen estado',
+      precio: 110,
+      estado: 'Vendido',
+      ofertas: 'Cerrado con 1',
+      fecha: '05/08/2026',
+    },
+  ];
+  const estados = [
+    ['Todos', 'Todos'],
+    ['Publicado', 'Publicados'],
+    ['Pausado', 'Pausados'],
+    ['Borrador', 'Borradores'],
+    ['Vendido', 'Vendidos'],
+  ];
+  const [parametros] = useSearchParams();
+  const [avisos, setAvisos] = useState(parametros.get('ejemplo') === 'vacio' ? [] : ejemplos);
+  const [filtro, setFiltro] = useState({ estado: 'Todos', texto: '' });
   const [seleccion, setSeleccion] = useState(null);
-  const [error, setError] = useState('');
   const [mensaje, setMensaje] = useState('');
-  const [listaAvisos, setListaAvisos] = useState(avisos);
-  const { ofertas } = useNegociaciones();
-  const correo = usuarioActivo().correo;
-  const propios = listaAvisos.filter(
-    (aviso) => aviso.owner === correo && aviso.status !== 'Eliminado',
+  const visibles = avisos.filter(
+    (aviso) =>
+      (filtro.estado === 'Todos' || aviso.estado === filtro.estado) &&
+      aviso.titulo.toLowerCase().includes(filtro.texto.toLowerCase()),
   );
-  // Se aplican los filtros
-  const resultados = propios.filter((aviso) => {
-    if (filtro !== 'Todos' && aviso.status !== filtro) return false;
-    const texto = `${aviso.title} ${aviso.category} ${aviso.course}`.toLowerCase();
-    return texto.includes(busqueda.trim().toLowerCase());
-  });
-  const paginas = Math.max(1, Math.ceil(resultados.length / avisosPorPagina));
-  const paginaActual = Math.min(pagina, paginas);
-  const visibles = resultados.slice(
-    (paginaActual - 1) * avisosPorPagina,
-    paginaActual * avisosPorPagina,
-  );
-  const porResponder = ofertas.filter(
-    (oferta) =>
-      oferta.vendedor === correo &&
-      oferta.estado === 'Pendiente' &&
-      oferta.turno === correo,
-  ).length;
-  const ofertasSeleccionadas = seleccion
-    ? ofertas.filter(
-        (oferta) => oferta.avisoId === seleccion.id && oferta.estado === 'Pendiente',
-      ).length
-    : 0;
-
-  function seleccionar(datos) {
-    setError('');
-    setSeleccion(datos);
-  }
 
   function confirmar(estado) {
-    try {
-      cambiarEstadoPublicacion(seleccion.id, estado);
-      setSeleccion(null);
-      setError('');
-      setMensaje(
-        estado === 'Eliminado'
-          ? 'Aviso eliminado. Las ofertas pendientes quedaron cerradas.'
-          : 'Publicación actualizada.',
-      );
-      setListaAvisos(avisos());
-    } catch (problema) {
-      setError(problema.message);
-    }
+    setAvisos(
+      estado === 'Eliminado'
+        ? avisos.filter((aviso) => aviso.id !== seleccion.id)
+        : avisos.map((aviso) => (aviso.id === seleccion.id ? { ...aviso, estado } : aviso)),
+    );
+    setSeleccion(null);
+    setMensaje(
+      estado === 'Eliminado' ? 'Aviso de ejemplo eliminado.' : 'Estado de ejemplo actualizado.',
+    );
   }
-  // cambiar filtros
-  function cambiarFiltro(nuevoFiltro) {
-    setFiltro(nuevoFiltro);
-    setPagina(1);
-  }
-
-  function cambiarBusqueda(event) {
-    setBusqueda(event.target.value);
-    setPagina(1);
-  }
-
-  function limpiarFiltros() {
-    setFiltro('Todos');
-    setBusqueda('');
-    setPagina(1);
-  }
-
-  const descripcion = obtenerDescripcion(propios, porResponder);
-
   return (
     <Marco
-      publicaciones
+      historia="hu2"
       titulo="Mis publicaciones"
-      descripcion={descripcion}
+      descripcion={avisos.length + ' avisos · 9 ofertas por responder'}
       acciones={
-        <a
-          href="/nuevo-aviso"
-          className="hu2-boton"
-        >
+        <Enlace className="hu2-boton" href="/nuevo-aviso">
           Nuevo aviso
-        </a>
+        </Enlace>
       }
     >
       <div className="hu2-herramientas">
-        <div
-          className="hu2-filtros"
-          role="group"
-          aria-label="Filtrar por estado"
-        >
-          {filtros.map(([valor, etiqueta]) => {
-            const cantidad =
-              valor === 'Todos'
-                ? propios.length
-                : propios.filter((aviso) => aviso.status === valor).length;
-            // Los estados de otras HU siguen disponibles cuando hay avisos en ellos.
-            if (['Reservado', 'Retirado'].includes(valor) && cantidad === 0) return null;
-            return (
-              // Aqui al hacer click se cambia los filtros
-              <button
-                key={valor}
-                type="button"
-                className={'hu2-chip' + (filtro === valor ? ' hu2-chip-activo' : '')}
-                aria-pressed={filtro === valor}
-                onClick={() => cambiarFiltro(valor)}
-              >
-                {etiqueta} · {cantidad}
-              </button>
-            );
-          })}
+        <div className="hu2-filtros" aria-label="Filtrar por estado">
+          {estados.map(([valor, texto]) => (
+            <button
+              key={valor}
+              className={'hu2-chip' + (filtro.estado === valor ? ' hu2-chip-activo' : '')}
+              aria-pressed={filtro.estado === valor}
+              onClick={() => setFiltro({ ...filtro, estado: valor })}
+            >
+              {texto} ·{' '}
+              {valor === 'Todos'
+                ? avisos.length
+                : avisos.filter((aviso) => aviso.estado === valor).length}
+            </button>
+          ))}
         </div>
-        {propios.length > 0 && (
-          <input
-            className="hu2-buscar-propios"
-            aria-label="Buscar en mis avisos"
-            placeholder="Buscar en mis avisos…"
-            value={busqueda}
-            onChange={cambiarBusqueda}
-          />
-        )}
+        <input
+          className="hu2-buscar-propios"
+          aria-label="Buscar en mis avisos"
+          placeholder="Buscar en mis avisos…"
+          value={filtro.texto}
+          onChange={(event) => setFiltro({ ...filtro, texto: event.target.value })}
+        />
       </div>
       {mensaje && (
-        <p
-          className="hu2-alerta hu2-alerta-exito"
-          role="status"
-        >
+        <p className="hu2-alerta hu2-alerta-exito" role="status">
           {mensaje}
         </p>
       )}
-      {visibles.length === 0 ? (
-        <section className="hu2-vacio hu2-panel">
-          <span
-            className="hu2-vacio-icono"
-            aria-hidden="true"
-          />
-          <h2>
-            {propios.length
-              ? 'No encontramos publicaciones con estos filtros'
-              : 'Todavía no publicas nada'}
-          </h2>
-          <p>
-            {propios.length
-              ? 'Prueba con otro estado o busca un título diferente.'
-              : 'Ese libro del ciclo pasado le puede servir a alguien esta semana. Publicar un aviso toma menos de tres minutos.'}
-          </p>
-          {propios.length ? (
-            <button
-              type="button"
-              className="hu2-boton"
-              onClick={limpiarFiltros}
-            >
-              Limpiar filtros
-            </button>
-          ) : (
-            <a
-              className="hu2-boton"
-              href="/nuevo-aviso"
-            >
-              Crear mi primer aviso
-            </a>
-          )}
-          <a
-            className="hu2-enlace"
-            href="/#como-funciona"
-          >
-            Ver cómo funciona el tablón
-          </a>
-        </section>
-      ) : (
+      {visibles.length ? (
         <>
           <div className="hu2-tabla-contenedor">
             <table className="hu2-tabla">
-              <caption className="hu2-solo-lectores">
-                Tus publicaciones, disponibilidad y acciones
-              </caption>
               <thead>
                 <tr>
-                  {['Foto', 'Aviso', 'Precio', 'Estado', 'Ofertas', 'Publicado'].map(
+                  {['Foto', 'Aviso', 'Precio', 'Estado', 'Ofertas', 'Publicado', 'Acciones'].map(
                     (titulo) => (
-                      <th
-                        scope="col"
-                        key={titulo}
-                      >
+                      <th key={titulo} scope="col">
                         {titulo}
                       </th>
                     ),
                   )}
-                  <th scope="col">
-                    <span className="hu2-solo-lectores">Acciones</span>
-                  </th>
                 </tr>
               </thead>
               <tbody>
                 {visibles.map((aviso) => (
-                  <FilaPublicacion
-                    key={aviso.id}
-                    aviso={aviso}
-                    ofertas={ofertas.filter((oferta) => oferta.avisoId === aviso.id)}
-                    seleccionar={seleccionar}
-                  />
+                  <tr key={aviso.id} className={'hu2-fila-' + aviso.estado.toLowerCase()}>
+                    <td>
+                      <div className="hu2-miniatura-lista hu2-sin-foto">
+                        {aviso.estado === 'Borrador' && 'sin foto'}
+                      </div>
+                    </td>
+                    <td className="hu2-celda-aviso">
+                      <h2>{aviso.titulo}</h2>
+                      <p>{aviso.datos}</p>
+                    </td>
+                    <td className="hu2-precio">{dinero(aviso.precio)}</td>
+                    <td>
+                      <span className={'hu2-estado hu2-estado-' + aviso.estado.toLowerCase()}>
+                        {aviso.estado}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="hu2-enlace">{aviso.ofertas}</span>
+                    </td>
+                    <td className="hu2-fecha">{aviso.fecha}</td>
+                    <td className="hu2-celda-acciones">
+                      <details className="hu2-menu-acciones">
+                        <summary>Acciones ▾</summary>
+                        <div className="hu2-menu-opciones">
+                          <Enlace href={'/nuevo-aviso?id=' + aviso.id}>Editar aviso</Enlace>
+                          <Enlace href="/fotografias-aviso">Fotografías</Enlace>
+                          <button
+                            onClick={() =>
+                              setSeleccion({
+                                ...aviso,
+                                estado: aviso.estado === 'Publicado' ? 'Pausado' : 'Publicado',
+                              })
+                            }
+                          >
+                            Cambiar estado
+                          </button>
+                          <button
+                            className="hu2-texto-error"
+                            onClick={() => setSeleccion({ ...aviso, estado: 'Eliminado' })}
+                          >
+                            Eliminar aviso
+                          </button>
+                        </div>
+                      </details>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <nav
-            className="hu2-paginacion"
-            aria-label="Paginación de publicaciones"
-          >
-            <p aria-live="polite">
-              Mostrando {(paginaActual - 1) * avisosPorPagina + 1}–
-              {Math.min(paginaActual * avisosPorPagina, resultados.length)} de{' '}
-              {resultados.length} avisos
+          <nav className="hu2-paginacion" aria-label="Paginación de ejemplo">
+            <p>
+              Mostrando {visibles.length} de {avisos.length} avisos
             </p>
-            <button
-              type="button"
-              aria-label="Página anterior"
-              disabled={paginaActual === 1}
-              onClick={() => setPagina(paginaActual - 1)}
-            >
+            <button disabled aria-label="Página anterior">
               ‹
             </button>
-            <span aria-current="page">{paginaActual}</span>
-            <button
-              type="button"
-              aria-label="Página siguiente"
-              disabled={paginaActual === paginas}
-              onClick={() => setPagina(paginaActual + 1)}
-            >
+            <span aria-current="page">1</span>
+            <button disabled aria-label="Página siguiente">
               ›
             </button>
           </nav>
         </>
+      ) : (
+        <section className="hu2-vacio hu2-panel">
+          <span className="hu2-vacio-icono" />
+          <h2>
+            {avisos.length
+              ? 'No encontramos publicaciones con estos filtros'
+              : 'Todavía no publicas nada'}
+          </h2>
+          <p>Ese libro del ciclo pasado le puede servir a alguien esta semana.</p>
+          <Enlace className="hu2-boton" href="/nuevo-aviso">
+            Crear mi primer aviso
+          </Enlace>
+          <button className="hu2-enlace" onClick={() => setFiltro({ estado: 'Todos', texto: '' })}>
+            Limpiar filtros
+          </button>
+        </section>
       )}
       {seleccion && (
         <ModalesPublicacion
           seleccion={seleccion}
-          ofertas={ofertasSeleccionadas}
-          error={error}
           cerrar={() => setSeleccion(null)}
           confirmar={confirmar}
         />

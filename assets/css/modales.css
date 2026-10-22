@@ -1,0 +1,75 @@
+/* Presentación común de modales; mismas reglas del diseño original. */
+.hu3-modal {
+  width: min(610px, calc(100vw - 32px));
+  padding: 22px;
+  border-radius: 12px;
+}
+
+.hu3-modal::backdrop {
+  background: #30251f82;
+}
+
+.hu3-modal > .neg-fila {
+  align-items: flex-start;
+}
+
+.hu3-modal .neg-fila h2 {
+  font-size: 21px;
+}
+
+.hu3-modal-producto {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 10px;
+  border: 1px solid var(--hu3-borde);
+  border-radius: 8px;
+  background: #fdfaf7;
+}
+
+.hu3-modal-producto > span {
+  width: 66px;
+  height: 54px;
+  flex: 0 0 auto;
+  border-radius: 6px;
+  background: repeating-linear-gradient(45deg, #eee4dd 0 7px, #faf6f2 7px 14px);
+}
+
+.hu3-modal-producto strong,
+.hu3-modal-producto small {
+  display: block;
+}
+
+.hu3-modal-producto strong {
+  font-size: 12px;
+}
+
+.hu3-modal-producto small {
+  color: var(--hu3-secundario);
+  font-size: 11px;
+}
+
+.hu3-modal label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hu3-modal label input,
+.hu3-modal label textarea {
+  margin-top: 6px;
+  border-color: var(--hu3-borde);
+  border-radius: 7px;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hu3-modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}

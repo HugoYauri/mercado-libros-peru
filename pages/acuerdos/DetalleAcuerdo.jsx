@@ -1,412 +1,252 @@
 import { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { usuarioActivo } from '../../assets/js/compartido/sesion.js';
-import { obtenerAviso } from '../../assets/js/compartido/storage.js';
-import { esParticipante } from '../../assets/js/hu4/ofertas.js';
-import { actualizarAcuerdo } from '../../assets/js/hu5/acuerdos.js';
-import Marco, {
-  dinero,
-  fechaLegible,
-  Modal,
-  useNegociaciones,
-} from '../compartido/Marco.jsx';
-import BotonReporte from '../compartido/BotonReporte.jsx';
+import Marco, { dinero, Modal } from '../compartido/Marco.jsx';
+import Enlace from '../compartido/Enlace.jsx';
+import { EstadoAcuerdo, FotoAcuerdo, PersonaAcuerdo } from './ComponentesAcuerdo.jsx';
 import CoordinarEntrega from './CoordinarEntrega.jsx';
 import ModalCancelarAcuerdo from './ModalCancelarAcuerdo.jsx';
-import {
-  EstadoAcuerdo,
-  FotoAcuerdo,
-  HistorialAcuerdo,
-  PersonaAcuerdo,
-  nombrePersona,
-  referenciaAcuerdo,
-  fechaEncuentro,
-} from './ComponentesAcuerdo.jsx';
 import '../../assets/css/acuerdos.css';
 
 export default function DetalleAcuerdo() {
+  const ejemplos = [
+    {
+      titulo: 'Cálculo de una variable — Stewart, 8.ª ed.',
+      monto: 88,
+      estado: 'Por coordinar',
+      punto: '',
+      fecha: '',
+    },
+    {
+      titulo: 'Calculadora científica ClassWiz fx-991',
+      monto: 110,
+      estado: 'Propuesta recibida',
+      punto: 'Biblioteca central',
+      fecha: '30 de agosto · 14:00',
+    },
+    {
+      titulo: 'Juego de escuadras y escalímetro Faber',
+      monto: 35,
+      estado: 'Acordado',
+      punto: 'Pabellón A',
+      fecha: '30 de agosto · 10:00',
+    },
+    {
+      titulo: 'Física para ciencias e ingeniería — Serway',
+      monto: 100,
+      estado: 'Entregado',
+      punto: 'Biblioteca central',
+      fecha: '25 de agosto · 10:00',
+    },
+    {
+      titulo: 'Mandil de laboratorio talla M',
+      monto: 40,
+      estado: 'Cancelado',
+      punto: '',
+      fecha: '',
+    },
+  ];
   const { id } = useParams();
-  const [parametros, setParametros] = useSearchParams();
-  const { acuerdos, ofertas } = useNegociaciones();
-  const correo = usuarioActivo().correo;
-  const acuerdo = acuerdos.find((item) => item.id === id && esParticipante(item, correo));
-  const [accion, setAccion] = useState(() => {
-    if (parametros.get('vista') === 'coordinar') return 'coordinar';
-    if (parametros.get('vista') === 'entrega') return 'entregar';
-    return '';
-  });
-  const [error, setError] = useState('');
+  const [parametros] = useSearchParams();
+  const [acuerdo, setAcuerdo] = useState(ejemplos[Number(id) - 1] || ejemplos[0]);
+  const [vista, setVista] = useState(
+    parametros.get('vista') === 'coordinar' ? 'coordinar' : 'detalle',
+  );
+  const [modal, setModal] = useState(
+    parametros.get('vista') === 'calificar' && acuerdo.estado === 'Entregado' ? 'calificar' : '',
+  );
+  const puntajes = [5, 4, 3, 2, 1];
   const [mensaje, setMensaje] = useState('');
-  const [guardando, setGuardando] = useState(false);
-
-  function cerrar() {
-    setAccion('');
-    setError('');
-    setParametros({}, { replace: true });
+  const cerrado = ['Entregado', 'Cancelado'].includes(acuerdo.estado);
+  function actualizar(nuevo) {
+    setAcuerdo(nuevo);
+    setModal('');
+    setVista('detalle');
+    setMensaje('Ejemplo de acuerdo actualizado.');
   }
-
-  function abrir(tipo) {
-    setError('');
-    setMensaje('');
-    setAccion(tipo);
-  }
-
-  function confirmar(tipo, campos = {}) {
-    if (guardando) return;
-    setGuardando(true);
-    try {
-      // Se reutiliza la misma función que utilizaba la pantalla original.
-      actualizarAcuerdo(id, tipo, campos);
-      cerrar();
-      setMensaje(
-        {
-          coordinar: 'Tu propuesta quedó guardada. La otra persona debe aprobarla.',
-          aprobar: 'Aceptaste el punto y el horario del encuentro.',
-          entregar: 'Tu confirmación de entrega quedó registrada.',
-          cancelar: 'El acuerdo fue cancelado. El motivo quedó registrado.',
-        }[tipo],
-      );
-    } catch (problema) {
-      setError(problema.message);
-    } finally {
-      setGuardando(false);
-    }
-  }
-
-  if (!acuerdo)
-    return (
-      <Marco
-        acuerdos
-        titulo="Acuerdo no disponible"
-      >
-        <p className="hu5-alerta hu5-alerta-roja">
-          No existe este acuerdo o no participas en él.
-        </p>
-        <a
-          className="hu5-enlace"
-          href="/acuerdos"
-        >
-          Volver a mis acuerdos
-        </a>
-      </Marco>
-    );
-
-  const terminado = ['Cerrado', 'Cancelado'].includes(acuerdo.estado);
-  const puedoCoordinar = !terminado && acuerdo.confirmaciones.length === 0;
-  const puedoEntregar =
-    !terminado &&
-    acuerdo.aprobaciones.length === 2 &&
-    !acuerdo.confirmaciones.includes(correo);
-  const puedoAprobar =
-    !terminado && acuerdo.fecha && !acuerdo.aprobaciones.includes(correo);
-  const coordinando = accion === 'coordinar' && puedoCoordinar;
-  const aviso = obtenerAviso(acuerdo.avisoId);
-  const oferta = ofertas.find((item) => item.id === acuerdo.ofertaId);
-  const contraparte = acuerdo.comprador === correo ? acuerdo.vendedor : acuerdo.comprador;
-  const participantes = [acuerdo.comprador, acuerdo.vendedor];
-
   return (
     <Marco
-      acuerdos
-      titulo={
-        <span className="hu5-titulo-con-estado">
-          {coordinando
-            ? 'Coordinar la entrega'
-            : `Acuerdo ${referenciaAcuerdo(acuerdo.id)}`}
-          <EstadoAcuerdo
-            acuerdo={acuerdo}
-            correo={correo}
-            detallado
-          />
-        </span>
-      }
-      migas={
-        <>
-          <a href="/acuerdos">Mis acuerdos</a>
-          <span aria-hidden="true">›</span>
-          <span>{referenciaAcuerdo(acuerdo.id)}</span>
-          {coordinando && (
-            <>
-              <span aria-hidden="true">›</span>
-              <span>Coordinar la entrega</span>
-            </>
-          )}
-        </>
-      }
-      acciones={
-        !coordinando && (
-          <div className="hu5-reportar">
-            <BotonReporte
-              tipo="Usuario"
-              objetivo={contraparte}
-            />
-          </div>
-        )
-      }
+      historia="hu5"
+      titulo={vista === 'coordinar' ? 'Coordinar encuentro' : 'Detalle del acuerdo'}
+      acciones={<EstadoAcuerdo estado={acuerdo.estado} />}
+      migas={<Enlace href="/acuerdos">← Mis acuerdos</Enlace>}
     >
       {mensaje && (
-        <p
-          className="hu5-alerta hu5-alerta-verde"
-          role="status"
-        >
+        <p className="hu5-alerta hu5-alerta-azul" role="status">
           {mensaje}
         </p>
       )}
-      {coordinando ? (
+      {vista === 'coordinar' ? (
         <CoordinarEntrega
           acuerdo={acuerdo}
-          oferta={oferta}
-          correo={correo}
-          confirmar={confirmar}
-          volver={cerrar}
-          error={error}
-          guardando={guardando}
+          confirmar={actualizar}
+          volver={() => setVista('detalle')}
         />
       ) : (
-        <>
-          <div className="hu5-detalle">
-            <div className="hu5-columna">
-              <section className="hu5-panel hu5-producto">
-                <FotoAcuerdo
-                  aviso={aviso}
-                  titulo={acuerdo.titulo}
+        <div className="hu5-detalle">
+          <div className="hu5-columna">
+            <section className="hu5-panel hu5-producto">
+              <FotoAcuerdo titulo={acuerdo.titulo} />
+              <div className="hu5-producto-descripcion">
+                <h2>{acuerdo.titulo}</h2>
+                <p className="hu5-texto-secundario">Producto académico · Buen estado</p>
+                <div className="hu5-precio-fila">
+                  <p className="hu5-precio">{dinero(acuerdo.monto)}</p>
+                  <small>monto acordado</small>
+                </div>
+              </div>
+            </section>
+            <section className="hu5-panel">
+              <h2>Datos del encuentro</h2>
+              <dl className="hu5-datos-encuentro">
+                <div>
+                  <dt className="hu5-etiqueta">Punto de encuentro</dt>
+                  <dd>{acuerdo.punto || 'Pendiente de coordinar'}</dd>
+                </div>
+                <div>
+                  <dt className="hu5-etiqueta">Fecha y hora</dt>
+                  <dd>{acuerdo.fecha || 'Sin definir'}</dd>
+                </div>
+              </dl>
+              <div className="hu5-participantes">
+                <PersonaAcuerdo
+                  nombre="Estudiante de ejemplo"
+                  iniciales="EE"
+                  rol="Comprador"
+                  propia
                 />
-                <div className="hu5-producto-descripcion">
-                  <h2>{acuerdo.titulo}</h2>
-                  {aviso && (
-                    <p className="hu5-texto-secundario">
-                      {aviso.category} · {aviso.course} · {aviso.condition}
-                    </p>
-                  )}
-                  <div className="hu5-precio-fila">
-                    <p className="hu5-precio">{dinero(acuerdo.monto)}</p>
-                    {aviso && <small>acordado sobre {dinero(aviso.price)} pedidos</small>}
-                  </div>
-                </div>
-                <a
-                  className="hu5-enlace"
-                  href={`/aviso?id=${acuerdo.avisoId}`}
+                <PersonaAcuerdo nombre="María García" iniciales="MG" rol="Vendedor" />
+              </div>
+              <p className="hu5-aviso">Datos ilustrativos para revisar esta interfaz.</p>
+            </section>
+            <section className="hu5-panel">
+              <h2>Situación del acuerdo</h2>
+              <p>{acuerdo.estado}</p>
+              <p className="hu5-ayuda">La coordinación se revisa dentro de esta HU.</p>
+            </section>
+          </div>
+          <aside className="hu5-columna">
+            <section className="hu5-panel hu5-codigo">
+              <h2 className="hu5-etiqueta">Referencia del acuerdo</h2>
+              <p>AC-00{id || 1}</p>
+              <span className="hu5-ayuda">
+                Identifica tu acuerdo al consultar o coordinar la entrega.
+              </span>
+            </section>
+            <section className="hu5-panel hu5-confirmaciones">
+              <h2 className="hu5-etiqueta">Confirmación de entrega</h2>
+              {['Tú', 'María García'].map((nombre) => (
+                <div
+                  key={nombre}
+                  className={
+                    'hu5-confirmacion' +
+                    (acuerdo.estado === 'Entregado' ? ' hu5-confirmacion-lista' : '')
+                  }
                 >
-                  Ver el aviso
-                </a>
-              </section>
-
-              <section className="hu5-panel">
-                <h2>Datos del encuentro</h2>
-                <dl className="hu5-datos-encuentro">
-                  <div>
-                    <dt className="hu5-etiqueta">Punto de encuentro</dt>
-                    <dd>{acuerdo.punto || 'Pendiente de coordinar'}</dd>
-                  </div>
-                  <div>
-                    <dt className="hu5-etiqueta">Fecha</dt>
-                    <dd>
-                      {acuerdo.fecha
-                        ? new Date(acuerdo.fecha).toLocaleDateString('es-PE')
-                        : 'Sin definir'}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="hu5-etiqueta">Hora de encuentro</dt>
-                    <dd>
-                      {acuerdo.fecha
-                        ? new Date(acuerdo.fecha).toLocaleTimeString('es-PE', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: false,
-                          })
-                        : 'Sin definir'}
-                    </dd>
-                  </div>
-                </dl>
-                <div className="hu5-participantes">
-                  <PersonaAcuerdo
-                    correo={acuerdo.comprador}
-                    rol="Comprador"
-                    propia={correo === acuerdo.comprador}
-                    mostrarTelefono
-                  />
-                  <PersonaAcuerdo
-                    correo={acuerdo.vendedor}
-                    rol="Vendedor"
-                    propia={correo === acuerdo.vendedor}
-                    mostrarTelefono
-                  />
+                  <span>{acuerdo.estado === 'Entregado' ? '✓' : ''}</span>
+                  <p>
+                    {nombre}:{' '}
+                    {acuerdo.estado === 'Entregado'
+                      ? 'entrega confirmada'
+                      : 'pendiente de confirmación'}
+                  </p>
                 </div>
-                <p className="hu5-aviso">
-                  Los teléfonos solo se muestran a las dos partes de este acuerdo.
-                </p>
-              </section>
-              <HistorialAcuerdo
-                acuerdo={acuerdo}
-                oferta={oferta}
-              />
-              <a
-                className="hu5-enlace hu5-enlace-negociacion"
-                href={`/ofertas/${acuerdo.ofertaId}`}
-              >
-                Ver negociación original →
-              </a>
-            </div>
-
-            <aside className="hu5-columna">
-              <section className="hu5-panel hu5-codigo">
-                <h2 className="hu5-etiqueta">Referencia del acuerdo</h2>
-                <p title={acuerdo.id}>{referenciaAcuerdo(acuerdo.id)}</p>
-                <span className="hu5-ayuda">
-                  Identifica tu acuerdo al consultar o coordinar la entrega.
-                </span>
-              </section>
-              <section className="hu5-panel hu5-confirmaciones">
-                <h2 className="hu5-etiqueta">Confirmación de entrega</h2>
-                {participantes.map((persona) => {
-                  const confirmada = acuerdo.confirmaciones.includes(persona);
-                  return (
-                    <div
-                      className={
-                        'hu5-confirmacion' + (confirmada ? ' hu5-confirmacion-lista' : '')
-                      }
-                      key={persona}
-                    >
-                      <span aria-hidden="true">{confirmada ? '✓' : ''}</span>
-                      <p>
-                        {persona === correo
-                          ? confirmada
-                            ? 'Ya confirmaste tu parte'
-                            : 'Tú aún no confirmas'
-                          : `${nombrePersona(persona)} ${confirmada ? 'confirmó la entrega' : 'aún no confirma'}`}
-                      </p>
-                    </div>
-                  );
-                })}
-                {puedoEntregar && (
+              ))}
+              {acuerdo.estado === 'Acordado' && (
+                <button className="hu5-boton hu5-boton-verde" onClick={() => setModal('entregar')}>
+                  Confirmar entrega
+                </button>
+              )}
+              <p className="hu5-ayuda">Confirma únicamente después de realizar el encuentro.</p>
+            </section>
+            {!cerrado && (
+              <section className="hu5-panel hu5-acciones-acuerdo">
+                <button className="hu5-boton hu5-boton-borde" onClick={() => setVista('coordinar')}>
+                  {acuerdo.punto ? 'Modificar punto y horario' : 'Proponer punto y horario'}
+                </button>
+                {acuerdo.estado === 'Propuesta recibida' && (
                   <button
-                    type="button"
                     className="hu5-boton hu5-boton-verde"
-                    onClick={() => abrir('entregar')}
+                    onClick={() => actualizar({ ...acuerdo, estado: 'Acordado' })}
                   >
-                    Confirmar entrega
+                    Aceptar punto y horario
                   </button>
                 )}
-                <p className="hu5-ayuda">
-                  {acuerdo.estado === 'Cerrado'
-                    ? 'Ambas partes confirmaron. El aviso está vendido.'
-                    : 'Al confirmar ambos, el aviso pasa a vendido y se abre la calificación.'}
-                </p>
+                <button
+                  className="hu5-boton hu5-boton-cancelar"
+                  onClick={() => setModal('cancelar')}
+                >
+                  Cancelar el acuerdo
+                </button>
               </section>
-              {(puedoCoordinar || puedoAprobar) && (
-                <section className="hu5-panel hu5-acciones-acuerdo">
-                  {puedoCoordinar && (
-                    <button
-                      type="button"
-                      className="hu5-boton hu5-boton-borde"
-                      onClick={() => abrir('coordinar')}
-                    >
-                      {acuerdo.fecha
-                        ? 'Modificar punto y horario'
-                        : 'Proponer punto y horario'}
-                    </button>
-                  )}
-                  {puedoAprobar && (
-                    <button
-                      type="button"
-                      className="hu5-boton hu5-boton-verde"
-                      onClick={() => abrir('aprobar')}
-                    >
-                      Aceptar punto y horario
-                    </button>
-                  )}
-                  {puedoCoordinar && (
-                    <button
-                      type="button"
-                      className="hu5-boton hu5-boton-cancelar"
-                      onClick={() => abrir('cancelar')}
-                    >
-                      Cancelar el acuerdo
-                    </button>
-                  )}
-                </section>
-              )}
-              {acuerdo.estado === 'Cancelado' && (
-                <p className="hu5-alerta hu5-alerta-roja">
-                  <strong>Acuerdo cancelado.</strong> {acuerdo.motivo}
-                </p>
-              )}
-              {acuerdo.estado === 'Cerrado' && (
-                <a
-                  className="hu5-boton"
-                  href="/calificaciones"
-                >
-                  Calificar a la contraparte
-                </a>
-              )}
-            </aside>
-          </div>
-          {accion === 'cancelar' && puedoCoordinar && (
-            <ModalCancelarAcuerdo
-              acuerdo={acuerdo}
-              cerrar={cerrar}
-              confirmar={(motivo) => confirmar('cancelar', { motivo })}
-              error={error}
-              guardando={guardando}
-            />
-          )}
-          {((accion === 'entregar' && puedoEntregar) ||
-            (accion === 'aprobar' && puedoAprobar)) && (
-            <Modal
-              className={
-                'hu5-modal' + (accion === 'entregar' ? ' hu5-modal-entrega' : '')
-              }
-              titulo={
-                accion === 'entregar'
-                  ? '¿Confirmas que la entrega se realizó?'
-                  : 'Aceptar punto y horario'
-              }
-              cerrar={cerrar}
+            )}
+            {acuerdo.estado === 'Cancelado' && (
+              <p className="hu5-alerta hu5-alerta-roja">Acuerdo cancelado. {acuerdo.motivo}</p>
+            )}
+          </aside>
+        </div>
+      )}
+      {modal === 'cancelar' && (
+        <ModalCancelarAcuerdo
+          cerrar={() => setModal('')}
+          confirmar={(motivo) => actualizar({ ...acuerdo, estado: 'Cancelado', motivo })}
+        />
+      )}
+      {modal === 'entregar' && (
+        <Modal titulo="Confirmar entrega" cerrar={() => setModal('')} className="hu5-modal">
+          <p>¿Ya recibiste el producto? La confirmación se aplica a este ejemplo.</p>
+          <div className="hu5-modal-acciones">
+            <button className="hu5-boton hu5-boton-borde" onClick={() => setModal('')}>
+              Volver
+            </button>
+            <button
+              className="hu5-boton hu5-boton-verde"
+              onClick={() => actualizar({ ...acuerdo, estado: 'Entregado' })}
             >
-              {accion === 'entregar' && (
-                <p className="hu5-ayuda">
-                  Acuerdo {referenciaAcuerdo(acuerdo.id)} · {acuerdo.punto} ·{' '}
-                  {fechaEncuentro(acuerdo.fecha)} · {dinero(acuerdo.monto)}.
-                </p>
-              )}
-              <p className="hu5-ayuda">
-                {accion === 'entregar'
-                  ? 'Confirma únicamente si ya entregaste o recibiste el producto. El acuerdo se cerrará cuando ambas personas confirmen.'
-                  : `Confirmas el encuentro en ${acuerdo.punto}, el ${fechaLegible(acuerdo.fecha)}.`}
-              </p>
-              {error && (
-                <p
-                  className="hu5-alerta hu5-alerta-roja"
-                  role="alert"
-                >
-                  {error}
-                </p>
-              )}
-              <div className="hu5-modal-acciones">
-                <button
-                  type="button"
-                  className="hu5-enlace"
-                  onClick={cerrar}
-                >
-                  {accion === 'entregar' ? 'Todavía no' : 'Volver'}
-                </button>
-                <button
-                  type="button"
-                  className="hu5-boton hu5-boton-verde"
-                  disabled={guardando}
-                  onClick={() => confirmar(accion)}
-                >
-                  {guardando
-                    ? 'Guardando…'
-                    : accion === 'entregar'
-                      ? 'Sí, se entregó'
-                      : 'Confirmar'}
-                </button>
-              </div>
-            </Modal>
-          )}
-        </>
+              Confirmar
+            </button>
+          </div>
+        </Modal>
+      )}
+      {modal === 'calificar' && (
+        <Modal
+          titulo="Calificar a la contraparte"
+          cerrar={() => setModal('')}
+          className="hu5-modal"
+        >
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              setMensaje('Calificación del ejemplo preparada.');
+              setModal('');
+            }}
+          >
+            <label>
+              Puntaje
+              <select name="puntaje" required defaultValue="">
+                <option value="">Selecciona estrellas</option>
+                {puntajes.map((valor) => (
+                  <option key={valor} value={valor}>
+                    {valor} ★
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Comentario opcional
+              <textarea rows={3} maxLength={300} />
+            </label>
+            <div className="hu5-modal-acciones">
+              <button
+                type="button"
+                className="hu5-boton hu5-boton-borde"
+                onClick={() => setModal('')}
+              >
+                Cancelar
+              </button>
+              <button className="hu5-boton">Enviar calificación</button>
+            </div>
+          </form>
+        </Modal>
       )}
     </Marco>
   );
